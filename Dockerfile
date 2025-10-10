@@ -15,8 +15,8 @@ RUN curl -fsSL https://ollama.com/install.sh | sh
 WORKDIR /app
 
 # Copy requirements and install Python dependencies
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+COPY requirements-simple.txt .
+RUN pip3 install -r requirements-simple.txt
 
 # Copy application files
 COPY . .
