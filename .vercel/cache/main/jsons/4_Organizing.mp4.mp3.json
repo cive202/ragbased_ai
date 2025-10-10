@@ -1,0 +1,348 @@
+{
+    "chunks": [
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 0.0,
+            "end": 3.6,
+            "text": " In the last tutorial, I showed you how to make an index buffer."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 3.6,
+            "end": 10.0,
+            "text": " Now, let's organize things a bit since as you can see, we have a lot of stuff going on in here."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 10.5,
+            "end": 15.0,
+            "text": " Let's start by moving the shaders into their own separate text files."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 15.0,
+            "end": 21.0,
+            "text": " Open up the solution explorer and create a folder called shaders in the resource files folder."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 21.5,
+            "end": 28.0,
+            "text": " Now let's add a new item, selecting utility, then text file and naming it default.vert."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 28.5,
+            "end": 32.5,
+            "text": " Open it up and copy paste the vertex shader source code into it."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 33.0,
+            "end": 38.5,
+            "text": " Make sure to get rid of the one variable you have and all the quotes and slash ends."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 39.5,
+            "end": 47.0,
+            "text": " Now do the exact same thing for the fragment shader, only name it default.frag instead of default.vert."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 47.5,
+            "end": 50.5,
+            "text": " Now let's create our very own shader class."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 51.5,
+            "end": 58.0,
+            "text": " Go to header files, add new item, header file and name it shader class dot h."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 58.5,
+            "end": 63.0,
+            "text": " In this file, we'll declare our class and other functions related to it."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 63.5,
+            "end": 73.0,
+            "text": " First let's write hash if and d e f shader class h, hash define shader class h, hash and if."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 73.5,
+            "end": 79.5,
+            "text": " This let's C++ know not to open up the file twice since that would create variable classes."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 81.0,
+            "end": 91.0,
+            "text": " Now we'll need to declare a function that will read the shader text files."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 91.5,
+            "end": 97.5,
+            "text": " I will not go through the details of it though since the function itself is irrelevant to openGL."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 98.0,
+            "end": 102.0,
+            "text": " Just know it outputs the contents of a text file as a string."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 102.5,
+            "end": 109.5,
+            "text": " Now let's declare the shader class which will simply be an openGL shader program that's nicely wrapped up."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 110.0,
+            "end": 119.5,
+            "text": " Give it a public ID aka reference, declare a constructor that will take in the shader source codes and two functions activate and delete."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 120.5,
+            "end": 127.0,
+            "text": " Once you're done with that, go to source files and create a CPP file named shader class dot CPP."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 127.5,
+            "end": 133.5,
+            "text": " I'll start by including shader class dot h and then copy pasting the file reader function."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 134.0,
+            "end": 136.5,
+            "text": " Link in the description to all the source code."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 137.0,
+            "end": 139.5,
+            "text": " Now let's write the shader constructor."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 140.0,
+            "end": 147.5,
+            "text": " First let's get the strings from the text files into two variables and then convert and store them into character arrays."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 148.5,
+            "end": 164.5,
+            "text": " Now we just need to copy paste all the shader related code from the main function, modifying it slightly by replacing shader program with ID and changing vertex shader source to vertex source and fragment shader source to fragment source."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 165.0,
+            "end": 172.0,
+            "text": " Don't forget to also write the activate and delete functions by again copy pasting from the main function."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 172.5,
+            "end": 175.0,
+            "text": " Great, we've made a shader class."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 175.5,
+            "end": 178.0,
+            "text": " Next let's make a vertex buffer class."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 178.5,
+            "end": 184.0,
+            "text": " Create a header VBO dot h and include glad for the openGL functions."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 184.5,
+            "end": 193.5,
+            "text": " Now create a VBO class giving it a public ID variable and the constructor that takes some vertices and their sizing bytes."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 193.5,
+            "end": 202.5,
+            "text": " The size of the vertices is in the GL size IPTR data type since that's what openGL uses for sizes in bytes."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 203.5,
+            "end": 208.5,
+            "text": " Now just add some declarations for the bind unbind and delete functions."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 209.5,
+            "end": 220.5,
+            "text": " Then create a C++ file VBO dot CPP and copy paste the same functions as me changing the name of some variables such as VBO to ID."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 220.5,
+            "end": 225.5,
+            "text": " Make sure to also copy paste in the code for the other functions."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 225.5,
+            "end": 235.5,
+            "text": " Now repeat the same procedures we've done with the VBO for the EBO making sure to replace GL array buffer with GL element array buffer."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 242.5,
+            "end": 245.5,
+            "text": " And now finally the vertex array class."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 245.5,
+            "end": 256.5,
+            "text": " Create a header and include glad like before but this time also make sure to include VBO dot h as we'll need to link a VBO to the VBO."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 256.5,
+            "end": 271.5,
+            "text": " Create the VBO class, give it a public ID, create a constructor without any inputs and then a link VBO function that will take a VBO and a layout which we'll learn more about in the shaders tutorial."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 272.5,
+            "end": 277.5,
+            "text": " Don't forget to declare the usual bind unbind and delete functions."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 277.5,
+            "end": 284.5,
+            "text": " Once you're done with that create the VBO dot CPP file and include the VBO header."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 284.5,
+            "end": 292.5,
+            "text": " Now copy paste in the relevant functions but make sure to bind and unbind the VBO in the link VBO function."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 292.5,
+            "end": 296.5,
+            "text": " Make sure you've written everything the same way I did."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 302.5,
+            "end": 306.5,
+            "text": " Great, now we're done with creating all the classes."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 306.5,
+            "end": 317.5,
+            "text": " All that's left to do now is to go back to the main function, include all the headers we've created and replace all the default functions we had with the new functions in classes."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 317.5,
+            "end": 323.5,
+            "text": " I'll also move the vertices and indices to the top of the file as I think it looks better."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 324.5,
+            "end": 329.5,
+            "text": " If you press run, everything should work just like before."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 329.5,
+            "end": 336.5,
+            "text": " As always, the final step is to add your own comments in order to make sure you understand all of this."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 336.5,
+            "end": 341.5,
+            "text": " If you run into any problems, the source code is in the description."
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 341.5,
+            "end": 342.5,
+            "text": " Bye!"
+        },
+        {
+            "number": "4",
+            "title": "Organizing.mp4",
+            "start": 353.5,
+            "end": 356.5,
+            "text": " You"
+        }
+    ],
+    "text": " In the last tutorial, I showed you how to make an index buffer. Now, let's organize things a bit since as you can see, we have a lot of stuff going on in here. Let's start by moving the shaders into their own separate text files. Open up the solution explorer and create a folder called shaders in the resource files folder. Now let's add a new item, selecting utility, then text file and naming it default.vert. Open it up and copy paste the vertex shader source code into it. Make sure to get rid of the one variable you have and all the quotes and slash ends. Now do the exact same thing for the fragment shader, only name it default.frag instead of default.vert. Now let's create our very own shader class. Go to header files, add new item, header file and name it shader class dot h. In this file, we'll declare our class and other functions related to it. First let's write hash if and d e f shader class h, hash define shader class h, hash and if. This let's C++ know not to open up the file twice since that would create variable classes. Now we'll need to declare a function that will read the shader text files. I will not go through the details of it though since the function itself is irrelevant to openGL. Just know it outputs the contents of a text file as a string. Now let's declare the shader class which will simply be an openGL shader program that's nicely wrapped up. Give it a public ID aka reference, declare a constructor that will take in the shader source codes and two functions activate and delete. Once you're done with that, go to source files and create a CPP file named shader class dot CPP. I'll start by including shader class dot h and then copy pasting the file reader function. Link in the description to all the source code. Now let's write the shader constructor. First let's get the strings from the text files into two variables and then convert and store them into character arrays. Now we just need to copy paste all the shader related code from the main function, modifying it slightly by replacing shader program with ID and changing vertex shader source to vertex source and fragment shader source to fragment source. Don't forget to also write the activate and delete functions by again copy pasting from the main function. Great, we've made a shader class. Next let's make a vertex buffer class. Create a header VBO dot h and include glad for the openGL functions. Now create a VBO class giving it a public ID variable and the constructor that takes some vertices and their sizing bytes. The size of the vertices is in the GL size IPTR data type since that's what openGL uses for sizes in bytes. Now just add some declarations for the bind unbind and delete functions. Then create a C++ file VBO dot CPP and copy paste the same functions as me changing the name of some variables such as VBO to ID. Make sure to also copy paste in the code for the other functions. Now repeat the same procedures we've done with the VBO for the EBO making sure to replace GL array buffer with GL element array buffer. And now finally the vertex array class. Create a header and include glad like before but this time also make sure to include VBO dot h as we'll need to link a VBO to the VBO. Create the VBO class, give it a public ID, create a constructor without any inputs and then a link VBO function that will take a VBO and a layout which we'll learn more about in the shaders tutorial. Don't forget to declare the usual bind unbind and delete functions. Once you're done with that create the VBO dot CPP file and include the VBO header. Now copy paste in the relevant functions but make sure to bind and unbind the VBO in the link VBO function. Make sure you've written everything the same way I did. Great, now we're done with creating all the classes. All that's left to do now is to go back to the main function, include all the headers we've created and replace all the default functions we had with the new functions in classes. I'll also move the vertices and indices to the top of the file as I think it looks better. If you press run, everything should work just like before. As always, the final step is to add your own comments in order to make sure you understand all of this. If you run into any problems, the source code is in the description. Bye! You"
+}

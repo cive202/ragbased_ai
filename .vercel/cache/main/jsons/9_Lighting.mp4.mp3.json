@@ -1,0 +1,439 @@
+{
+    "chunks": [
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 0.0,
+            "end": 6.0,
+            "text": " In the last tutorial, I showed you how to make a camera, so now we'll add some lighting to our scene."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 6.0,
+            "end": 13.0,
+            "text": " First, we'll slightly modify the camera class so that we can efficiently use the cam matrix on multiple objects"
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 13.0,
+            "end": 17.0,
+            "text": " and make sure the new camera functions work properly in the main function."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 17.0,
+            "end": 21.0,
+            "text": " Next, we'll add a cube that will serve as our light source."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 21.0,
+            "end": 29.0,
+            "text": " Watch my previous tutorials if you don't know how to do this, especially my coordinates video if you don't know what the light pose vector and light model matrix are for."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 30.0,
+            "end": 36.0,
+            "text": " Then, if you start out the program, you should see your main object and a small cube does completely white."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 36.0,
+            "end": 43.0,
+            "text": " So as you may have noticed in that nice little game called real life, light can have multiple colors."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 43.0,
+            "end": 49.0,
+            "text": " Usually it's white and because of that it shows the true colors of objects, so to say."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 49.0,
+            "end": 54.0,
+            "text": " But if a light source is, let's say red, then all objects will appear reddish."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 54.0,
+            "end": 62.0,
+            "text": " We can simulate this by multiplying the color of an object with the color of our light, both of which are in RGB."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 62.0,
+            "end": 77.0,
+            "text": " For example, if our light has the RGB values of 100, then when it's multiplied with the color of the object, the green and blue parts will become 0, while the red part will stay the same since it's multiplied by 1."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 77.0,
+            "end": 86.0,
+            "text": " This simulates what happens in real life, as only the red color is reflected back to us, even though the object is actually orange."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 86.0,
+            "end": 91.0,
+            "text": " So let's make a VEG4 called light color and make it completely white."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 91.0,
+            "end": 97.0,
+            "text": " Then we'll want to export it to both the light fragment shader and the fragment shader of our object."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 97.0,
+            "end": 106.0,
+            "text": " In the light one, we'll simply use it as the color of the object, while in the object shader we'll multiply it by whatever you currently have in your frag color."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 106.0,
+            "end": 115.0,
+            "text": " We are now able to simulate the color of the light hitting the object, so next we'll want to simulate the intensity of that light."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 115.0,
+            "end": 124.0,
+            "text": " You've probably noticed that the higher the angle between a surface and the source of light is, the less intense color is on that surface."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 124.0,
+            "end": 131.0,
+            "text": " This is best seen on a sphere, where you can clearly see the gradient of the intensity along the curve of the sphere."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 131.0,
+            "end": 140.0,
+            "text": " In order to get this angle and calculate the intensity, we'll need a position of the light, which we already have, and the way to know the slope of the surface."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 140.0,
+            "end": 146.0,
+            "text": " The traditional way of doing this is to represent the slope of the surface by a normal vector."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 146.0,
+            "end": 152.0,
+            "text": " So, so far we've had coordinates, colors, and texture coordinates inside the vertex."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 152.0,
+            "end": 155.0,
+            "text": " Now we'll also want to add normals."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 155.0,
+            "end": 163.0,
+            "text": " Normals are a unit vectors, aka vectors of length 1, that help us calculate how light should act on a certain object."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 163.0,
+            "end": 179.0,
+            "text": " This can be either perpendicular to the surface of one triangle, called face normals, or arranged in a different way, such as being perpendicular to the plane created by all the adjacent vertices, for example, called vertex normals."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 179.0,
+            "end": 186.0,
+            "text": " If you go for the first option, you will get what's called flat shading, where all your triangles are clearly visible."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 186.0,
+            "end": 190.0,
+            "text": " If you go for the second option, things look a lot smoother and nicer."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 190.0,
+            "end": 195.0,
+            "text": " But which one you choose depends on your mesh and on your artistic style."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 195.0,
+            "end": 198.0,
+            "text": " Since we have a pyramid, we'll go with a flat shading."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 198.0,
+            "end": 205.0,
+            "text": " Since the smooth shading looks weird on very angular geometric shapes, such as cubes or pyramids."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 205.0,
+            "end": 214.0,
+            "text": " Now, since the normals will be different on each side of the pyramid, we won't be able to fit all of them in just 5 vertices like we have here."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 214.0,
+            "end": 218.0,
+            "text": " We'll have to duplicate some vertices in order to change their normals."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 218.0,
+            "end": 223.0,
+            "text": " So, I'll just do that, plugging in my pre-calculated normals for each face."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 223.0,
+            "end": 231.0,
+            "text": " Don't worry if some of your normals are not unit length. It does not matter since we can just normalize them in the shader later."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 232.0,
+            "end": 242.0,
+            "text": " Don't forget to also change your indices, the Geodraw Elements function in case you haven't automated it like me, and add a new attribute to the VAO."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 242.0,
+            "end": 254.0,
+            "text": " So, now for the vertex shader, we'll include the normal layout and also export it to the fragment shader, along with the current position, which will use to calculate the direction of flight."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 254.0,
+            "end": 259.0,
+            "text": " For a consistency purposes, I'll also import the model matrix for the pyramid."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 259.0,
+            "end": 265.0,
+            "text": " Now, in the fragment shader, we import the normal and current position and the light position uniform."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 265.0,
+            "end": 277.0,
+            "text": " Then, in the main function, first normalize the normal vector, and then get the light direction vector by simply subtracting the current position from the light position and normalizing it."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 277.0,
+            "end": 279.0,
+            "text": " We now have the two vectors we need."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 279.0,
+            "end": 286.0,
+            "text": " The lighting we're implementing now is called diffuse lighting, so I will create a float called diffuse."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 286.0,
+            "end": 303.0,
+            "text": " Then, in order to make it such that the larger the angle between the two previously calculated vectors, the less intensity the light has, we can simply use a dot product between them, which is equal to the cosine of the angle between them since they are normalized."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 303.0,
+            "end": 312.0,
+            "text": " Now, this can also be negative, and since we don't own negative colors, we'll take the maximum value between this and zero."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 312.0,
+            "end": 319.0,
+            "text": " All that's left to do is to multiply the diffuse float with the color of the object, a texture in our case."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 319.0,
+            "end": 328.0,
+            "text": " If you know boot up the program, you will notice that we have some nice lighting, but that the areas not touched by the light are extremely dark."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 328.0,
+            "end": 341.0,
+            "text": " This is realistic in our case, where we only have one object in our inner vacuum, but generally speaking, it's not realistic, as light will bounce from other objects that are around onto our object."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 342.0,
+            "end": 351.0,
+            "text": " This bouncing is expensive to calculate and pretty advanced, so for now, we'll simulate it by simply giving a base value of brightness."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 351.0,
+            "end": 363.0,
+            "text": " This type of lighting is called ambient lighting, so just create a float called ambient and give it a value like zero point two, and then add it to the diffuse value in the flag color."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 363.0,
+            "end": 366.0,
+            "text": " And to up again, notice this looks a bit better."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 366.0,
+            "end": 376.0,
+            "text": " The last type of lighting we have to add in order to complete our lighting algorithm, which by the way is called phone shading, is the specular light."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 376.0,
+            "end": 384.0,
+            "text": " This is dependent on the angle you look at an object from, so we'll need to import the camera position into the fragment shader first."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 384.0,
+            "end": 391.0,
+            "text": " Now, create a float specular light, which will represent the maximum intensity of this type of light."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 391.0,
+            "end": 398.0,
+            "text": " And we need a view direction, which should just be the composition minus the current position normalized."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 398.0,
+            "end": 414.0,
+            "text": " And the other thing we need is the direction of the reflection, which we can get by using the reflect function, plugging in the negative direction of the lighting, since we want the vector to be towards the plane not away from it, and the normal."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 414.0,
+            "end": 422.0,
+            "text": " And then create a float spec amount, which will store how much specular light we have at a certain angle with our camera."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 422.0,
+            "end": 436.0,
+            "text": " So the larger the angle between the view direction and reflect direction is the weaker we want the specular light to be, so just use a dot product light before and take the max between this and zero."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 436.0,
+            "end": 444.0,
+            "text": " And then we want to raise this to a power. The higher the power is, the more point like and define the specular light will be."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 444.0,
+            "end": 447.0,
+            "text": " I will go for a lower power such as 8."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 447.0,
+            "end": 452.0,
+            "text": " Now create a float named specular and multiply the specular light with the spec amount."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 452.0,
+            "end": 458.0,
+            "text": " Last thing to do is to add the specular float to the diffuse and ambient floats."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 458.0,
+            "end": 461.0,
+            "text": " Now you have some nice decent lighting for your scene."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 461.0,
+            "end": 469.0,
+            "text": " Don't forget to add comments to everything you've written to make sure you understand it, and as always the source code is in the description."
+        },
+        {
+            "number": "9",
+            "title": "Lighting.mp4",
+            "start": 469.0,
+            "end": 470.0,
+            "text": " Bye!"
+        }
+    ],
+    "text": " In the last tutorial, I showed you how to make a camera, so now we'll add some lighting to our scene. First, we'll slightly modify the camera class so that we can efficiently use the cam matrix on multiple objects and make sure the new camera functions work properly in the main function. Next, we'll add a cube that will serve as our light source. Watch my previous tutorials if you don't know how to do this, especially my coordinates video if you don't know what the light pose vector and light model matrix are for. Then, if you start out the program, you should see your main object and a small cube does completely white. So as you may have noticed in that nice little game called real life, light can have multiple colors. Usually it's white and because of that it shows the true colors of objects, so to say. But if a light source is, let's say red, then all objects will appear reddish. We can simulate this by multiplying the color of an object with the color of our light, both of which are in RGB. For example, if our light has the RGB values of 100, then when it's multiplied with the color of the object, the green and blue parts will become 0, while the red part will stay the same since it's multiplied by 1. This simulates what happens in real life, as only the red color is reflected back to us, even though the object is actually orange. So let's make a VEG4 called light color and make it completely white. Then we'll want to export it to both the light fragment shader and the fragment shader of our object. In the light one, we'll simply use it as the color of the object, while in the object shader we'll multiply it by whatever you currently have in your frag color. We are now able to simulate the color of the light hitting the object, so next we'll want to simulate the intensity of that light. You've probably noticed that the higher the angle between a surface and the source of light is, the less intense color is on that surface. This is best seen on a sphere, where you can clearly see the gradient of the intensity along the curve of the sphere. In order to get this angle and calculate the intensity, we'll need a position of the light, which we already have, and the way to know the slope of the surface. The traditional way of doing this is to represent the slope of the surface by a normal vector. So, so far we've had coordinates, colors, and texture coordinates inside the vertex. Now we'll also want to add normals. Normals are a unit vectors, aka vectors of length 1, that help us calculate how light should act on a certain object. This can be either perpendicular to the surface of one triangle, called face normals, or arranged in a different way, such as being perpendicular to the plane created by all the adjacent vertices, for example, called vertex normals. If you go for the first option, you will get what's called flat shading, where all your triangles are clearly visible. If you go for the second option, things look a lot smoother and nicer. But which one you choose depends on your mesh and on your artistic style. Since we have a pyramid, we'll go with a flat shading. Since the smooth shading looks weird on very angular geometric shapes, such as cubes or pyramids. Now, since the normals will be different on each side of the pyramid, we won't be able to fit all of them in just 5 vertices like we have here. We'll have to duplicate some vertices in order to change their normals. So, I'll just do that, plugging in my pre-calculated normals for each face. Don't worry if some of your normals are not unit length. It does not matter since we can just normalize them in the shader later. Don't forget to also change your indices, the Geodraw Elements function in case you haven't automated it like me, and add a new attribute to the VAO. So, now for the vertex shader, we'll include the normal layout and also export it to the fragment shader, along with the current position, which will use to calculate the direction of flight. For a consistency purposes, I'll also import the model matrix for the pyramid. Now, in the fragment shader, we import the normal and current position and the light position uniform. Then, in the main function, first normalize the normal vector, and then get the light direction vector by simply subtracting the current position from the light position and normalizing it. We now have the two vectors we need. The lighting we're implementing now is called diffuse lighting, so I will create a float called diffuse. Then, in order to make it such that the larger the angle between the two previously calculated vectors, the less intensity the light has, we can simply use a dot product between them, which is equal to the cosine of the angle between them since they are normalized. Now, this can also be negative, and since we don't own negative colors, we'll take the maximum value between this and zero. All that's left to do is to multiply the diffuse float with the color of the object, a texture in our case. If you know boot up the program, you will notice that we have some nice lighting, but that the areas not touched by the light are extremely dark. This is realistic in our case, where we only have one object in our inner vacuum, but generally speaking, it's not realistic, as light will bounce from other objects that are around onto our object. This bouncing is expensive to calculate and pretty advanced, so for now, we'll simulate it by simply giving a base value of brightness. This type of lighting is called ambient lighting, so just create a float called ambient and give it a value like zero point two, and then add it to the diffuse value in the flag color. And to up again, notice this looks a bit better. The last type of lighting we have to add in order to complete our lighting algorithm, which by the way is called phone shading, is the specular light. This is dependent on the angle you look at an object from, so we'll need to import the camera position into the fragment shader first. Now, create a float specular light, which will represent the maximum intensity of this type of light. And we need a view direction, which should just be the composition minus the current position normalized. And the other thing we need is the direction of the reflection, which we can get by using the reflect function, plugging in the negative direction of the lighting, since we want the vector to be towards the plane not away from it, and the normal. And then create a float spec amount, which will store how much specular light we have at a certain angle with our camera. So the larger the angle between the view direction and reflect direction is the weaker we want the specular light to be, so just use a dot product light before and take the max between this and zero. And then we want to raise this to a power. The higher the power is, the more point like and define the specular light will be. I will go for a lower power such as 8. Now create a float named specular and multiply the specular light with the spec amount. Last thing to do is to add the specular float to the diffuse and ambient floats. Now you have some nice decent lighting for your scene. Don't forget to add comments to everything you've written to make sure you understand it, and as always the source code is in the description. Bye!"
+}

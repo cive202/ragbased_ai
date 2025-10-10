@@ -1,0 +1,299 @@
+{
+    "chunks": [
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 0.0,
+            "end": 6.4,
+            "text": " In this tutorial, I'll show you what Blume is and how you can add it to your renders so they look nicer."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 6.4,
+            "end": 14.32,
+            "text": " To get good results with your Blume, I recommend having HDR colors enabled so that you can get more variation in your Blume effects."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 14.32,
+            "end": 17.68,
+            "text": " So if you don't know what Blume is, here it is."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 17.68,
+            "end": 27.36,
+            "text": " As you can see, Blume is that aura-like color around bright lights that gives them the appearance of being brighter than they really are in reality."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 27.439999999999998,
+            "end": 31.12,
+            "text": " The theoretical steps of achieving this are really simple."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 31.12,
+            "end": 35.2,
+            "text": " What you want to do is to render your image as you usually do,"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 35.2,
+            "end": 40.72,
+            "text": " except you'll also render all the bright spots of your image in another texture."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 40.72,
+            "end": 45.2,
+            "text": " Now that these two are separated, we want to blur the second texture."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 45.2,
+            "end": 53.120000000000005,
+            "text": " The algorithm you use to blur the texture and the steps you take in doing so will define the quality and look of your Blume."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 53.199999999999996,
+            "end": 58.4,
+            "text": " Once that is done, you simply slap the second texture onto the first one and you're done."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 58.4,
+            "end": 63.599999999999994,
+            "text": " To start off, you want to create a second texture for your post-processing buffer."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 63.599999999999994,
+            "end": 69.67999999999999,
+            "text": " Make sure you attach it to the second spot of the frame buffer using gel color attachment one."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 69.67999999999999,
+            "end": 75.67999999999999,
+            "text": " Now to tell open gel that we'll want to draw to both textures, we'll have to use gel draw buffers,"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 75.67999999999999,
+            "end": 78.4,
+            "text": " passing an array with the attachments used."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 78.4,
+            "end": 84.4,
+            "text": " Then we need to specify to the fragment shader that we are outputting to two textures and assign"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 84.4,
+            "end": 90.64,
+            "text": " their fragment colors like so. Here I first multiply the red fragments because I want those lava"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 90.64,
+            "end": 97.12,
+            "text": " lines to pop out more. Then I compute the brightness by looking at the graysky value of the fragment,"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 97.12,
+            "end": 103.2,
+            "text": " which can be obtained through a dot product like so. And finally, I decide whether or not to accept"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 103.2,
+            "end": 108.4,
+            "text": " the fragment to the second texture based on its brightness. At this point of the tutorial,"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 108.4,
+            "end": 114.0,
+            "text": " if you bind the second texture, it should look something like this. The next step is to blur the"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 114.0,
+            "end": 119.84,
+            "text": " image. In this tutorial, I will use Gaussian blur since it's often used for bloom effects."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 119.84,
+            "end": 126.24000000000001,
+            "text": " So I'll start by making a shader program for the blur and sending it the texture we wish to modify."
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 126.24000000000001,
+            "end": 132.64000000000001,
+            "text": " Now for the shader itself, we'll basically first calculate the horizontal blur of all pixels"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 132.64,
+            "end": 138.95999999999998,
+            "text": " and then in another run we'll calculate the vertical blur. This is done in order to improve the"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 138.95999999999998,
+            "end": 145.67999999999998,
+            "text": " performance of the program. If you want a more detailed explanation, go to learnopenjel.com or"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 145.67999999999998,
+            "end": 152.32,
+            "text": " Google the specifics of the two pass Gaussian blur method. Once your shader is ready, you need to"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 152.32,
+            "end": 158.0,
+            "text": " create two frame buffers each with one texture. These two frame buffers will be used to run the"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 158.08,
+            "end": 164.56,
+            "text": " two blur passes mentioned earlier. A deraute ping pong frame buffers because they keep passing data"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 164.56,
+            "end": 170.56,
+            "text": " from one to another. Now in our main loop, we want to pass the data between them. The amount of"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 170.56,
+            "end": 176.0,
+            "text": " times you bounce the texture will depend on how much blur you want. Notice how I check if it's"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 176.0,
+            "end": 182.88,
+            "text": " the first bounce since I want to use the image generated earlier for that initial pass. After that,"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 182.88,
+            "end": 188.64,
+            "text": " all the passing is done between the textures of the ping pong buffers. Don't forget you actually"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 188.64,
+            "end": 195.12,
+            "text": " tell the shader if you're doing horizontal or vertical pass using a ball. After bouncing the data"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 195.12,
+            "end": 200.64,
+            "text": " around the bit, you should have a blurred image similar to this. All that's left to do now is to"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 200.64,
+            "end": 206.16,
+            "text": " bind the color texture and the blurred texture, pass them to the post processing fragment shader,"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 206.16,
+            "end": 212.48,
+            "text": " and add them together. As a last step, don't forget to also apply your gamma correction and tone"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 213.35999999999999,
+            "end": 218.23999999999998,
+            "text": " mapping. Now if you run your program, you should have some cool neon-like bloom around the"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 218.23999999999998,
+            "end": 225.04,
+            "text": " bright parts of your image. Do not overdo the effect though since it was overused in the 2000s"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 225.04,
+            "end": 231.12,
+            "text": " and so it might give your scenes a retro vibe that you might not want. And that was it for this"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 231.12,
+            "end": 237.04,
+            "text": " tutorial. Consider dropping by my discord server for a chat and supporting me on Patreon"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 237.04,
+            "end": 243.04,
+            "text": " like this cool people right here. As always, the source code and all sources and resources used"
+        },
+        {
+            "number": "30",
+            "title": "Bloom.mp4",
+            "start": 243.04,
+            "end": 245.76,
+            "text": " are in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial, I'll show you what Blume is and how you can add it to your renders so they look nicer. To get good results with your Blume, I recommend having HDR colors enabled so that you can get more variation in your Blume effects. So if you don't know what Blume is, here it is. As you can see, Blume is that aura-like color around bright lights that gives them the appearance of being brighter than they really are in reality. The theoretical steps of achieving this are really simple. What you want to do is to render your image as you usually do, except you'll also render all the bright spots of your image in another texture. Now that these two are separated, we want to blur the second texture. The algorithm you use to blur the texture and the steps you take in doing so will define the quality and look of your Blume. Once that is done, you simply slap the second texture onto the first one and you're done. To start off, you want to create a second texture for your post-processing buffer. Make sure you attach it to the second spot of the frame buffer using gel color attachment one. Now to tell open gel that we'll want to draw to both textures, we'll have to use gel draw buffers, passing an array with the attachments used. Then we need to specify to the fragment shader that we are outputting to two textures and assign their fragment colors like so. Here I first multiply the red fragments because I want those lava lines to pop out more. Then I compute the brightness by looking at the graysky value of the fragment, which can be obtained through a dot product like so. And finally, I decide whether or not to accept the fragment to the second texture based on its brightness. At this point of the tutorial, if you bind the second texture, it should look something like this. The next step is to blur the image. In this tutorial, I will use Gaussian blur since it's often used for bloom effects. So I'll start by making a shader program for the blur and sending it the texture we wish to modify. Now for the shader itself, we'll basically first calculate the horizontal blur of all pixels and then in another run we'll calculate the vertical blur. This is done in order to improve the performance of the program. If you want a more detailed explanation, go to learnopenjel.com or Google the specifics of the two pass Gaussian blur method. Once your shader is ready, you need to create two frame buffers each with one texture. These two frame buffers will be used to run the two blur passes mentioned earlier. A deraute ping pong frame buffers because they keep passing data from one to another. Now in our main loop, we want to pass the data between them. The amount of times you bounce the texture will depend on how much blur you want. Notice how I check if it's the first bounce since I want to use the image generated earlier for that initial pass. After that, all the passing is done between the textures of the ping pong buffers. Don't forget you actually tell the shader if you're doing horizontal or vertical pass using a ball. After bouncing the data around the bit, you should have a blurred image similar to this. All that's left to do now is to bind the color texture and the blurred texture, pass them to the post processing fragment shader, and add them together. As a last step, don't forget to also apply your gamma correction and tone mapping. Now if you run your program, you should have some cool neon-like bloom around the bright parts of your image. Do not overdo the effect though since it was overused in the 2000s and so it might give your scenes a retro vibe that you might not want. And that was it for this tutorial. Consider dropping by my discord server for a chat and supporting me on Patreon like this cool people right here. As always, the source code and all sources and resources used are in the description. Bye!"
+}

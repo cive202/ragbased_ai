@@ -1,0 +1,425 @@
+{
+    "chunks": [
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 0.0,
+            "end": 5.84,
+            "text": " In this tutorial, I'll show you how to implement a custom frame buffer into your OpenGL application"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 5.84,
+            "end": 10.32,
+            "text": " and how you can use the frame buffer to achieve post-processing effects."
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 10.32,
+            "end": 15.76,
+            "text": " So first of all, what is a frame buffer? Well, you can take off a frame buffer, ask a collection of"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 15.76,
+            "end": 22.64,
+            "text": " multiple buffers that result in the final image you see on your screen. So it contains a color buffer,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 22.64,
+            "end": 29.28,
+            "text": " a depth buffer, and a stencil buffer. Now, why would you want to use one? Well, if we create our own"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 29.28,
+            "end": 33.92,
+            "text": " frame buffer, then we can display it on a rectangle that covers the whole screen,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 33.92,
+            "end": 39.6,
+            "text": " and then using shaders, modify the pixels displayed on the rectangle to achieve different effects."
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 39.6,
+            "end": 45.44,
+            "text": " This is called post-processing because you process the pixels after all the rendering has already been"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 45.44,
+            "end": 51.84,
+            "text": " done. Okay, now let's implement the frame buffer. Just like any OpenGL object, we create an unsigned"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 51.84,
+            "end": 57.84,
+            "text": " integer, we generate a frame buffer using gel-gen frame buffers, and we bind it. That was it for the"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 57.84,
+            "end": 63.68000000000001,
+            "text": " frame buffer. Now, we need to add a color texture for it to be of any use. So we'll create a texture"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 63.68000000000001,
+            "end": 68.96000000000001,
+            "text": " just like in the texture's tutorial, making sure we clamp the texture to the edges,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 68.96000000000001,
+            "end": 74.64,
+            "text": " since otherwise certain effects will bleed from one side of the screen to the other due to the"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 74.64,
+            "end": 80.24000000000001,
+            "text": " default repetition of the texture. Then we simply attach the texture to the frame buffer using gel"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 80.24000000000001,
+            "end": 86.08000000000001,
+            "text": " frame buffer texture to the. Keep in mind, we store our color in a texture, therefore we can"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 86.08,
+            "end": 91.44,
+            "text": " access it from a shader, which we want to do. But in the case of the def buffer, we don't really"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 91.44,
+            "end": 97.12,
+            "text": " care about reading it in a shader for this tutorial, so instead of using a texture, we can use a"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 97.12,
+            "end": 102.88,
+            "text": " render buffer object, which is much faster, but has the disadvantage that you can't read it"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 102.88,
+            "end": 108.8,
+            "text": " directly in a shader. We create it using gel render buffers, and then we configure its storage"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 108.8,
+            "end": 115.6,
+            "text": " using gel render buffer storage, plugging in gel render buffer, gel def 24 stencil 8,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 115.67999999999999,
+            "end": 122.16,
+            "text": " and the width and height. We use gel def 24 stencil 8 so that we can store in it both the"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 122.16,
+            "end": 128.48,
+            "text": " stencil buffer and the def buffer. Also be very careful that all the frame buffers components have"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 128.48,
+            "end": 134.24,
+            "text": " the same width and height, otherwise you might get an error. Then we just attach it to the frame"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 134.24,
+            "end": 140.48,
+            "text": " buffer using gel frame buffer render buffer. And for a bit of error checking, just write this."
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 140.48,
+            "end": 146.16,
+            "text": " Sadly, the errors are not very specific, they just give you a number. Here are the meanings of"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 146.16,
+            "end": 151.6,
+            "text": " the errors you can get. Now that we have our frame buffer object, we can make our rectangle,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 151.6,
+            "end": 157.6,
+            "text": " which will always cover the whole screen, and so we don't want to apply any sort of transformations"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 157.6,
+            "end": 163.67999999999998,
+            "text": " to it. Now let's read two very basic shaders from the frame buffer, make them into a shader program,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 163.67999999999998,
+            "end": 169.76,
+            "text": " and then send the unit of our texture, 0, since it's the only texture in this shader. Now let's"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 169.76,
+            "end": 175.6,
+            "text": " handle the drawing part. First, we make sure to bind the frame buffer before we draw anything,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 175.6,
+            "end": 180.32,
+            "text": " including the background. Make sure your buffers are cleared and that you have the"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 180.32,
+            "end": 185.12,
+            "text": " testing enabled after that. Then after we are done drawing everything in the scene,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 185.12,
+            "end": 190.23999999999998,
+            "text": " we want to switch back to our default frame buffer by binding 0 and draw a rectangle,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 190.23999999999998,
+            "end": 194.95999999999998,
+            "text": " which displays the frame buffer we've just unbinded. Just make sure to disable the"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 195.04000000000002,
+            "end": 199.84,
+            "text": " testing so that the rectangle doesn't fill the depth test. Now if you run the program,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 199.84,
+            "end": 205.20000000000002,
+            "text": " you should be seeing whatever you were seeing before without any difference. If your screen is a"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 205.20000000000002,
+            "end": 210.48000000000002,
+            "text": " flat color, then first check that you don't have any errors in your CMD-like window,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 210.48000000000002,
+            "end": 216.72,
+            "text": " then make sure your face calling isn't getting rid of the rectangle, so either change the order"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 216.72,
+            "end": 223.12,
+            "text": " of the vertices or disable calling when drawing the rectangle. For any other errors, check the source"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 223.12,
+            "end": 228.4,
+            "text": " code in the description and look through your code very carefully. There are a lot of things that"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 228.4,
+            "end": 234.4,
+            "text": " can go wrong in this case. Okay, now let's make this interesting. In the frame buffer fragment shader,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 234.4,
+            "end": 240.24,
+            "text": " we can do all kinds of interesting effects. Some easy ones would be inversing the colors like so,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 240.24,
+            "end": 246.8,
+            "text": " or making the image black and white. But these are not that interesting. To get more interesting results,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 246.8,
+            "end": 252.72,
+            "text": " we want to sample multiple pixels when we choose the color of a single pixel. For that, we first"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 252.72,
+            "end": 258.32,
+            "text": " want to declare an array of vectors, which will represent the offset from the pixel we are on to"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 258.32,
+            "end": 266.48,
+            "text": " its eight neighbors. Notice how I divide 1 by 800 together with an height of 1 pixel for my 800 by"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 266.48,
+            "end": 273.04,
+            "text": " 800 window. After that, we want to create a flotary, which will represent something called a kernel."
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 273.04,
+            "end": 278.96,
+            "text": " It's basically a matrix that helps us achieve cool effects by sort of defining how important"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 279.03999999999996,
+            "end": 285.12,
+            "text": " its pixel is in relation to the pixel we are currently on, that being the one in the middle."
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 285.12,
+            "end": 291.44,
+            "text": " Generally speaking, you probably want them to be somewhat symmetrical and always add up to 1."
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 291.44,
+            "end": 297.12,
+            "text": " If they add up to more than 1, the final color will be brighter and if they are under 1,"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 297.12,
+            "end": 303.35999999999996,
+            "text": " the final color will be darker. Here though, they add up to 0, but that is intentional since this is"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 303.36,
+            "end": 309.28000000000003,
+            "text": " an edge detection kernel and I want everything to be really dark except the edges of things."
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 309.28000000000003,
+            "end": 315.28000000000003,
+            "text": " Now all we have to do is to multiply each part of the kernel with each pixel at a certain offset"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 315.28000000000003,
+            "end": 321.2,
+            "text": " and add up all of them in this vectory named color. Just keep in mind that even though these look"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 321.2,
+            "end": 327.28000000000003,
+            "text": " like matrices, we don't actually multiply them the same way we do matrices. Then the last step is"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 327.44,
+            "end": 333.67999999999995,
+            "text": " to output the color as the flag color and we're done. I think this kernel gives a pretty cool effect."
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 333.67999999999995,
+            "end": 338.88,
+            "text": " Here are some other kernels you might want to try out. I suggest you play around with this a bit"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 338.88,
+            "end": 344.15999999999997,
+            "text": " and make your own kernels so that you get a feeling as to how they work. That was it for this"
+        },
+        {
+            "number": "18",
+            "title": "Framebuffer & Post-processing.mp4",
+            "start": 344.15999999999997,
+            "end": 348.32,
+            "text": " tutorial. As always, the source code is in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial, I'll show you how to implement a custom frame buffer into your OpenGL application and how you can use the frame buffer to achieve post-processing effects. So first of all, what is a frame buffer? Well, you can take off a frame buffer, ask a collection of multiple buffers that result in the final image you see on your screen. So it contains a color buffer, a depth buffer, and a stencil buffer. Now, why would you want to use one? Well, if we create our own frame buffer, then we can display it on a rectangle that covers the whole screen, and then using shaders, modify the pixels displayed on the rectangle to achieve different effects. This is called post-processing because you process the pixels after all the rendering has already been done. Okay, now let's implement the frame buffer. Just like any OpenGL object, we create an unsigned integer, we generate a frame buffer using gel-gen frame buffers, and we bind it. That was it for the frame buffer. Now, we need to add a color texture for it to be of any use. So we'll create a texture just like in the texture's tutorial, making sure we clamp the texture to the edges, since otherwise certain effects will bleed from one side of the screen to the other due to the default repetition of the texture. Then we simply attach the texture to the frame buffer using gel frame buffer texture to the. Keep in mind, we store our color in a texture, therefore we can access it from a shader, which we want to do. But in the case of the def buffer, we don't really care about reading it in a shader for this tutorial, so instead of using a texture, we can use a render buffer object, which is much faster, but has the disadvantage that you can't read it directly in a shader. We create it using gel render buffers, and then we configure its storage using gel render buffer storage, plugging in gel render buffer, gel def 24 stencil 8, and the width and height. We use gel def 24 stencil 8 so that we can store in it both the stencil buffer and the def buffer. Also be very careful that all the frame buffers components have the same width and height, otherwise you might get an error. Then we just attach it to the frame buffer using gel frame buffer render buffer. And for a bit of error checking, just write this. Sadly, the errors are not very specific, they just give you a number. Here are the meanings of the errors you can get. Now that we have our frame buffer object, we can make our rectangle, which will always cover the whole screen, and so we don't want to apply any sort of transformations to it. Now let's read two very basic shaders from the frame buffer, make them into a shader program, and then send the unit of our texture, 0, since it's the only texture in this shader. Now let's handle the drawing part. First, we make sure to bind the frame buffer before we draw anything, including the background. Make sure your buffers are cleared and that you have the testing enabled after that. Then after we are done drawing everything in the scene, we want to switch back to our default frame buffer by binding 0 and draw a rectangle, which displays the frame buffer we've just unbinded. Just make sure to disable the testing so that the rectangle doesn't fill the depth test. Now if you run the program, you should be seeing whatever you were seeing before without any difference. If your screen is a flat color, then first check that you don't have any errors in your CMD-like window, then make sure your face calling isn't getting rid of the rectangle, so either change the order of the vertices or disable calling when drawing the rectangle. For any other errors, check the source code in the description and look through your code very carefully. There are a lot of things that can go wrong in this case. Okay, now let's make this interesting. In the frame buffer fragment shader, we can do all kinds of interesting effects. Some easy ones would be inversing the colors like so, or making the image black and white. But these are not that interesting. To get more interesting results, we want to sample multiple pixels when we choose the color of a single pixel. For that, we first want to declare an array of vectors, which will represent the offset from the pixel we are on to its eight neighbors. Notice how I divide 1 by 800 together with an height of 1 pixel for my 800 by 800 window. After that, we want to create a flotary, which will represent something called a kernel. It's basically a matrix that helps us achieve cool effects by sort of defining how important its pixel is in relation to the pixel we are currently on, that being the one in the middle. Generally speaking, you probably want them to be somewhat symmetrical and always add up to 1. If they add up to more than 1, the final color will be brighter and if they are under 1, the final color will be darker. Here though, they add up to 0, but that is intentional since this is an edge detection kernel and I want everything to be really dark except the edges of things. Now all we have to do is to multiply each part of the kernel with each pixel at a certain offset and add up all of them in this vectory named color. Just keep in mind that even though these look like matrices, we don't actually multiply them the same way we do matrices. Then the last step is to output the color as the flag color and we're done. I think this kernel gives a pretty cool effect. Here are some other kernels you might want to try out. I suggest you play around with this a bit and make your own kernels so that you get a feeling as to how they work. That was it for this tutorial. As always, the source code is in the description. Bye!"
+}

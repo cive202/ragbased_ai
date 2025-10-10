@@ -1,0 +1,572 @@
+{
+    "chunks": [
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 0.0,
+            "end": 4.16,
+            "text": " In this tutorial, I'll show you what Shadow Maps are and how you can use them to add"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 4.16,
+            "end": 10.16,
+            "text": " shadows to your scenes with directional lights. So as you may know, shadows are simply the absence of"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 10.16,
+            "end": 15.68,
+            "text": " light. And since the light we have implemented so far does not bounce from one surface to another,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 15.68,
+            "end": 21.2,
+            "text": " it will only reach the surfaces that are in its direct path. That means that if we look from"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 21.2,
+            "end": 26.72,
+            "text": " the perspective of the light, the image we'll see will contain all the surfaces that are in light."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 26.72,
+            "end": 32.16,
+            "text": " So when we go over our usual fragment shader, we can shift our perspective to the perspective of"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 32.16,
+            "end": 37.84,
+            "text": " the light to check if the fragment we're currently on is in light or not. How do we do that?"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 37.84,
+            "end": 42.32,
+            "text": " Well, using the perspective of the light, we can create a diff map called the Shadow Map,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 42.32,
+            "end": 46.72,
+            "text": " which holds all surfaces that are in light. When switching to the light's perspective,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 46.72,
+            "end": 51.84,
+            "text": " we can check the diff of the current fragment we're on against the diff present on the shadow map"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 51.84,
+            "end": 56.96,
+            "text": " at those coordinates. If the diff of the shadow map is smaller than the diff of the fragment,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 56.96,
+            "end": 62.64,
+            "text": " then that means that the fragment is behind the surface that is in light and so we'll get no light."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 62.64,
+            "end": 67.92,
+            "text": " Thus, we consider it to be in shadow. If it's not smaller, then we consider the fragment to be in"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 67.92,
+            "end": 72.88,
+            "text": " light. And that's it for the theory. Now let's implement this. The first thing we'll want to do is"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 72.88,
+            "end": 77.76,
+            "text": " you create a frame buffer for the shadow map and a texture to store it in. Make sure the texture"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 77.84,
+            "end": 83.44,
+            "text": " holds diff and not color and also make sure to clamp the texture to the borders with a white color."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 83.44,
+            "end": 88.4,
+            "text": " Since the shadow map can only look at one area, anything outside that area will have a depth"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 88.4,
+            "end": 93.76,
+            "text": " value of 0 and thus always pass the shadow test. We instead want everything outside the shadow map"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 93.76,
+            "end": 98.96000000000001,
+            "text": " to have a value of 1 so that no mesh can be in shadow. Since we won't be using the color buffer"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 98.96000000000001,
+            "end": 105.12,
+            "text": " of the frame buffer, we want to specify this using Jill drop buffer, Jill none and Jill read buffer,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 106.0,
+            "end": 110.4,
+            "text": " now that we have the frame buffer, we next want to specify the matrices we'll use for the"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 110.4,
+            "end": 115.36,
+            "text": " perspective of the light. Since the rays of directional lights are parallel to one another,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 115.36,
+            "end": 120.08000000000001,
+            "text": " we want to use an orthogonal projection as opposed to a perspective projection which"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 120.08000000000001,
+            "end": 125.36000000000001,
+            "text": " warps these parallel lines. Now the sizes of this projection will depend from scene to scene,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 125.36000000000001,
+            "end": 131.04000000000002,
+            "text": " but as a general rule of thumb, you want to start with a large size and narrow down to fit the scene."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 131.04,
+            "end": 136.56,
+            "text": " If the size is too big, you will still get shadows but of a lower quality. The better fit it is"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 136.56,
+            "end": 141.68,
+            "text": " to your scene, the better the shadows will look. This is of course due to the limited resolution"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 141.68,
+            "end": 147.6,
+            "text": " of the texture. Now we'll want to look at matrix so to say from the position of the light."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 147.6,
+            "end": 152.56,
+            "text": " The thing about directional lights though is that they are infinitely far away, so we'll just have"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 152.56,
+            "end": 157.84,
+            "text": " to settle for a position along the ray that goes through the origin or any other point that will"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 157.84,
+            "end": 163.28,
+            "text": " keep the rays parallel to the center of the view. In this case, I am defining my directional light"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 163.28,
+            "end": 168.88,
+            "text": " using my light pose vector, so I will use that for the position, but I'll multiply it so that it"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 168.88,
+            "end": 174.4,
+            "text": " is far enough to encapsulate the things I want to have shadows. Again, keep in mind that the closer"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 174.4,
+            "end": 179.52,
+            "text": " it is to your scene, the better. And the last step to get the transformation matrix for the light"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 179.52,
+            "end": 184.4,
+            "text": " is to multiply the orthogonal projection matrix with the light view matrix. Now we'll want to"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 184.4,
+            "end": 189.52,
+            "text": " create two new shaders for the rendering of the shadow map. In the vertex shader, we'll simply"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 189.52,
+            "end": 195.12,
+            "text": " multiply the light transformation matrix by the model matrix and the vertex position. As for the"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 195.12,
+            "end": 199.84,
+            "text": " fragment shader, we'll simply leave it blank since we don't care about the color buffer and the"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 199.84,
+            "end": 205.68,
+            "text": " diff gets registered automatically. After that, we want to create our shader program and export our"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 205.68,
+            "end": 210.72,
+            "text": " light projection matrix to the shadow map shader. Now we want to get that diff on the shadow map,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 210.72,
+            "end": 215.35999999999999,
+            "text": " so we'll want to enable the diff buffer and draw our scene from the perspective of the light."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 215.35999999999999,
+            "end": 220.07999999999998,
+            "text": " Keep in mind you'll need a different viewport from the usual to accommodate for the size of the"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 220.07999999999998,
+            "end": 225.68,
+            "text": " shadow map. Also, don't forget to clear the diff buffer of the shadow map if video and then bind"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 225.68,
+            "end": 230.64,
+            "text": " the default frame buffer at the end. At this point of the video, you should try and render your shadow"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 230.64,
+            "end": 235.68,
+            "text": " map to rectangle on the swing so that you can make sure nothing went wrong. If all went well,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 235.68,
+            "end": 240.4,
+            "text": " you should see something like this. Now that we have our shadow map, we want to switch back to our"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 240.4,
+            "end": 244.88,
+            "text": " default viewport and rather scene like we would normally draw it, except we'll send the light"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 244.88,
+            "end": 250.56,
+            "text": " projection matrix to our default shader and bind our shadow map. I will bind it on the third unit"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 250.56,
+            "end": 255.76,
+            "text": " since the first two are taken by the diffuse and specular maps. Now in our vertex shader,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 255.76,
+            "end": 260.4,
+            "text": " we want to take in the light projection matrix and output the frag position light, which is just"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 260.4,
+            "end": 265.28000000000003,
+            "text": " the current position multiplied by the light projection matrix. Now for the fragment shader,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 265.28000000000003,
+            "end": 270.08,
+            "text": " we want to take in this matrix as well as the shadow map. Now we want to create a float"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 270.08,
+            "end": 275.12,
+            "text": " where we can store the value of our shadow. Zero will mean that there is no shadow and one will"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 275.12,
+            "end": 279.84,
+            "text": " mean that the shadow is at its greatest. Now we want to do a perspective division on the frag"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 279.84,
+            "end": 285.36,
+            "text": " position light so we get it into clip space. We'll only calculate the shadow if the z value is"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 285.36,
+            "end": 291.12,
+            "text": " smaller than 1, aka if we're inside the first room of the orthographic projection. Then we want to"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 291.12,
+            "end": 297.03999999999996,
+            "text": " get it from the range minus 1, 1 to the range 0, 1 so it is in the same range as the diff map."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 297.04,
+            "end": 302.0,
+            "text": " After that, we simply check if the current diff is bigger than the closest diff and if it is,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 302.0,
+            "end": 307.36,
+            "text": " we set the shadow equal to 1, otherwise we leave it as it is at 0. All that's left to do is to"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 307.36,
+            "end": 313.04,
+            "text": " multiply the diffuse and specular lighting by 1 minus the shadow. That way when the shadow is 1,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 313.04,
+            "end": 318.24,
+            "text": " the diffuse and specular will be 0 and when the shadow is 0, they will be whatever they were"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 318.24,
+            "end": 323.12,
+            "text": " normally. If you run your program, you should get something like this. Not the prettiest shadows"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 323.6,
+            "end": 329.12,
+            "text": " probably. We get all of these artifacts because the shadow map has a finite resolution and so"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 329.12,
+            "end": 334.56,
+            "text": " multiple fragments use the same pixel on a shadow map. The problem arises when the shadow map was"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 334.56,
+            "end": 340.24,
+            "text": " sampled at an angle with a surface and so ports of the pixels cover areas under the surface. But"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 340.24,
+            "end": 345.6,
+            "text": " since the fragment shader has a much higher resolution so to say it calculates fragments whose shadow"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 345.6,
+            "end": 350.96,
+            "text": " map pixel can be above them and at the same time fragments whose same shadow map pixel can be"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 350.96,
+            "end": 356.47999999999996,
+            "text": " beneath them resulting in this alternating pattern. So to fix this, we simply need to push down"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 356.47999999999996,
+            "end": 362.0,
+            "text": " the shadow map by a certain bias. Now this should look much better. The problem is that the higher"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 362.0,
+            "end": 367.59999999999997,
+            "text": " your bias is, the more your shadows will be offset. To prevent this as much as possible, a better"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 367.59999999999997,
+            "end": 372.24,
+            "text": " solution would be to have a higher bias when the angle between the normal of the surface"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 372.24,
+            "end": 377.52,
+            "text": " and the light is greater and a smaller bias when the angle is small. You can achieve something"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 377.84,
+            "end": 382.64,
+            "text": " like that is in this formula. Just keep in mind you will still need to tinker with the max and"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 382.64,
+            "end": 388.32,
+            "text": " mean values. Now one more thing we can do to make the shadows look nicer is to soften them out a bit."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 388.32,
+            "end": 393.12,
+            "text": " To do that, we can simply loop over the surrounding pixels of the shadow map and check to see if they"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 393.12,
+            "end": 398.32,
+            "text": " are in shade or not. If they are, we add one to the shadow value. Then at the end of the looping,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 398.32,
+            "end": 403.91999999999996,
+            "text": " we divide the shadow by the amount of samples we took. And now we have nice soft shadows."
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 403.92,
+            "end": 408.56,
+            "text": " Before I go, I would like to let you know I now have a discord server where you can drop by for"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 408.56,
+            "end": 413.92,
+            "text": " some help or just to say hello. Besides that, I also have a Patreon now, speaking of which,"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 413.92,
+            "end": 420.32,
+            "text": " I would like to thank my first Patreon Martin and also Kyle and Riemply. As always, the source code"
+        },
+        {
+            "number": "25",
+            "title": "Shadow Maps (Directional Lights).mp4",
+            "start": 420.32,
+            "end": 425.28000000000003,
+            "text": " and all sources and resources used are in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial, I'll show you what Shadow Maps are and how you can use them to add shadows to your scenes with directional lights. So as you may know, shadows are simply the absence of light. And since the light we have implemented so far does not bounce from one surface to another, it will only reach the surfaces that are in its direct path. That means that if we look from the perspective of the light, the image we'll see will contain all the surfaces that are in light. So when we go over our usual fragment shader, we can shift our perspective to the perspective of the light to check if the fragment we're currently on is in light or not. How do we do that? Well, using the perspective of the light, we can create a diff map called the Shadow Map, which holds all surfaces that are in light. When switching to the light's perspective, we can check the diff of the current fragment we're on against the diff present on the shadow map at those coordinates. If the diff of the shadow map is smaller than the diff of the fragment, then that means that the fragment is behind the surface that is in light and so we'll get no light. Thus, we consider it to be in shadow. If it's not smaller, then we consider the fragment to be in light. And that's it for the theory. Now let's implement this. The first thing we'll want to do is you create a frame buffer for the shadow map and a texture to store it in. Make sure the texture holds diff and not color and also make sure to clamp the texture to the borders with a white color. Since the shadow map can only look at one area, anything outside that area will have a depth value of 0 and thus always pass the shadow test. We instead want everything outside the shadow map to have a value of 1 so that no mesh can be in shadow. Since we won't be using the color buffer of the frame buffer, we want to specify this using Jill drop buffer, Jill none and Jill read buffer, now that we have the frame buffer, we next want to specify the matrices we'll use for the perspective of the light. Since the rays of directional lights are parallel to one another, we want to use an orthogonal projection as opposed to a perspective projection which warps these parallel lines. Now the sizes of this projection will depend from scene to scene, but as a general rule of thumb, you want to start with a large size and narrow down to fit the scene. If the size is too big, you will still get shadows but of a lower quality. The better fit it is to your scene, the better the shadows will look. This is of course due to the limited resolution of the texture. Now we'll want to look at matrix so to say from the position of the light. The thing about directional lights though is that they are infinitely far away, so we'll just have to settle for a position along the ray that goes through the origin or any other point that will keep the rays parallel to the center of the view. In this case, I am defining my directional light using my light pose vector, so I will use that for the position, but I'll multiply it so that it is far enough to encapsulate the things I want to have shadows. Again, keep in mind that the closer it is to your scene, the better. And the last step to get the transformation matrix for the light is to multiply the orthogonal projection matrix with the light view matrix. Now we'll want to create two new shaders for the rendering of the shadow map. In the vertex shader, we'll simply multiply the light transformation matrix by the model matrix and the vertex position. As for the fragment shader, we'll simply leave it blank since we don't care about the color buffer and the diff gets registered automatically. After that, we want to create our shader program and export our light projection matrix to the shadow map shader. Now we want to get that diff on the shadow map, so we'll want to enable the diff buffer and draw our scene from the perspective of the light. Keep in mind you'll need a different viewport from the usual to accommodate for the size of the shadow map. Also, don't forget to clear the diff buffer of the shadow map if video and then bind the default frame buffer at the end. At this point of the video, you should try and render your shadow map to rectangle on the swing so that you can make sure nothing went wrong. If all went well, you should see something like this. Now that we have our shadow map, we want to switch back to our default viewport and rather scene like we would normally draw it, except we'll send the light projection matrix to our default shader and bind our shadow map. I will bind it on the third unit since the first two are taken by the diffuse and specular maps. Now in our vertex shader, we want to take in the light projection matrix and output the frag position light, which is just the current position multiplied by the light projection matrix. Now for the fragment shader, we want to take in this matrix as well as the shadow map. Now we want to create a float where we can store the value of our shadow. Zero will mean that there is no shadow and one will mean that the shadow is at its greatest. Now we want to do a perspective division on the frag position light so we get it into clip space. We'll only calculate the shadow if the z value is smaller than 1, aka if we're inside the first room of the orthographic projection. Then we want to get it from the range minus 1, 1 to the range 0, 1 so it is in the same range as the diff map. After that, we simply check if the current diff is bigger than the closest diff and if it is, we set the shadow equal to 1, otherwise we leave it as it is at 0. All that's left to do is to multiply the diffuse and specular lighting by 1 minus the shadow. That way when the shadow is 1, the diffuse and specular will be 0 and when the shadow is 0, they will be whatever they were normally. If you run your program, you should get something like this. Not the prettiest shadows probably. We get all of these artifacts because the shadow map has a finite resolution and so multiple fragments use the same pixel on a shadow map. The problem arises when the shadow map was sampled at an angle with a surface and so ports of the pixels cover areas under the surface. But since the fragment shader has a much higher resolution so to say it calculates fragments whose shadow map pixel can be above them and at the same time fragments whose same shadow map pixel can be beneath them resulting in this alternating pattern. So to fix this, we simply need to push down the shadow map by a certain bias. Now this should look much better. The problem is that the higher your bias is, the more your shadows will be offset. To prevent this as much as possible, a better solution would be to have a higher bias when the angle between the normal of the surface and the light is greater and a smaller bias when the angle is small. You can achieve something like that is in this formula. Just keep in mind you will still need to tinker with the max and mean values. Now one more thing we can do to make the shadows look nicer is to soften them out a bit. To do that, we can simply loop over the surrounding pixels of the shadow map and check to see if they are in shade or not. If they are, we add one to the shadow value. Then at the end of the looping, we divide the shadow by the amount of samples we took. And now we have nice soft shadows. Before I go, I would like to let you know I now have a discord server where you can drop by for some help or just to say hello. Besides that, I also have a Patreon now, speaking of which, I would like to thank my first Patreon Martin and also Kyle and Riemply. As always, the source code and all sources and resources used are in the description. Bye!"
+}

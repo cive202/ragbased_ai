@@ -1,0 +1,411 @@
+{
+    "chunks": [
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 0.0,
+            "end": 5.84,
+            "text": " In this tutorial, I'll show you how to implement Shadow Maps for Spotlights and Pointlights in OpenGL."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 5.84,
+            "end": 10.08,
+            "text": " If you don't already know how to implement Shadow Maps for directional lights,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 10.08,
+            "end": 15.6,
+            "text": " then I highly recommend watching my previous tutorial, since otherwise this won't make much sense."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 15.6,
+            "end": 20.8,
+            "text": " So let's first implement the Shadow's for Spotlights, since there are a lot easier than Pointlights."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 20.8,
+            "end": 26.72,
+            "text": " All we really have to do is to replace the orthographic projection with the perspective projection,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 26.72,
+            "end": 29.68,
+            "text": " and then add the Shadowmap code to the Spotlights."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 29.68,
+            "end": 33.04,
+            "text": " It's essentially identical to the directional lights one."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 33.04,
+            "end": 37.76,
+            "text": " The only thing you might want to change is the bias limit, since Spotlights have a precise"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 37.76,
+            "end": 42.8,
+            "text": " location and so will get you high quality maps, as opposed to directional lights,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 42.8,
+            "end": 46.96,
+            "text": " where you may end up with a low quality map if you don't fit them properly."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 46.96,
+            "end": 52.64,
+            "text": " Basically, you just want to increase the precision of the biases in order to get proper shadows."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 52.64,
+            "end": 56.16,
+            "text": " Now for the more complicated Shadowmap for Pointlights."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 56.16,
+            "end": 59.919999999999995,
+            "text": " You could technically just use six Spotlights for each side of a cube,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 59.919999999999995,
+            "end": 63.44,
+            "text": " but then you would have six render calls to get all the Shadow Maps."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 63.44,
+            "end": 67.2,
+            "text": " Instead of doing that, we could use a cube map and a geometry shader,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 67.2,
+            "end": 71.03999999999999,
+            "text": " which will allow us to render all six faces in a single draw call."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 71.03999999999999,
+            "end": 74.64,
+            "text": " So let's first create the frame buffer object and the cube map for it."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 74.64,
+            "end": 80.56,
+            "text": " Don't forget to attach the cube map to the frame buffer until OpenGL that it won't be drawing to the color buffer."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 80.56,
+            "end": 84.08,
+            "text": " Now we want to create the perspective matrices for all six views,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 84.08,
+            "end": 87.52,
+            "text": " so we'll sort off by creating the default perspective matrix."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 87.52,
+            "end": 93.44,
+            "text": " Make sure it has an FOV of 90 degrees so that it covers exactly one face of a cube."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 93.44,
+            "end": 98.0,
+            "text": " Then we'll want to create an array where we store all six of our final matrices."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 98.0,
+            "end": 102.32,
+            "text": " Make sure your up vectors are not parallel with the direction you look towards."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 102.32,
+            "end": 105.84,
+            "text": " Now we'll want to create three shaders for the Shadow Maps."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 105.84,
+            "end": 110.24,
+            "text": " For the vertex shader, we'll simply want to output the position of all vertices."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 110.24,
+            "end": 115.6,
+            "text": " For the geometric shader, we'll want to input and output six triangles at the same time,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 115.6,
+            "end": 117.52,
+            "text": " one for each side of the cube map."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 117.52,
+            "end": 121.03999999999999,
+            "text": " Also make sure you import those matrices we just made."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 121.03999999999999,
+            "end": 124.47999999999999,
+            "text": " Then you'll want to loop over all six faces and for each one,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 124.47999999999999,
+            "end": 128.56,
+            "text": " transform all vertices to the respective face and create the triangle."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 128.56,
+            "end": 133.28,
+            "text": " And for the last shader, the fragment shader, you want to import the light position"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 133.28,
+            "end": 137.04,
+            "text": " and the value of the far plane, then manually calculate the depth"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 137.04,
+            "end": 139.6,
+            "text": " and linearize it between 0 and 1."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 139.6,
+            "end": 143.51999999999998,
+            "text": " Don't forget to also create a shader program for these three shaders"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 143.51999999999998,
+            "end": 146.07999999999998,
+            "text": " and then export all the uniforms they need."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 146.07999999999998,
+            "end": 148.24,
+            "text": " The next step is to draw the cube map,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 148.24,
+            "end": 152.0,
+            "text": " bind it, and export it right before drawing the scene normally."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 152.0,
+            "end": 157.04,
+            "text": " Make sure to use gel texture cube map and not gel texture 2D like last time."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 157.04,
+            "end": 160.64,
+            "text": " Be sure to import the texture as a sampler cube uniform,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 160.64,
+            "end": 162.79999999999998,
+            "text": " not a sampler 2D uniform."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 162.79999999999998,
+            "end": 164.88,
+            "text": " As for the shadow algorithm itself,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 164.88,
+            "end": 167.76,
+            "text": " we'll do something extremely similar to last time."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 167.84,
+            "end": 171.2,
+            "text": " We'll sort off with a shadow of 0 and then calculate the vector"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 171.2,
+            "end": 173.67999999999998,
+            "text": " from the fragment to the position of the light."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 173.67999999999998,
+            "end": 177.12,
+            "text": " By taking the length of this vector, we get a current depth."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 177.12,
+            "end": 179.92,
+            "text": " Then we want to create a bias just like last time"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 179.92,
+            "end": 183.76,
+            "text": " and keep in mind this will likely be more similar to the directional one"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 183.76,
+            "end": 185.51999999999998,
+            "text": " rather than the spot light one."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 185.51999999999998,
+            "end": 187.84,
+            "text": " Now in order to get nice soft shadows,"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 187.84,
+            "end": 191.35999999999999,
+            "text": " you want to loop over all nearby coordinates of the cube map"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 191.35999999999999,
+            "end": 193.84,
+            "text": " and check if they are in shadow or not."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 193.92000000000002,
+            "end": 196.16,
+            "text": " The last step is to average the shadow"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 196.16,
+            "end": 199.20000000000002,
+            "text": " and finally add the shadow variable to the return."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 199.20000000000002,
+            "end": 202.96,
+            "text": " If you now run the program, you should have some nice soft shadows"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 202.96,
+            "end": 204.72,
+            "text": " generated by a point light."
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 204.72,
+            "end": 207.92000000000002,
+            "text": " Don't forget to check out my Discord channel and Patreon"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 207.92000000000002,
+            "end": 212.08,
+            "text": " and as always, the source code and all sources and resources used"
+        },
+        {
+            "number": "26",
+            "title": "Shadow Maps (Spotlights & Point Lights).mp4",
+            "start": 212.08,
+            "end": 214.24,
+            "text": " are in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial, I'll show you how to implement Shadow Maps for Spotlights and Pointlights in OpenGL. If you don't already know how to implement Shadow Maps for directional lights, then I highly recommend watching my previous tutorial, since otherwise this won't make much sense. So let's first implement the Shadow's for Spotlights, since there are a lot easier than Pointlights. All we really have to do is to replace the orthographic projection with the perspective projection, and then add the Shadowmap code to the Spotlights. It's essentially identical to the directional lights one. The only thing you might want to change is the bias limit, since Spotlights have a precise location and so will get you high quality maps, as opposed to directional lights, where you may end up with a low quality map if you don't fit them properly. Basically, you just want to increase the precision of the biases in order to get proper shadows. Now for the more complicated Shadowmap for Pointlights. You could technically just use six Spotlights for each side of a cube, but then you would have six render calls to get all the Shadow Maps. Instead of doing that, we could use a cube map and a geometry shader, which will allow us to render all six faces in a single draw call. So let's first create the frame buffer object and the cube map for it. Don't forget to attach the cube map to the frame buffer until OpenGL that it won't be drawing to the color buffer. Now we want to create the perspective matrices for all six views, so we'll sort off by creating the default perspective matrix. Make sure it has an FOV of 90 degrees so that it covers exactly one face of a cube. Then we'll want to create an array where we store all six of our final matrices. Make sure your up vectors are not parallel with the direction you look towards. Now we'll want to create three shaders for the Shadow Maps. For the vertex shader, we'll simply want to output the position of all vertices. For the geometric shader, we'll want to input and output six triangles at the same time, one for each side of the cube map. Also make sure you import those matrices we just made. Then you'll want to loop over all six faces and for each one, transform all vertices to the respective face and create the triangle. And for the last shader, the fragment shader, you want to import the light position and the value of the far plane, then manually calculate the depth and linearize it between 0 and 1. Don't forget to also create a shader program for these three shaders and then export all the uniforms they need. The next step is to draw the cube map, bind it, and export it right before drawing the scene normally. Make sure to use gel texture cube map and not gel texture 2D like last time. Be sure to import the texture as a sampler cube uniform, not a sampler 2D uniform. As for the shadow algorithm itself, we'll do something extremely similar to last time. We'll sort off with a shadow of 0 and then calculate the vector from the fragment to the position of the light. By taking the length of this vector, we get a current depth. Then we want to create a bias just like last time and keep in mind this will likely be more similar to the directional one rather than the spot light one. Now in order to get nice soft shadows, you want to loop over all nearby coordinates of the cube map and check if they are in shadow or not. The last step is to average the shadow and finally add the shadow variable to the return. If you now run the program, you should have some nice soft shadows generated by a point light. Don't forget to check out my Discord channel and Patreon and as always, the source code and all sources and resources used are in the description. Bye!"
+}

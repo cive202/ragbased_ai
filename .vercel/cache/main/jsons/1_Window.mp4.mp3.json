@@ -1,0 +1,488 @@
+{
+    "chunks": [
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 0.0,
+            "end": 5.0,
+            "text": " In the previous tutorial, I showed you how to set up OpenGL in Visual Studio."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 5.0,
+            "end": 9.0,
+            "text": " Now we're going to pick up where we left off and create a window."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 9.0,
+            "end": 12.0,
+            "text": " We're going to use GLFW to do that."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 12.0,
+            "end": 18.0,
+            "text": " The first thing we need to do is initialize it so we can properly use its functions."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 18.0,
+            "end": 24.0,
+            "text": " Since we've initialized it, we should also terminate it before the function ends."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 24.0,
+            "end": 27.0,
+            "text": " I'll add this at the end of the function."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 27.0,
+            "end": 35.0,
+            "text": " Now, GLFW doesn't really know what version of OpenGL we're using, so we need to tell it that."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 35.0,
+            "end": 43.0,
+            "text": " We can do that by giving it so-called hints, with the special function that ticks the type of hint and a value."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 43.0,
+            "end": 53.0,
+            "text": " For example, here I'm giving it a hint that we are going to specify the major version of OpenGL that we are using."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 53.0,
+            "end": 61.0,
+            "text": " Then I give it the version itself, which is 3, since we are using OpenGL 3.3."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 61.0,
+            "end": 69.0,
+            "text": " Now I'm just going to do the same for the minor version, which is the exact same one."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 69.0,
+            "end": 76.0,
+            "text": " The last hint we have to give it is about which OpenGL profile we want to use."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 76.0,
+            "end": 82.0,
+            "text": " I'll type GLFW underscore OpenGL underscore profile."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 82.0,
+            "end": 87.0,
+            "text": " Now, an OpenGL profile is sort of like a package of functions."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 87.0,
+            "end": 91.0,
+            "text": " As far as I know, there are only two packages."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 91.0,
+            "end": 101.0,
+            "text": " Core, which contains all the modern functions and compatibility, which contains both the modern and outdated functions."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 101.0,
+            "end": 107.0,
+            "text": " We only care about the modern ones, so I'm going to use the core profile."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 108.0,
+            "end": 112.0,
+            "text": " Now for the window itself."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 112.0,
+            "end": 117.0,
+            "text": " This is the data type of a window object in GLFW."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 117.0,
+            "end": 121.0,
+            "text": " Let's just name it window and use that create a window function."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 121.0,
+            "end": 130.0,
+            "text": " This will take five inputs, the width of the window, the height of the window, the name of the window,"
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 131.0,
+            "end": 140.0,
+            "text": " whether we want it full screen or not, which we do not, and the last thing is not important."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 140.0,
+            "end": 150.0,
+            "text": " And just beyond the safe side, I'll add a bit of error checking in the case in which the window fails to create."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 150.0,
+            "end": 154.0,
+            "text": " So great, we know how a window object."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 154.0,
+            "end": 158.0,
+            "text": " Problem is, GLFW isn't the brightest key around the block."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 158.0,
+            "end": 165.0,
+            "text": " So I'll now have to tell him that since we've created the window, we would also like to use it."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 165.0,
+            "end": 168.0,
+            "text": " Who would have thought?"
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 168.0,
+            "end": 174.0,
+            "text": " This tells GLFW to make the window part of the current context."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 174.0,
+            "end": 180.0,
+            "text": " A context being a sort of object that holds the whole of OpenGL."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 180.0,
+            "end": 188.0,
+            "text": " It's a bit abstract as context can hold and do many things, but we'll just go with this for now."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 188.0,
+            "end": 194.0,
+            "text": " Now just like before, once we are done with the window itself, we want to delete it."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 194.0,
+            "end": 197.0,
+            "text": " So let's do that at the end of the main function."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 197.0,
+            "end": 206.0,
+            "text": " If you run the program, now you'll maybe be able to spot a window pop up and instantly disappear into oblivion."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 206.0,
+            "end": 220.0,
+            "text": " That happens because once the main function finishes creating the window, it just continues to go about its business and tries to reach the end of itself, which when it does, it ends the whole program."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 220.0,
+            "end": 229.0,
+            "text": " In order to stop that from happening, we need to make a while loop, which will only end on the condition that the window should close."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 229.0,
+            "end": 238.0,
+            "text": " That condition will only happen when we press the close button or if another function tells the window to close."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 238.0,
+            "end": 243.0,
+            "text": " And now just one more thing before we get our glorious window."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 243.0,
+            "end": 253.0,
+            "text": " We need to tell GLFW to process all the pulled events such as the window appearing, being resized and other such things."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 253.0,
+            "end": 259.0,
+            "text": " If we don't process those events, the window will just be in a state of not responding."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 259.0,
+            "end": 264.0,
+            "text": " And now press run and watch the fruits of your labor."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 264.0,
+            "end": 271.0,
+            "text": " But I find this white window kind of boring, so let's add some color to it."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 271.0,
+            "end": 280.0,
+            "text": " We'll start doing that by finally using GLFW and telling him to load the needed configurations for OpenGL."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 281.0,
+            "end": 289.0,
+            "text": " Then we'll tell OpenGL the viewport of our window, which is just the area of the window we want OpenGL to rendering."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 289.0,
+            "end": 301.0,
+            "text": " That will go from the bottom left corner of the window, coordinates 0-0, to the top right corner of the window, coordinates 800-800 in ORCase."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 301.0,
+            "end": 307.0,
+            "text": " Now, in order to go forward, I'll have to introduce some computer graphics concepts."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 307.0,
+            "end": 310.0,
+            "text": " So, listen time!"
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 310.0,
+            "end": 318.0,
+            "text": " As you probably already know, screens display a bunch of images really, really fast, which give us the illusion of motion."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 318.0,
+            "end": 321.0,
+            "text": " These images are called frames."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 321.0,
+            "end": 327.0,
+            "text": " Screens display frames by changing from the pixels of the display to the pixels of a frame."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 327.0,
+            "end": 334.0,
+            "text": " These are changed one by one from the top left of the screen to the bottom right of the screen."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 334.0,
+            "end": 344.0,
+            "text": " Now, while the screen is loading the pixels from the current frame and displaying them, the next frame is being written in the background away from our eyes."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 344.0,
+            "end": 351.0,
+            "text": " Once the screen finishes displaying the current frame, it switches it with the next frame and source displaying that."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 351.0,
+            "end": 358.0,
+            "text": " While in the background, the no previous frame is being overwritten with new information."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 358.0,
+            "end": 366.0,
+            "text": " These two frames are called buffers, and there's simply a space of storage in memory for pixels."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 366.0,
+            "end": 379.0,
+            "text": " The buffer from which information is being read to be displayed on the screen is called the front buffer, while the other one on which information is being written is called the back buffer."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 379.0,
+            "end": 382.0,
+            "text": " Now, let's write the actual code."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 382.0,
+            "end": 388.0,
+            "text": " We're going to tell OpenGL to prepare to clear the color of a buffer and give it another color."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 388.0,
+            "end": 399.0,
+            "text": " I'm going to give it a nice navy blue in the normalized decimal RGB form of color, and set the last number, the alpha to 1."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 399.0,
+            "end": 408.0,
+            "text": " The alpha number dictates the transparency of the color, one being opaque and zero being completely transparent."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 408.0,
+            "end": 412.0,
+            "text": " Now, we want OpenGL to execute the command we've told it to prepare for."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 412.0,
+            "end": 418.0,
+            "text": " So, we'll use this function specifying we want to use the command on the color buffer."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 418.0,
+            "end": 422.0,
+            "text": " We'll learn more about types of buffers in the next video."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 422.0,
+            "end": 429.0,
+            "text": " So, at this point, we have a back buffer with the color we want, and the front buffer with a default color."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 429.0,
+            "end": 437.0,
+            "text": " So, in order to see our color, we'll want to swap the buffers since only the pixels on the front buffer are being displayed."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 438.0,
+            "end": 440.0,
+            "text": " No, press run."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 440.0,
+            "end": 447.0,
+            "text": " And tada, we don't have a nicely colored window that you can show off to your imaginary friends."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 447.0,
+            "end": 454.0,
+            "text": " And the last thing that's left to do is just to write some comments so that you can make sure you understand what's happening."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 454.0,
+            "end": 461.0,
+            "text": " Try writing them with your own words, but if you find that difficult, then feel free to copy mine."
+        },
+        {
+            "number": "1",
+            "title": "Window.mp4",
+            "start": 461.0,
+            "end": 469.0,
+            "text": " I'll leave the source code in the description and the PDF with some exercises so you can practice what you've just learned."
+        }
+    ],
+    "text": " In the previous tutorial, I showed you how to set up OpenGL in Visual Studio. Now we're going to pick up where we left off and create a window. We're going to use GLFW to do that. The first thing we need to do is initialize it so we can properly use its functions. Since we've initialized it, we should also terminate it before the function ends. I'll add this at the end of the function. Now, GLFW doesn't really know what version of OpenGL we're using, so we need to tell it that. We can do that by giving it so-called hints, with the special function that ticks the type of hint and a value. For example, here I'm giving it a hint that we are going to specify the major version of OpenGL that we are using. Then I give it the version itself, which is 3, since we are using OpenGL 3.3. Now I'm just going to do the same for the minor version, which is the exact same one. The last hint we have to give it is about which OpenGL profile we want to use. I'll type GLFW underscore OpenGL underscore profile. Now, an OpenGL profile is sort of like a package of functions. As far as I know, there are only two packages. Core, which contains all the modern functions and compatibility, which contains both the modern and outdated functions. We only care about the modern ones, so I'm going to use the core profile. Now for the window itself. This is the data type of a window object in GLFW. Let's just name it window and use that create a window function. This will take five inputs, the width of the window, the height of the window, the name of the window, whether we want it full screen or not, which we do not, and the last thing is not important. And just beyond the safe side, I'll add a bit of error checking in the case in which the window fails to create. So great, we know how a window object. Problem is, GLFW isn't the brightest key around the block. So I'll now have to tell him that since we've created the window, we would also like to use it. Who would have thought? This tells GLFW to make the window part of the current context. A context being a sort of object that holds the whole of OpenGL. It's a bit abstract as context can hold and do many things, but we'll just go with this for now. Now just like before, once we are done with the window itself, we want to delete it. So let's do that at the end of the main function. If you run the program, now you'll maybe be able to spot a window pop up and instantly disappear into oblivion. That happens because once the main function finishes creating the window, it just continues to go about its business and tries to reach the end of itself, which when it does, it ends the whole program. In order to stop that from happening, we need to make a while loop, which will only end on the condition that the window should close. That condition will only happen when we press the close button or if another function tells the window to close. And now just one more thing before we get our glorious window. We need to tell GLFW to process all the pulled events such as the window appearing, being resized and other such things. If we don't process those events, the window will just be in a state of not responding. And now press run and watch the fruits of your labor. But I find this white window kind of boring, so let's add some color to it. We'll start doing that by finally using GLFW and telling him to load the needed configurations for OpenGL. Then we'll tell OpenGL the viewport of our window, which is just the area of the window we want OpenGL to rendering. That will go from the bottom left corner of the window, coordinates 0-0, to the top right corner of the window, coordinates 800-800 in ORCase. Now, in order to go forward, I'll have to introduce some computer graphics concepts. So, listen time! As you probably already know, screens display a bunch of images really, really fast, which give us the illusion of motion. These images are called frames. Screens display frames by changing from the pixels of the display to the pixels of a frame. These are changed one by one from the top left of the screen to the bottom right of the screen. Now, while the screen is loading the pixels from the current frame and displaying them, the next frame is being written in the background away from our eyes. Once the screen finishes displaying the current frame, it switches it with the next frame and source displaying that. While in the background, the no previous frame is being overwritten with new information. These two frames are called buffers, and there's simply a space of storage in memory for pixels. The buffer from which information is being read to be displayed on the screen is called the front buffer, while the other one on which information is being written is called the back buffer. Now, let's write the actual code. We're going to tell OpenGL to prepare to clear the color of a buffer and give it another color. I'm going to give it a nice navy blue in the normalized decimal RGB form of color, and set the last number, the alpha to 1. The alpha number dictates the transparency of the color, one being opaque and zero being completely transparent. Now, we want OpenGL to execute the command we've told it to prepare for. So, we'll use this function specifying we want to use the command on the color buffer. We'll learn more about types of buffers in the next video. So, at this point, we have a back buffer with the color we want, and the front buffer with a default color. So, in order to see our color, we'll want to swap the buffers since only the pixels on the front buffer are being displayed. No, press run. And tada, we don't have a nicely colored window that you can show off to your imaginary friends. And the last thing that's left to do is just to write some comments so that you can make sure you understand what's happening. Try writing them with your own words, but if you find that difficult, then feel free to copy mine. I'll leave the source code in the description and the PDF with some exercises so you can practice what you've just learned."
+}

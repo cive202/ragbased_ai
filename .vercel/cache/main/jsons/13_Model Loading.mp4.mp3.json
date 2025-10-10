@@ -1,0 +1,1867 @@
+{
+    "chunks": [
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 0.0,
+            "end": 7.0,
+            "text": " In this tutorial, I'll show you how to import 3D models into your OpenGL application by building a very basic importer."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 7.0,
+            "end": 18.6,
+            "text": " This tutorial will also be longer than usual and only have visible results at the end, so please have patience and pay attention to what I'm doing, otherwise you might end up with a chain of errors by the end."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 18.6,
+            "end": 26.900000000000002,
+            "text": " A small note first. As you may know, when it comes to storing images, the industry is pretty standardized with the use of PNGs and JPEGs."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 26.9,
+            "end": 33.3,
+            "text": " But when it comes to 3D models, there are dozens upon dozens of file formats, many of which are proprietary."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 33.3,
+            "end": 40.5,
+            "text": " This diversity of file formats makes it a lot more difficult to export and import models from one program to another."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 40.5,
+            "end": 49.5,
+            "text": " In the spirit of standardization, I will use the GLTF file format for this tutorial, as it is made by the same people who've made OpenGL the Cronus group,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 49.5,
+            "end": 54.099999999999994,
+            "text": " and it seems to be a promising file format that would become the standard in the future."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 54.2,
+            "end": 59.9,
+            "text": " I left a link to a nice article on this by the developers of the Godot engine in the description."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 59.9,
+            "end": 61.6,
+            "text": " Now for the actual tutorial."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 61.6,
+            "end": 71.9,
+            "text": " GLTF makes this of the JSON file structure, so the first thing we'll need to do is to install Neil Sloffman's JSON library from GitHub to be able to parse JSON files."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 71.9,
+            "end": 73.5,
+            "text": " That does it for the libraries."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 73.5,
+            "end": 78.8,
+            "text": " Now we can create a header file for our model class, a model being a group of meshes."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 78.89999999999999,
+            "end": 85.2,
+            "text": " Then we'll make a constructor that will take in the name of a file, and a draw function that will take in a shader and a camera."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 85.2,
+            "end": 91.2,
+            "text": " In the private section, we'll want to store the name of our file, a vector of bytes with all the data of the model,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 91.2,
+            "end": 94.9,
+            "text": " and a JSON object, which I'll explain more about in a moment."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 94.9,
+            "end": 102.2,
+            "text": " Now for the model.cpp file, let's read the GLTF file in the constructor using the same function we used to read the shaders."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 102.2,
+            "end": 106.0,
+            "text": " Then we parse the text and store it in the JSON variable."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 106.1,
+            "end": 110.1,
+            "text": " So JSON files work like dictionaries within dictionaries."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 110.1,
+            "end": 114.3,
+            "text": " Dictionaries have keys and values associated to those keys."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 114.3,
+            "end": 118.1,
+            "text": " If you give a dictionary a key, it will point you to a certain value."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 118.1,
+            "end": 122.9,
+            "text": " This JSON object abstracts the GLTF file into such structures."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 122.9,
+            "end": 129.2,
+            "text": " So let's just store our file and then equate our data variable to a function, get data."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 129.2,
+            "end": 134.4,
+            "text": " We want this function to get us a vector of bytes from an external binary data file."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 134.5,
+            "end": 138.8,
+            "text": " So let's rate the string named bytes text to hold the raw text."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 138.8,
+            "end": 145.5,
+            "text": " To get a location of the file, we can look at a buffer ski, which will point us to an array where we want to look at the first element,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 145.5,
+            "end": 147.3,
+            "text": " which will again be a dictionary."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 147.3,
+            "end": 151.20000000000002,
+            "text": " So we again want to use a key this time, the you are I key."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 151.20000000000002,
+            "end": 156.20000000000002,
+            "text": " This you are I gives us the name of a dot being file, which contains the binary data."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 156.20000000000002,
+            "end": 159.5,
+            "text": " Then we just get a text, put it in a vector and return it."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 159.6,
+            "end": 164.6,
+            "text": " So now that you have your first taste of the JSON file, let's take a closer look at it."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 164.6,
+            "end": 170.6,
+            "text": " The file has dictionaries which contain arrays of other dictionaries, thus making it a sort of three."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 170.6,
+            "end": 172.7,
+            "text": " But it's not a very nice three."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 172.7,
+            "end": 177.5,
+            "text": " Since many branches will contain indices that will point us to other branches,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 177.5,
+            "end": 180.4,
+            "text": " so things will get entangled pretty quickly."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 180.4,
+            "end": 188.4,
+            "text": " In order to avoid confusion in such a situation, I like to start from the leaves and work my way down to the root of the three."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 188.4,
+            "end": 192.20000000000002,
+            "text": " Keep in mind that I will be taking some shortcuts in the GLTF file,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 192.20000000000002,
+            "end": 196.0,
+            "text": " since otherwise this importer would become too complicated."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 196.0,
+            "end": 201.0,
+            "text": " With that out of the way, here is a simplified view of one of the main branches of the tree,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 201.0,
+            "end": 203.0,
+            "text": " and the one we care most about."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 203.0,
+            "end": 206.3,
+            "text": " At the top, we have our data that stored in the buffers."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 206.3,
+            "end": 210.9,
+            "text": " But to know which parts of it we should read, we need to take a look at the buffer views."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 210.9,
+            "end": 215.9,
+            "text": " Then again, these will only tell us where to look, not what to look for."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 216.0,
+            "end": 221.0,
+            "text": " In order to know what types of data types we are reading, we need to look at the accessors."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 221.0,
+            "end": 227.20000000000002,
+            "text": " So great, the accessors still start we are reading an int, or maybe a fake tree for example."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 227.20000000000002,
+            "end": 231.0,
+            "text": " The problem is that they don't tell us what these are used for."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 231.0,
+            "end": 236.20000000000002,
+            "text": " A fake tree could be both a position and a normal to find out which is which."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 236.20000000000002,
+            "end": 241.20000000000002,
+            "text": " We need to once again take a step back, just that this time we'll have to split into."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 241.29999999999998,
+            "end": 247.1,
+            "text": " If we look at the attributes, then we know which accessors are part of which vertex attributes."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 247.1,
+            "end": 251.2,
+            "text": " A, K, A positions, normals, texture coordinates, etc."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 251.2,
+            "end": 256.09999999999997,
+            "text": " If we look at the primitives, we can find the accessor of the indices of our mesh."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 256.09999999999997,
+            "end": 260.09999999999997,
+            "text": " Keep in mind that the attributes are pointed to by the primitives."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 260.09999999999997,
+            "end": 263.2,
+            "text": " These also point to materials, which point to textures,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 263.2,
+            "end": 267.09999999999997,
+            "text": " but we'll ignore that since materials over and half PBR data."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 267.20000000000005,
+            "end": 272.90000000000003,
+            "text": " And since we haven't learned about that yet, we'll skip directly to the textures ignoring the materials."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 272.90000000000003,
+            "end": 277.40000000000003,
+            "text": " If we get back to our main branch, the primitives are pointed to by the meshes,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 277.40000000000003,
+            "end": 281.1,
+            "text": " which are again pointed to by the nodes and lastly the scenes."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 281.1,
+            "end": 284.70000000000005,
+            "text": " In our case, we'll have one scene, 99% of the time,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 284.70000000000005,
+            "end": 290.5,
+            "text": " so we can ignore those and just focus on the nodes, which will contain pointers to all our meshes."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 290.5,
+            "end": 294.1,
+            "text": " Don't worry if you don't fully understand what they just went through."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 294.20000000000005,
+            "end": 297.20000000000005,
+            "text": " It's normal to not fully comprehend it from the start."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 297.20000000000005,
+            "end": 300.20000000000005,
+            "text": " You should get a better idea of it when we write a code."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 300.20000000000005,
+            "end": 304.20000000000005,
+            "text": " So let's start with the leaves by assuming we get an accessor node."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 304.20000000000005,
+            "end": 308.40000000000003,
+            "text": " Let's declare a getFloats function and the getIndices function."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 308.40000000000003,
+            "end": 313.1,
+            "text": " Then we'll also want to declare free functions that will take the array vectors"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 313.1,
+            "end": 317.6,
+            "text": " output it by the getFunctions and group them into GLM vectors."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 317.6,
+            "end": 323.90000000000003,
+            "text": " So we'll first want the bufferView, the count, the byteOffset, and the type from the accessor."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 324.0,
+            "end": 329.7,
+            "text": " Notice how I used the value function instead of brackets to get the byteOffset and bufferView."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 329.7,
+            "end": 332.59999999999997,
+            "text": " The brackets will simply give you the value of the key,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 332.59999999999997,
+            "end": 336.9,
+            "text": " while the value function will give you the value of the key if it exists,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 336.9,
+            "end": 339.4,
+            "text": " otherwise it will give you the second input."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 339.4,
+            "end": 343.0,
+            "text": " These two parameters are not always found in GLTF files,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 343.0,
+            "end": 346.4,
+            "text": " so I want the backup value for them in case they do not exist."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 346.4,
+            "end": 350.29999999999995,
+            "text": " While the other two always exist, so I don't need any backup."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 350.40000000000003,
+            "end": 353.40000000000003,
+            "text": " To see which of these are always found, and which are not,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 353.40000000000003,
+            "end": 356.7,
+            "text": " check out the specification of GLTF on GitHub."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 356.7,
+            "end": 358.2,
+            "text": " Link in the description."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 358.2,
+            "end": 361.0,
+            "text": " Now, using the index of the bufferView we got,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 361.0,
+            "end": 364.5,
+            "text": " we want to create a JSON variable for the bufferView dictionary,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 364.5,
+            "end": 366.7,
+            "text": " from which we'll get the byteOffset."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 366.7,
+            "end": 369.5,
+            "text": " Now, to explain all the parameters we got,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 369.5,
+            "end": 375.0,
+            "text": " the bufferView index simply pointed us to the correct bufferView as mentioned a second ago."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 375.0,
+            "end": 378.0,
+            "text": " The count tells us how many floats we have to get."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 378.0,
+            "end": 382.4,
+            "text": " The accessor byteOffset tells us from what index to look at the data"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 382.4,
+            "end": 385.4,
+            "text": " with respect to the beginning of the bufferView,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 385.4,
+            "end": 389.7,
+            "text": " and the byteOffset tells us where that bufferView starts."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 389.7,
+            "end": 393.8,
+            "text": " The reason we have two different offsets is that sometimes two different"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 393.8,
+            "end": 396.3,
+            "text": " accessors may share the same bufferView."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 396.3,
+            "end": 399.3,
+            "text": " For example, we could have a Vect3 bufferView,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 399.3,
+            "end": 403.5,
+            "text": " which is shared by a position's accessor and a normal's accessor."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 403.5,
+            "end": 407.3,
+            "text": " And finally, the type tells us how we should group the floats."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 407.3,
+            "end": 411.2,
+            "text": " It can either be scalar, Vect2, Vect3, or Vect4."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 411.2,
+            "end": 415.2,
+            "text": " Using this type, we'll want to get the number of floats per vertex."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 415.2,
+            "end": 418.2,
+            "text": " Then, in a for loop, go over all the data."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 418.2,
+            "end": 420.6,
+            "text": " We'll store the bytes in a temporary array,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 420.6,
+            "end": 426.2,
+            "text": " which we'll then use in the function MMCBY to transform the bytes into a float,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 426.2,
+            "end": 431.2,
+            "text": " which we'll then store in the variable value and push it in the floatVector."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 431.2,
+            "end": 434.0,
+            "text": " At the end, simply return the floatVect."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 434.1,
+            "end": 437.5,
+            "text": " Now, all the same thing for indices, except this time,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 437.5,
+            "end": 439.5,
+            "text": " we won't check the number of the vertices,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 439.5,
+            "end": 442.4,
+            "text": " since indices are not stored in vertices."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 442.4,
+            "end": 445.7,
+            "text": " Instead, we'll check the data type of the index itself,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 445.7,
+            "end": 449.3,
+            "text": " and according to that, read it differently from the data."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 449.3,
+            "end": 452.8,
+            "text": " The index can either have type 5125,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 452.8,
+            "end": 455.0,
+            "text": " which is an unsigned integer,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 455.0,
+            "end": 458.7,
+            "text": " type 5123, which is an unsigned short,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 458.7,
+            "end": 461.7,
+            "text": " or type 5122, which is a short."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 461.7,
+            "end": 463.2,
+            "text": " Now, for the grouping functions,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 463.2,
+            "end": 466.4,
+            "text": " we'll simply go over all the floats in the floatVector,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 466.4,
+            "end": 469.59999999999997,
+            "text": " and group them in their corresponding GILM vectors."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 469.59999999999997,
+            "end": 470.8,
+            "text": " Really easy stuff."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 470.8,
+            "end": 472.5,
+            "text": " Using their getFloats function,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 472.5,
+            "end": 475.3,
+            "text": " we'll be able to get all the attributes of a vertex,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 475.3,
+            "end": 480.0,
+            "text": " so the next logical step would be to combine those attributes in a vertex."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 480.0,
+            "end": 482.2,
+            "text": " So, let's get clear a function for that,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 482.2,
+            "end": 485.7,
+            "text": " which takes the vertices, normals, and texture coordinates,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 485.7,
+            "end": 487.59999999999997,
+            "text": " and combines them into a vertex,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 487.59999999999997,
+            "end": 489.8,
+            "text": " which will be put in a C++ vector."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 489.8,
+            "end": 491.59999999999997,
+            "text": " Very straightforward stuff."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 491.70000000000005,
+            "end": 495.1,
+            "text": " Notice that I did not include the colors in here,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 495.1,
+            "end": 498.3,
+            "text": " since even though we declared them in our vertex,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 498.3,
+            "end": 501.1,
+            "text": " there are actually very uncommon in 3D models,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 501.1,
+            "end": 502.40000000000003,
+            "text": " so we can ignore them."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 502.40000000000003,
+            "end": 505.1,
+            "text": " We don't have the vertices and indices."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 505.1,
+            "end": 508.3,
+            "text": " All that's left for a complete mesh is the textures."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 508.3,
+            "end": 509.90000000000003,
+            "text": " But before we take care of those,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 509.90000000000003,
+            "end": 512.8000000000001,
+            "text": " we should first modify our texture class a bit."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 512.8000000000001,
+            "end": 516.2,
+            "text": " First, we should remove the last two inputs of the constructor,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 516.2,
+            "end": 518.3000000000001,
+            "text": " since we'll optimize the first one,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 518.3,
+            "end": 521.6999999999999,
+            "text": " and the second one is the same 99% of the time."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 521.6999999999999,
+            "end": 522.6999999999999,
+            "text": " For the first one,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 522.6999999999999,
+            "end": 526.1999999999999,
+            "text": " we'll simply check the number of color channels a texture has,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 526.1999999999999,
+            "end": 529.5,
+            "text": " and assign a corresponding color type to the texture."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 529.5,
+            "end": 530.8,
+            "text": " Then for the second one,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 530.8,
+            "end": 534.5999999999999,
+            "text": " we just replace it everywhere with Jill unsigned by."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 534.5999999999999,
+            "end": 537.5,
+            "text": " So now, let's create the getTextures function."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 537.5,
+            "end": 540.1999999999999,
+            "text": " We want to skip directly to the images key,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 540.1999999999999,
+            "end": 542.9,
+            "text": " which will give us an array of URIs."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 542.9,
+            "end": 544.8,
+            "text": " Here, we loop over all of them"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 544.8,
+            "end": 547.8,
+            "text": " while keeping track of the unit of each texture."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 547.8,
+            "end": 551.4,
+            "text": " Then, if the texture contains base color in its name,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 551.4,
+            "end": 552.8,
+            "text": " it's a diffuse texture."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 552.8,
+            "end": 555.1999999999999,
+            "text": " If the name contains metallic roughness,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 555.1999999999999,
+            "end": 558.6999999999999,
+            "text": " we can somewhat use this texture as a specular map."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 558.6999999999999,
+            "end": 562.1999999999999,
+            "text": " Keep in mind that this way of checking the type of a texture"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 562.1999999999999,
+            "end": 565.6999999999999,
+            "text": " is not ideal and may differ from model to model."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 565.6999999999999,
+            "end": 569.5999999999999,
+            "text": " Also, the reason the metallic roughness just sort of works"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 569.5999999999999,
+            "end": 573.8,
+            "text": " for a specular map is because it's something that's meant for PBR."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 573.8,
+            "end": 575.8,
+            "text": " The problem with this function, though,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 575.8,
+            "end": 579.4,
+            "text": " is that it can load the same texture multiple times,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 579.4,
+            "end": 583.0999999999999,
+            "text": " which we don't want to do since it will use a lot of RAM."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 583.0999999999999,
+            "end": 586.1999999999999,
+            "text": " To prevent that, we want to create two variables,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 586.1999999999999,
+            "end": 589.1999999999999,
+            "text": " loadedTextName and loadedText."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 589.1999999999999,
+            "end": 592.1999999999999,
+            "text": " We'll use loadedTextName to determine whether or not"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 592.1999999999999,
+            "end": 595.0,
+            "text": " we've loaded the texture and loadedText"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 595.0,
+            "end": 597.8,
+            "text": " to store the textures for all meshes to use."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 597.8,
+            "end": 600.5,
+            "text": " Then in the function, we'll add a skip variable,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 600.5,
+            "end": 604.0,
+            "text": " which will become true if the texture we are currently trying"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 604.0,
+            "end": 607.6,
+            "text": " to load has the same name as a texture in loadedTextName."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 607.6,
+            "end": 610.2,
+            "text": " If it becomes true, we don't load it anymore,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 610.2,
+            "end": 613.3,
+            "text": " instead simply pushing an already loaded texture"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 613.3,
+            "end": 614.9,
+            "text": " to the texture's vector."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 614.9,
+            "end": 618.4,
+            "text": " We can also replace the unit by the size of the loadedText"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 618.4,
+            "end": 619.6,
+            "text": " vector as well."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 619.6,
+            "end": 621.7,
+            "text": " This does it for our textures."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 621.7,
+            "end": 624.1,
+            "text": " We don't have all the elements needed for a mesh,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 624.1,
+            "end": 626.0,
+            "text": " so let's make a loadMesh function"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 626.0,
+            "end": 630.1,
+            "text": " that will take in as an argument the index of a mesh we want to load."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 630.1,
+            "end": 632.4,
+            "text": " We'll also want to create a meshes vector"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 632.4,
+            "end": 634.8,
+            "text": " to store all the loaded meshes into."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 634.8,
+            "end": 638.3,
+            "text": " So first, we want to get the indices of all the accessors"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 638.3,
+            "end": 639.6,
+            "text": " of the vertices."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 639.6,
+            "end": 643.5,
+            "text": " Then we'll simply use our getFloats and groupFloats functions"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 643.5,
+            "end": 645.6,
+            "text": " for the attributes of the vertices."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 645.6,
+            "end": 647.9,
+            "text": " After that, we assemble our vertices"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 647.9,
+            "end": 650.5,
+            "text": " and get our indices and textures."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 650.5,
+            "end": 653.0,
+            "text": " Then we just create a mesh with these three vectors"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 653.0,
+            "end": 655.1,
+            "text": " and push it to the meshes vector."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 655.1,
+            "end": 657.1,
+            "text": " Now we can load multiple meshes"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 657.1,
+            "end": 659.5,
+            "text": " by simply iterating over them."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 659.6,
+            "end": 663.6,
+            "text": " The problem is that we don't know where to place those meshes"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 663.6,
+            "end": 667.6,
+            "text": " so they will likely all be within one another at the origin."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 667.6,
+            "end": 670.1,
+            "text": " In order to know where to place them"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 670.1,
+            "end": 671.6,
+            "text": " and how big they should be,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 671.6,
+            "end": 674.1,
+            "text": " we must extract the matrix transformations"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 674.1,
+            "end": 675.7,
+            "text": " from the GLTF file."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 675.7,
+            "end": 678.6,
+            "text": " And we can't just get the matrix of each mesh,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 678.6,
+            "end": 682.2,
+            "text": " but must instead keep track of what children each mesh has"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 682.2,
+            "end": 686.1,
+            "text": " in order to multiply the matrices of each mesh together."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 686.1,
+            "end": 688.0,
+            "text": " All the information for the matrices"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 688.1,
+            "end": 691.1,
+            "text": " and the relationship between meshes is in the nodes."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 691.1,
+            "end": 693.8,
+            "text": " So let's create a function named traverse node"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 693.8,
+            "end": 696.6,
+            "text": " which takes the index of a node and the matrix,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 696.6,
+            "end": 700.0,
+            "text": " making it have the identity matrix as a default value."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 700.0,
+            "end": 702.0,
+            "text": " Then let's also create vectors"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 702.0,
+            "end": 704.5,
+            "text": " for different types of transformation matrices."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 704.5,
+            "end": 707.0,
+            "text": " We have translations which move the mesh,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 707.0,
+            "end": 710.8,
+            "text": " rotations which rotate it, scales which change its size,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 710.8,
+            "end": 714.7,
+            "text": " and matrices which are a combination of the aforementioned,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 714.7,
+            "end": 717.4,
+            "text": " but we can't know if the first tree will be used"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 717.5,
+            "end": 720.4,
+            "text": " for just the matrix, so we need to account for both."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 720.4,
+            "end": 722.6999999999999,
+            "text": " We must first modify our mesh class"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 722.6999999999999,
+            "end": 725.4,
+            "text": " by adding these transformations to the draw function,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 725.4,
+            "end": 729.1999999999999,
+            "text": " ask inputs with default values that don't change anything"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 729.1999999999999,
+            "end": 732.1999999999999,
+            "text": " and then sending them to the shader at the end of the function."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 732.1999999999999,
+            "end": 734.3,
+            "text": " Don't forget to also create uniforms"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 734.3,
+            "end": 737.0,
+            "text": " for these transformations in the vertex shader"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 737.0,
+            "end": 738.8,
+            "text": " and multiply them like so."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 738.8,
+            "end": 742.0,
+            "text": " I put a negative sign in front of the rotation matrix"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 742.0,
+            "end": 743.6999999999999,
+            "text": " since that's what I found to work."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 743.6999999999999,
+            "end": 745.24,
+            "text": " It might be a bug in my code"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 745.24,
+            "end": 747.8,
+            "text": " or the fact that GLM and GLTF"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 747.8,
+            "end": 749.88,
+            "text": " use different rotation standards,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 749.88,
+            "end": 753.2,
+            "text": " aka clockwise versus counterclockwise."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 753.2,
+            "end": 755.12,
+            "text": " And since we're in the vertex shader,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 755.12,
+            "end": 757.6800000000001,
+            "text": " we also need to rotate the texture coordinates"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 757.6800000000001,
+            "end": 760.72,
+            "text": " by 90 degrees, which we can do with these matrix."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 760.72,
+            "end": 763.8,
+            "text": " This again, it has something to do with the bug in the code"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 763.8,
+            "end": 765.28,
+            "text": " or different standards."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 765.28,
+            "end": 768.12,
+            "text": " What's important is that it works decently well."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 768.12,
+            "end": 769.72,
+            "text": " No for the function itself,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 769.72,
+            "end": 772.72,
+            "text": " we'll want to get a current node as a JSON object"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 772.72,
+            "end": 775.8000000000001,
+            "text": " and then extract the transformations if they exist."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 775.8000000000001,
+            "end": 778.0,
+            "text": " Notice how for the rotation-quaternion,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 778.0,
+            "end": 783.0,
+            "text": " I get the indices in the order 3012 instead of 0123."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 783.28,
+            "end": 788.0,
+            "text": " This is because GLTF encodes quaternions as XYZW,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 788.0,
+            "end": 791.84,
+            "text": " while GLM uses them as W XYZ."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 791.84,
+            "end": 794.4,
+            "text": " Again, just standardization problems."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 794.4,
+            "end": 797.2,
+            "text": " Now we want to combine all of these transformations,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 797.2,
+            "end": 799.8000000000001,
+            "text": " including the matrix we get as an input."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 799.8000000000001,
+            "end": 802.2,
+            "text": " Then we check if we have an index to a mesh"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 802.2,
+            "end": 805.8000000000001,
+            "text": " and if we do, we push all the transformations and load the mesh."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 805.8000000000001,
+            "end": 808.5200000000001,
+            "text": " After that, we check if the mesh has any children"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 808.5200000000001,
+            "end": 811.24,
+            "text": " and if it does, we want to apply this same function"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 811.24,
+            "end": 813.6400000000001,
+            "text": " to all of them while also giving them"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 813.6400000000001,
+            "end": 815.2800000000001,
+            "text": " the current matrix we have."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 815.2800000000001,
+            "end": 817.0400000000001,
+            "text": " So this function is recursive"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 817.0400000000001,
+            "end": 819.5600000000001,
+            "text": " and so we'll split along the parts of the tree"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 819.5600000000001,
+            "end": 821.2800000000001,
+            "text": " till it gets to all the nodes."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 821.2800000000001,
+            "end": 823.6,
+            "text": " Now we can write this function in the constructor"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 823.6,
+            "end": 825.6,
+            "text": " and give it 0 as an input."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 825.6,
+            "end": 828.6,
+            "text": " The last thing we need to do is write our graph function"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 828.6,
+            "end": 830.48,
+            "text": " and that's it for the model class."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 830.48,
+            "end": 831.96,
+            "text": " In the main.cpp file,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 831.96,
+            "end": 834.04,
+            "text": " we just have to include the model class"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 834.04,
+            "end": 836.6,
+            "text": " and delete all the old mesh related stuff."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 836.6,
+            "end": 839.28,
+            "text": " Then get some models, create the model object"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 839.28,
+            "end": 841.36,
+            "text": " and write it in the main while look."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 841.36,
+            "end": 844.72,
+            "text": " Here are some examples of models I've been able to load in."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 844.72,
+            "end": 847.44,
+            "text": " I've left some models that should 100% work"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 847.44,
+            "end": 850.32,
+            "text": " in the repository of this tutorial on GitHub."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 850.32,
+            "end": 853.12,
+            "text": " So if you're getting some errors, check those models"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 853.12,
+            "end": 855.08,
+            "text": " to see if you have a problem with your code"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 855.08,
+            "end": 857.2,
+            "text": " or the model you're trying to load in."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 857.2,
+            "end": 859.48,
+            "text": " Again, keep in mind that this importer"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 859.48,
+            "end": 862.6,
+            "text": " is in no way complete and is in fact very basic"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 862.6,
+            "end": 864.24,
+            "text": " so don't expect to be able to load"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 864.24,
+            "end": 866.5600000000001,
+            "text": " in any model you find on the internet."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 866.5600000000001,
+            "end": 870.04,
+            "text": " I find that a decent amount of models from sketchfab.com"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 870.04,
+            "end": 873.16,
+            "text": " work pretty well, especially if they don't have too many meshes."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 873.16,
+            "end": 874.44,
+            "text": " That's it for this tutorial."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 874.44,
+            "end": 875.88,
+            "text": " It was a really long one,"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 875.88,
+            "end": 878.9200000000001,
+            "text": " but also a very rewarding one if you ask me."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 878.9200000000001,
+            "end": 881.0,
+            "text": " As always, don't forget to add comments"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 881.0,
+            "end": 883.6,
+            "text": " to everything you wrote to make sure you understand it"
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 883.6,
+            "end": 886.0,
+            "text": " and the source code is in the description."
+        },
+        {
+            "number": "13",
+            "title": "Model Loading.mp4",
+            "start": 886.0,
+            "end": 886.84,
+            "text": " Bye."
+        }
+    ],
+    "text": " In this tutorial, I'll show you how to import 3D models into your OpenGL application by building a very basic importer. This tutorial will also be longer than usual and only have visible results at the end, so please have patience and pay attention to what I'm doing, otherwise you might end up with a chain of errors by the end. A small note first. As you may know, when it comes to storing images, the industry is pretty standardized with the use of PNGs and JPEGs. But when it comes to 3D models, there are dozens upon dozens of file formats, many of which are proprietary. This diversity of file formats makes it a lot more difficult to export and import models from one program to another. In the spirit of standardization, I will use the GLTF file format for this tutorial, as it is made by the same people who've made OpenGL the Cronus group, and it seems to be a promising file format that would become the standard in the future. I left a link to a nice article on this by the developers of the Godot engine in the description. Now for the actual tutorial. GLTF makes this of the JSON file structure, so the first thing we'll need to do is to install Neil Sloffman's JSON library from GitHub to be able to parse JSON files. That does it for the libraries. Now we can create a header file for our model class, a model being a group of meshes. Then we'll make a constructor that will take in the name of a file, and a draw function that will take in a shader and a camera. In the private section, we'll want to store the name of our file, a vector of bytes with all the data of the model, and a JSON object, which I'll explain more about in a moment. Now for the model.cpp file, let's read the GLTF file in the constructor using the same function we used to read the shaders. Then we parse the text and store it in the JSON variable. So JSON files work like dictionaries within dictionaries. Dictionaries have keys and values associated to those keys. If you give a dictionary a key, it will point you to a certain value. This JSON object abstracts the GLTF file into such structures. So let's just store our file and then equate our data variable to a function, get data. We want this function to get us a vector of bytes from an external binary data file. So let's rate the string named bytes text to hold the raw text. To get a location of the file, we can look at a buffer ski, which will point us to an array where we want to look at the first element, which will again be a dictionary. So we again want to use a key this time, the you are I key. This you are I gives us the name of a dot being file, which contains the binary data. Then we just get a text, put it in a vector and return it. So now that you have your first taste of the JSON file, let's take a closer look at it. The file has dictionaries which contain arrays of other dictionaries, thus making it a sort of three. But it's not a very nice three. Since many branches will contain indices that will point us to other branches, so things will get entangled pretty quickly. In order to avoid confusion in such a situation, I like to start from the leaves and work my way down to the root of the three. Keep in mind that I will be taking some shortcuts in the GLTF file, since otherwise this importer would become too complicated. With that out of the way, here is a simplified view of one of the main branches of the tree, and the one we care most about. At the top, we have our data that stored in the buffers. But to know which parts of it we should read, we need to take a look at the buffer views. Then again, these will only tell us where to look, not what to look for. In order to know what types of data types we are reading, we need to look at the accessors. So great, the accessors still start we are reading an int, or maybe a fake tree for example. The problem is that they don't tell us what these are used for. A fake tree could be both a position and a normal to find out which is which. We need to once again take a step back, just that this time we'll have to split into. If we look at the attributes, then we know which accessors are part of which vertex attributes. A, K, A positions, normals, texture coordinates, etc. If we look at the primitives, we can find the accessor of the indices of our mesh. Keep in mind that the attributes are pointed to by the primitives. These also point to materials, which point to textures, but we'll ignore that since materials over and half PBR data. And since we haven't learned about that yet, we'll skip directly to the textures ignoring the materials. If we get back to our main branch, the primitives are pointed to by the meshes, which are again pointed to by the nodes and lastly the scenes. In our case, we'll have one scene, 99% of the time, so we can ignore those and just focus on the nodes, which will contain pointers to all our meshes. Don't worry if you don't fully understand what they just went through. It's normal to not fully comprehend it from the start. You should get a better idea of it when we write a code. So let's start with the leaves by assuming we get an accessor node. Let's declare a getFloats function and the getIndices function. Then we'll also want to declare free functions that will take the array vectors output it by the getFunctions and group them into GLM vectors. So we'll first want the bufferView, the count, the byteOffset, and the type from the accessor. Notice how I used the value function instead of brackets to get the byteOffset and bufferView. The brackets will simply give you the value of the key, while the value function will give you the value of the key if it exists, otherwise it will give you the second input. These two parameters are not always found in GLTF files, so I want the backup value for them in case they do not exist. While the other two always exist, so I don't need any backup. To see which of these are always found, and which are not, check out the specification of GLTF on GitHub. Link in the description. Now, using the index of the bufferView we got, we want to create a JSON variable for the bufferView dictionary, from which we'll get the byteOffset. Now, to explain all the parameters we got, the bufferView index simply pointed us to the correct bufferView as mentioned a second ago. The count tells us how many floats we have to get. The accessor byteOffset tells us from what index to look at the data with respect to the beginning of the bufferView, and the byteOffset tells us where that bufferView starts. The reason we have two different offsets is that sometimes two different accessors may share the same bufferView. For example, we could have a Vect3 bufferView, which is shared by a position's accessor and a normal's accessor. And finally, the type tells us how we should group the floats. It can either be scalar, Vect2, Vect3, or Vect4. Using this type, we'll want to get the number of floats per vertex. Then, in a for loop, go over all the data. We'll store the bytes in a temporary array, which we'll then use in the function MMCBY to transform the bytes into a float, which we'll then store in the variable value and push it in the floatVector. At the end, simply return the floatVect. Now, all the same thing for indices, except this time, we won't check the number of the vertices, since indices are not stored in vertices. Instead, we'll check the data type of the index itself, and according to that, read it differently from the data. The index can either have type 5125, which is an unsigned integer, type 5123, which is an unsigned short, or type 5122, which is a short. Now, for the grouping functions, we'll simply go over all the floats in the floatVector, and group them in their corresponding GILM vectors. Really easy stuff. Using their getFloats function, we'll be able to get all the attributes of a vertex, so the next logical step would be to combine those attributes in a vertex. So, let's get clear a function for that, which takes the vertices, normals, and texture coordinates, and combines them into a vertex, which will be put in a C++ vector. Very straightforward stuff. Notice that I did not include the colors in here, since even though we declared them in our vertex, there are actually very uncommon in 3D models, so we can ignore them. We don't have the vertices and indices. All that's left for a complete mesh is the textures. But before we take care of those, we should first modify our texture class a bit. First, we should remove the last two inputs of the constructor, since we'll optimize the first one, and the second one is the same 99% of the time. For the first one, we'll simply check the number of color channels a texture has, and assign a corresponding color type to the texture. Then for the second one, we just replace it everywhere with Jill unsigned by. So now, let's create the getTextures function. We want to skip directly to the images key, which will give us an array of URIs. Here, we loop over all of them while keeping track of the unit of each texture. Then, if the texture contains base color in its name, it's a diffuse texture. If the name contains metallic roughness, we can somewhat use this texture as a specular map. Keep in mind that this way of checking the type of a texture is not ideal and may differ from model to model. Also, the reason the metallic roughness just sort of works for a specular map is because it's something that's meant for PBR. The problem with this function, though, is that it can load the same texture multiple times, which we don't want to do since it will use a lot of RAM. To prevent that, we want to create two variables, loadedTextName and loadedText. We'll use loadedTextName to determine whether or not we've loaded the texture and loadedText to store the textures for all meshes to use. Then in the function, we'll add a skip variable, which will become true if the texture we are currently trying to load has the same name as a texture in loadedTextName. If it becomes true, we don't load it anymore, instead simply pushing an already loaded texture to the texture's vector. We can also replace the unit by the size of the loadedText vector as well. This does it for our textures. We don't have all the elements needed for a mesh, so let's make a loadMesh function that will take in as an argument the index of a mesh we want to load. We'll also want to create a meshes vector to store all the loaded meshes into. So first, we want to get the indices of all the accessors of the vertices. Then we'll simply use our getFloats and groupFloats functions for the attributes of the vertices. After that, we assemble our vertices and get our indices and textures. Then we just create a mesh with these three vectors and push it to the meshes vector. Now we can load multiple meshes by simply iterating over them. The problem is that we don't know where to place those meshes so they will likely all be within one another at the origin. In order to know where to place them and how big they should be, we must extract the matrix transformations from the GLTF file. And we can't just get the matrix of each mesh, but must instead keep track of what children each mesh has in order to multiply the matrices of each mesh together. All the information for the matrices and the relationship between meshes is in the nodes. So let's create a function named traverse node which takes the index of a node and the matrix, making it have the identity matrix as a default value. Then let's also create vectors for different types of transformation matrices. We have translations which move the mesh, rotations which rotate it, scales which change its size, and matrices which are a combination of the aforementioned, but we can't know if the first tree will be used for just the matrix, so we need to account for both. We must first modify our mesh class by adding these transformations to the draw function, ask inputs with default values that don't change anything and then sending them to the shader at the end of the function. Don't forget to also create uniforms for these transformations in the vertex shader and multiply them like so. I put a negative sign in front of the rotation matrix since that's what I found to work. It might be a bug in my code or the fact that GLM and GLTF use different rotation standards, aka clockwise versus counterclockwise. And since we're in the vertex shader, we also need to rotate the texture coordinates by 90 degrees, which we can do with these matrix. This again, it has something to do with the bug in the code or different standards. What's important is that it works decently well. No for the function itself, we'll want to get a current node as a JSON object and then extract the transformations if they exist. Notice how for the rotation-quaternion, I get the indices in the order 3012 instead of 0123. This is because GLTF encodes quaternions as XYZW, while GLM uses them as W XYZ. Again, just standardization problems. Now we want to combine all of these transformations, including the matrix we get as an input. Then we check if we have an index to a mesh and if we do, we push all the transformations and load the mesh. After that, we check if the mesh has any children and if it does, we want to apply this same function to all of them while also giving them the current matrix we have. So this function is recursive and so we'll split along the parts of the tree till it gets to all the nodes. Now we can write this function in the constructor and give it 0 as an input. The last thing we need to do is write our graph function and that's it for the model class. In the main.cpp file, we just have to include the model class and delete all the old mesh related stuff. Then get some models, create the model object and write it in the main while look. Here are some examples of models I've been able to load in. I've left some models that should 100% work in the repository of this tutorial on GitHub. So if you're getting some errors, check those models to see if you have a problem with your code or the model you're trying to load in. Again, keep in mind that this importer is in no way complete and is in fact very basic so don't expect to be able to load in any model you find on the internet. I find that a decent amount of models from sketchfab.com work pretty well, especially if they don't have too many meshes. That's it for this tutorial. It was a really long one, but also a very rewarding one if you ask me. As always, don't forget to add comments to everything you wrote to make sure you understand it and the source code is in the description. Bye."
+}

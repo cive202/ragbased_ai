@@ -1,0 +1,320 @@
+{
+    "chunks": [
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 0.0,
+            "end": 6.0,
+            "text": " In this tutorial, I'll show you what parallax mapping is and how you can use it in combination with normal maps"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 6.0,
+            "end": 9.92,
+            "text": " in order to get some really nice details out of your surfaces."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 9.92,
+            "end": 15.6,
+            "text": " Now imagine we want a nice 3D wall with actual geometry that looks like this."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 15.6,
+            "end": 20.64,
+            "text": " To achieve that, we would need a height map and a plane with a lot of triangles in it."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 20.64,
+            "end": 26.16,
+            "text": " The problem with that is that we might need thousands or tens of thousands of triangles"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 26.16,
+            "end": 32.480000000000004,
+            "text": " for this one single plane, but we can't really have that since it would tank our performance."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 32.480000000000004,
+            "end": 38.72,
+            "text": " So what if I told you that the brick wall you're looking at right now is made out of just two"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 38.72,
+            "end": 44.32,
+            "text": " triangles? Pretty cool, right? Okay, so here's how parallax mapping works."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 44.32,
+            "end": 49.36,
+            "text": " First of all, we still need a height map for this. It's just that instead of displacing"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 49.36,
+            "end": 54.8,
+            "text": " actual geometry, we'll simply fake it in the fragment shader. Now you'd initially think of"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 54.8,
+            "end": 60.879999999999995,
+            "text": " faking it above the surface. The problem with that though is that this plane can only display"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 60.879999999999995,
+            "end": 67.2,
+            "text": " things on its own surface. So areas like this would get cut off and ruin the illusion."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 67.2,
+            "end": 72.8,
+            "text": " So we will instead be inverting the height map and fake the depth behind the plane."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 72.8,
+            "end": 78.88,
+            "text": " Now how do we do this? Well here at depth 0, we have our plane. Then underneath 8,"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 78.88,
+            "end": 84.32,
+            "text": " we have our theoretical height map, meaning you can't actually see it. It's there just in the"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 84.32,
+            "end": 91.03999999999999,
+            "text": " maths. We are currently sampling point a, but what we really want to sample is point b,"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 91.03999999999999,
+            "end": 96.08,
+            "text": " since that's the height we're supposed to see. The problem is we can't just calculate b using"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 96.08,
+            "end": 102.0,
+            "text": " a formula or something like that. We need to somehow get an approximation for it. To do that,"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 102.0,
+            "end": 108.39999999999999,
+            "text": " we can simply take the height we're currently at and multiply that by the inverse of our view vector"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 108.48,
+            "end": 115.36,
+            "text": " calling this vector s. Since most height maps don't have insanely drastic changes in their height"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 115.36,
+            "end": 121.2,
+            "text": " from one point to the next, this gets us somewhat close to our point. Of course this also means that"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 121.2,
+            "end": 127.36000000000001,
+            "text": " if we do have a steep displacement, then we will be way off with our guess and things will look"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 127.36000000000001,
+            "end": 133.92000000000002,
+            "text": " weird. The problem is that this technique will have inconsistent results depending on the height map."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 133.92,
+            "end": 140.48,
+            "text": " Especially if you look at it from a small angle because then point a is really far away from point b"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 140.48,
+            "end": 146.48,
+            "text": " and so assuming there are somewhat close in height is not going to work. So we actually need to"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 146.48,
+            "end": 153.76,
+            "text": " modify this a bit. What if instead of getting the height of a and multiplying that with the inverse of v,"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 153.76,
+            "end": 160.32,
+            "text": " we simply have multiple levels of height we check. We are essentially going to scale the s vector"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 160.32,
+            "end": 166.16,
+            "text": " from a small length to a larger one until we get it underneath the surface. At which point we"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 166.16,
+            "end": 172.4,
+            "text": " will sample that pixel to get the color and all that stuff. We can further improve this by averaging"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 172.4,
+            "end": 178.95999999999998,
+            "text": " the heights of the s that is underneath the surface and the s right before it to get a more accurate"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 178.95999999999998,
+            "end": 186.0,
+            "text": " result. We can also use geo linear instead of geo nearest when loading the textures to get even"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 186.0,
+            "end": 192.4,
+            "text": " smoother results. Now let's put this in practice. We'll continue off from the normal maps tutorial"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 192.4,
+            "end": 199.68,
+            "text": " since we need a tbn matrices to work in the textures space. We first want to add the displacement"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 199.68,
+            "end": 206.72,
+            "text": " type of texture to our texture class. Then we want to load in the displacement map, bind it and send"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 206.72,
+            "end": 212.56,
+            "text": " it off to the fragment shader. Now in the fragment shader we'll load it in and the first thing we'll"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 212.56,
+            "end": 218.64000000000001,
+            "text": " want to do is to get the view direction and normalize it. Then we'll set the height scale which"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 218.64000000000001,
+            "end": 224.72,
+            "text": " will control the maximum depth of the illusion and set the amount of layers we are going to check."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 224.72,
+            "end": 231.36,
+            "text": " Notice how I choose the number of layers dynamically based on the angle to the surface. Then we get"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 231.36,
+            "end": 238.32,
+            "text": " the s vector. Here I divide it by its set value which will give more dramatic and interesting results."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 238.32,
+            "end": 244.16,
+            "text": " You can opt out of doing this division. Now I just write the logic for checking each layer"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 244.16,
+            "end": 249.92,
+            "text": " and after that I interpolate between the current and previous height values. All that's left to do"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 249.92,
+            "end": 256.0,
+            "text": " is to discard all fragments that are outside the range of the texture since they look weird"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 256.0,
+            "end": 263.12,
+            "text": " and use the UVs in the textures. Now if you run your program you should have a nice 3D brick wall."
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 263.12,
+            "end": 269.04,
+            "text": " Don't forget to check out my discord channel and maybe support me on Patreon. As always the source"
+        },
+        {
+            "number": "28",
+            "title": "Parallax Occlusion Mapping.mp4",
+            "start": 269.04,
+            "end": 274.48,
+            "text": " code and all sources and resources used are in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial, I'll show you what parallax mapping is and how you can use it in combination with normal maps in order to get some really nice details out of your surfaces. Now imagine we want a nice 3D wall with actual geometry that looks like this. To achieve that, we would need a height map and a plane with a lot of triangles in it. The problem with that is that we might need thousands or tens of thousands of triangles for this one single plane, but we can't really have that since it would tank our performance. So what if I told you that the brick wall you're looking at right now is made out of just two triangles? Pretty cool, right? Okay, so here's how parallax mapping works. First of all, we still need a height map for this. It's just that instead of displacing actual geometry, we'll simply fake it in the fragment shader. Now you'd initially think of faking it above the surface. The problem with that though is that this plane can only display things on its own surface. So areas like this would get cut off and ruin the illusion. So we will instead be inverting the height map and fake the depth behind the plane. Now how do we do this? Well here at depth 0, we have our plane. Then underneath 8, we have our theoretical height map, meaning you can't actually see it. It's there just in the maths. We are currently sampling point a, but what we really want to sample is point b, since that's the height we're supposed to see. The problem is we can't just calculate b using a formula or something like that. We need to somehow get an approximation for it. To do that, we can simply take the height we're currently at and multiply that by the inverse of our view vector calling this vector s. Since most height maps don't have insanely drastic changes in their height from one point to the next, this gets us somewhat close to our point. Of course this also means that if we do have a steep displacement, then we will be way off with our guess and things will look weird. The problem is that this technique will have inconsistent results depending on the height map. Especially if you look at it from a small angle because then point a is really far away from point b and so assuming there are somewhat close in height is not going to work. So we actually need to modify this a bit. What if instead of getting the height of a and multiplying that with the inverse of v, we simply have multiple levels of height we check. We are essentially going to scale the s vector from a small length to a larger one until we get it underneath the surface. At which point we will sample that pixel to get the color and all that stuff. We can further improve this by averaging the heights of the s that is underneath the surface and the s right before it to get a more accurate result. We can also use geo linear instead of geo nearest when loading the textures to get even smoother results. Now let's put this in practice. We'll continue off from the normal maps tutorial since we need a tbn matrices to work in the textures space. We first want to add the displacement type of texture to our texture class. Then we want to load in the displacement map, bind it and send it off to the fragment shader. Now in the fragment shader we'll load it in and the first thing we'll want to do is to get the view direction and normalize it. Then we'll set the height scale which will control the maximum depth of the illusion and set the amount of layers we are going to check. Notice how I choose the number of layers dynamically based on the angle to the surface. Then we get the s vector. Here I divide it by its set value which will give more dramatic and interesting results. You can opt out of doing this division. Now I just write the logic for checking each layer and after that I interpolate between the current and previous height values. All that's left to do is to discard all fragments that are outside the range of the texture since they look weird and use the UVs in the textures. Now if you run your program you should have a nice 3D brick wall. Don't forget to check out my discord channel and maybe support me on Patreon. As always the source code and all sources and resources used are in the description. Bye!"
+}

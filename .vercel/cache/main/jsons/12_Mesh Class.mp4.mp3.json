@@ -1,0 +1,439 @@
+{
+    "chunks": [
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 0.0,
+            "end": 8.0,
+            "text": " In this tutorial, we'll wrap up all the classes we've made till now and a big part of the code in the main function into a mesh class"
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 8.0,
+            "end": 13.200000000000001,
+            "text": " that will also serve as a stepping stone for importing models in a future tutorial."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 13.200000000000001,
+            "end": 24.8,
+            "text": " First, a rough definition of a mesh. A mesh is a dataset that almost always contains vertices, often contains indices, and sometimes contains textures as well."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 24.8,
+            "end": 28.5,
+            "text": " And they are generally used to create 3D models."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 28.6,
+            "end": 31.4,
+            "text": " So, let's create a header file for the class."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 31.4,
+            "end": 42.6,
+            "text": " First, we'll want to include a string library, and then the VIO, IBO, camera, and texture classes, since we wanted three of our classes dependencies to look like this."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 42.6,
+            "end": 49.3,
+            "text": " Now for the class itself, all the clear three vectors named vertices, indices, and textures."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 49.3,
+            "end": 54.8,
+            "text": " Note that these are C++ vectors and not GLM vectors."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 54.9,
+            "end": 64.2,
+            "text": " We are using vectors instead of arrays, since we can't know the size of our arrays, so it's best to keep things flexible in terms of storage."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 64.2,
+            "end": 70.6,
+            "text": " As you can see, we get some errors, but don't worry, we'll fix those after we finish writing everything in here."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 70.6,
+            "end": 76.0,
+            "text": " Next, we also want to store our VIO, since we'll be initializing it using this class."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 76.0,
+            "end": 84.5,
+            "text": " Then, for the constructor, we'll simply input the vertices, indices, and textures, and lastly, we'll make a function draw that will take in a shader,"
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 84.5,
+            "end": 85.6,
+            "text": " and a camera."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 85.6,
+            "end": 88.8,
+            "text": " Now for the errors, let's go to the VIO class."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 88.8,
+            "end": 96.4,
+            "text": " If you've been paying attention, you probably would have noticed that our vertices vector contains a structure named vertex."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 96.4,
+            "end": 99.9,
+            "text": " But we don't have one so far, so let's create one right here."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 99.9,
+            "end": 109.1,
+            "text": " I'll simply name the structure vertex, and give it three vectories for the position normal in color, and then a vector for the texture coordinates."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 109.19999999999999,
+            "end": 118.19999999999999,
+            "text": " Having our data packed in such a structure is nicer than simply having all the data in one array, at least in my opinion."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 118.19999999999999,
+            "end": 121.5,
+            "text": " Don't forget to also include the GLM library, though."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 121.5,
+            "end": 129.0,
+            "text": " Now we need to patch up the VIO class constructor to accept the vector of vertex structs instead of an array."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 129.0,
+            "end": 136.7,
+            "text": " So let's also include the C++ vector, and since we're using vectors instead of arrays, we can now also get rid of the size input,"
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 136.7,
+            "end": 139.79999999999998,
+            "text": " since we can calculate that inside the class."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 139.79999999999998,
+            "end": 151.1,
+            "text": " So in the VIO dot CPP file, we can replace the size by vertices dot size times size of vertex, and for the data, we just write vertices dot dot."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 151.1,
+            "end": 154.5,
+            "text": " If you return to the mesh class, you should have no more errors."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 154.5,
+            "end": 160.7,
+            "text": " Now let's do what we did for the VIO class to the EBO class as well, replacing the array with a vector."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 160.7,
+            "end": 167.0,
+            "text": " Now for the main part, let's create the mesh dot CPP file, insert writing the functions for this class."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 167.0,
+            "end": 176.6,
+            "text": " Let's start with a constructor, by simply assigning the inputs to the variables of the class, then copy paste initialization of the VIO from the main function,"
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 176.6,
+            "end": 182.1,
+            "text": " and modify the variables names slightly, and also the way the attributes are stored."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 182.1,
+            "end": 188.6,
+            "text": " We want the position first, then the normals, then the colors, and finally the texture coordinates."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 188.7,
+            "end": 200.29999999999998,
+            "text": " Since we've modified this, we should go to the vertex shader and rearrange the new order of the vertices sections properly, and then do the same thing in the fragment shader as well."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 200.29999999999998,
+            "end": 210.9,
+            "text": " It's not mandatory to keep them in this specific order when importing or exporting them, but it just looks nicer to have them in the same order everywhere."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 210.9,
+            "end": 217.4,
+            "text": " Though it is important to have them in the proper order when choosing the layouts in the vertex shader."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 217.5,
+            "end": 221.5,
+            "text": " Now let's continue with our mesh class by writing the drop function."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 221.5,
+            "end": 226.70000000000002,
+            "text": " We'll start by activating the shader, and biting the VIO as usual."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 226.70000000000002,
+            "end": 236.70000000000002,
+            "text": " Now we'll have to do something a bit more complicated in order to properly load the textures, since we won't always know how many textures a mesh has."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 236.70000000000002,
+            "end": 244.4,
+            "text": " So let's create two unsigned integers that are equal to zero, and are named numdefuse and numspatular."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 244.5,
+            "end": 247.3,
+            "text": " These will keep common to forward two types of textures."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 247.3,
+            "end": 258.5,
+            "text": " Then we'll want to go through all the textures, where we'll have a temporary string called num, and another temporary string called type, which will store the type of the current texture."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 258.5,
+            "end": 263.5,
+            "text": " The problem is that our textures don't store their type yet."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 263.5,
+            "end": 267.8,
+            "text": " I mean, they do, it's just that they store a different kind of type."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 267.90000000000003,
+            "end": 278.8,
+            "text": " In any case, we'll want to modify our texture class by changing the type variable to a constant character array, and so also the type of the input in the constructor."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 278.8,
+            "end": 289.2,
+            "text": " Then in the texture.cpp file, we'll want to make all the text type equal jail texture 2d, since 99% of the time, that's what we'll be using."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 289.2,
+            "end": 293.7,
+            "text": " Now let's go back to our mesh.cpp file and create some checks."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 293.8,
+            "end": 302.8,
+            "text": " We'll check if the type is diffuse, and if it is, make the num equal to a string of numdefuse, and then increment it by 1."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 302.8,
+            "end": 307.3,
+            "text": " Then we'll do the same check for specular and increment numspacular."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 307.3,
+            "end": 319.3,
+            "text": " Now we want to take care of the uniform using our function text unit, plugging in the shader, then a c-string composed of our type plus num, and the unit of our texture."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 319.3,
+            "end": 321.59999999999997,
+            "text": " Then simply bind the texture."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 321.70000000000005,
+            "end": 327.70000000000005,
+            "text": " So our uniforms will be named diffuse zero, diffuse one, diffuse two specular zero, etc."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 327.70000000000005,
+            "end": 336.70000000000005,
+            "text": " So in our fragment shader, we want to replace our text zero uniform by diffuse zero, and our text one uniform by specular zero."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 336.70000000000005,
+            "end": 346.5,
+            "text": " Then again, go back to the mesh.cpp file, and send our composition and count matrix uniforms, and also write the jail draw elements function."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 346.5,
+            "end": 350.5,
+            "text": " All that's left to do now is to modify our main.cpp file."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 350.6,
+            "end": 354.8,
+            "text": " First, we can delete all the includes, and only include our mesh class."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 354.8,
+            "end": 362.4,
+            "text": " Then we'll have to modify the vertices array, and after that, in the main function, make an array for our textures as well."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 362.4,
+            "end": 370.9,
+            "text": " Delete the VIO initialization, and create vectors for our vertices, indices, and textures using the arrays from before."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 370.9,
+            "end": 374.8,
+            "text": " Then create a mesh named floor with the vectors we've just created."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 374.90000000000003,
+            "end": 382.6,
+            "text": " Do the same for the light, except we don't have any textures on the light, so we'll just place the same textures as the placeholder."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 382.6,
+            "end": 389.40000000000003,
+            "text": " In the while loop, we can just delete all the drawing stuff for the light and floor, and replace them with our draw function."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 389.40000000000003,
+            "end": 393.7,
+            "text": " And finally, we just need to get rid of some of the deletes at the end of the file."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 393.7,
+            "end": 396.3,
+            "text": " If you press run, everything should now be fine."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 396.3,
+            "end": 401.90000000000003,
+            "text": " If you have any errors, go over the video again, or check out the search code in the description."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 402.0,
+            "end": 407.29999999999995,
+            "text": " As always, you should add comments to everything if I did to make sure you understand what's happening."
+        },
+        {
+            "number": "12",
+            "title": "Mesh Class.mp4",
+            "start": 407.29999999999995,
+            "end": 407.79999999999995,
+            "text": " Bye!"
+        }
+    ],
+    "text": " In this tutorial, we'll wrap up all the classes we've made till now and a big part of the code in the main function into a mesh class that will also serve as a stepping stone for importing models in a future tutorial. First, a rough definition of a mesh. A mesh is a dataset that almost always contains vertices, often contains indices, and sometimes contains textures as well. And they are generally used to create 3D models. So, let's create a header file for the class. First, we'll want to include a string library, and then the VIO, IBO, camera, and texture classes, since we wanted three of our classes dependencies to look like this. Now for the class itself, all the clear three vectors named vertices, indices, and textures. Note that these are C++ vectors and not GLM vectors. We are using vectors instead of arrays, since we can't know the size of our arrays, so it's best to keep things flexible in terms of storage. As you can see, we get some errors, but don't worry, we'll fix those after we finish writing everything in here. Next, we also want to store our VIO, since we'll be initializing it using this class. Then, for the constructor, we'll simply input the vertices, indices, and textures, and lastly, we'll make a function draw that will take in a shader, and a camera. Now for the errors, let's go to the VIO class. If you've been paying attention, you probably would have noticed that our vertices vector contains a structure named vertex. But we don't have one so far, so let's create one right here. I'll simply name the structure vertex, and give it three vectories for the position normal in color, and then a vector for the texture coordinates. Having our data packed in such a structure is nicer than simply having all the data in one array, at least in my opinion. Don't forget to also include the GLM library, though. Now we need to patch up the VIO class constructor to accept the vector of vertex structs instead of an array. So let's also include the C++ vector, and since we're using vectors instead of arrays, we can now also get rid of the size input, since we can calculate that inside the class. So in the VIO dot CPP file, we can replace the size by vertices dot size times size of vertex, and for the data, we just write vertices dot dot. If you return to the mesh class, you should have no more errors. Now let's do what we did for the VIO class to the EBO class as well, replacing the array with a vector. Now for the main part, let's create the mesh dot CPP file, insert writing the functions for this class. Let's start with a constructor, by simply assigning the inputs to the variables of the class, then copy paste initialization of the VIO from the main function, and modify the variables names slightly, and also the way the attributes are stored. We want the position first, then the normals, then the colors, and finally the texture coordinates. Since we've modified this, we should go to the vertex shader and rearrange the new order of the vertices sections properly, and then do the same thing in the fragment shader as well. It's not mandatory to keep them in this specific order when importing or exporting them, but it just looks nicer to have them in the same order everywhere. Though it is important to have them in the proper order when choosing the layouts in the vertex shader. Now let's continue with our mesh class by writing the drop function. We'll start by activating the shader, and biting the VIO as usual. Now we'll have to do something a bit more complicated in order to properly load the textures, since we won't always know how many textures a mesh has. So let's create two unsigned integers that are equal to zero, and are named numdefuse and numspatular. These will keep common to forward two types of textures. Then we'll want to go through all the textures, where we'll have a temporary string called num, and another temporary string called type, which will store the type of the current texture. The problem is that our textures don't store their type yet. I mean, they do, it's just that they store a different kind of type. In any case, we'll want to modify our texture class by changing the type variable to a constant character array, and so also the type of the input in the constructor. Then in the texture.cpp file, we'll want to make all the text type equal jail texture 2d, since 99% of the time, that's what we'll be using. Now let's go back to our mesh.cpp file and create some checks. We'll check if the type is diffuse, and if it is, make the num equal to a string of numdefuse, and then increment it by 1. Then we'll do the same check for specular and increment numspacular. Now we want to take care of the uniform using our function text unit, plugging in the shader, then a c-string composed of our type plus num, and the unit of our texture. Then simply bind the texture. So our uniforms will be named diffuse zero, diffuse one, diffuse two specular zero, etc. So in our fragment shader, we want to replace our text zero uniform by diffuse zero, and our text one uniform by specular zero. Then again, go back to the mesh.cpp file, and send our composition and count matrix uniforms, and also write the jail draw elements function. All that's left to do now is to modify our main.cpp file. First, we can delete all the includes, and only include our mesh class. Then we'll have to modify the vertices array, and after that, in the main function, make an array for our textures as well. Delete the VIO initialization, and create vectors for our vertices, indices, and textures using the arrays from before. Then create a mesh named floor with the vectors we've just created. Do the same for the light, except we don't have any textures on the light, so we'll just place the same textures as the placeholder. In the while loop, we can just delete all the drawing stuff for the light and floor, and replace them with our draw function. And finally, we just need to get rid of some of the deletes at the end of the file. If you press run, everything should now be fine. If you have any errors, go over the video again, or check out the search code in the description. As always, you should add comments to everything if I did to make sure you understand what's happening. Bye!"
+}

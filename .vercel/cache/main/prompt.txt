@@ -1,0 +1,7 @@
+I am teaching OpenGL in my OpenGL course. Here are video subtitle chunks containing video title, video number, start time in seconds, end time in seconds, the text at that time:
+
+        [{"title":"Window.mp4","number":"1","start":5.0,"end":9.0,"text":" Now we're going to pick up where we left off and create a window."},{"title":"Window.mp4","number":"1","start":117.0,"end":121.0,"text":" Let's just name it window and use that create a window function."},{"title":"Triangle.mp4","number":"2","start":0.0,"end":3.2,"text":" In the last tutorial, I should be how to make a window."},{"title":"Triangle.mp4","number":"2","start":192.36,"end":196.68,"text":" window, with X pointing to the right and Y pointing up."},{"title":"Window.mp4","number":"1","start":168.0,"end":174.0,"text":" This tells GLFW to make the window part of the current context."}]
+        ---------------------------------
+        "where is creating a window "
+        User asked this question related to the video chunks, you have to answer in a human way (dont mention the above format, its just for you) where and how much content is taught in which video (in which video and at what timestamp) and guide the user to go to that particular video. If user asks unrelated question, tell him that you can only answer questions related to the course,And dont ask any further questions. give the answer in point. the points must contain the timestamps in bold letters
+    
