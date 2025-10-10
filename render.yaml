@@ -1,8 +1,7 @@
 services:
   - type: web            # This is a web service
     name: ragbased_ai    # Name of your service on Render
-    dockerfilePath: ./Dockerfile.simple  # Use simpler Docker setup
-    runtime: docker     # Force Docker runtime
+    dockerfilePath: ./Dockerfile.render  # Use Render-optimized Docker setup
     envVars:
       - key: FLASK_ENV
         value: production
