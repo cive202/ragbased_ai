@@ -1,0 +1,292 @@
+{
+    "chunks": [
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 0.0,
+            "end": 6.32,
+            "text": " In this tutorial I'll show you what HDR is and how to add it to your OpenGL project."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 6.32,
+            "end": 10.96,
+            "text": " So up until now all our colors had a range between 0 and 1."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 10.96,
+            "end": 16.4,
+            "text": " But we can get better and more realistic results if we go outside this range."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 16.4,
+            "end": 22.400000000000002,
+            "text": " For example, we can simply make a white light twice as bright as the normal white light"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 22.400000000000002,
+            "end": 25.92,
+            "text": " by giving the color 222 in RGB."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 25.92,
+            "end": 29.92,
+            "text": " The problem is that on monitors do not support HDR."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 29.92,
+            "end": 35.040000000000006,
+            "text": " So we instead have to compress this HDR range to our normal range."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 35.040000000000006,
+            "end": 38.800000000000004,
+            "text": " This process of compression is called tone mapping."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 38.800000000000004,
+            "end": 43.120000000000005,
+            "text": " So let's first make sure we have a frame buffer for rendering our scene"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 43.120000000000005,
+            "end": 45.84,
+            "text": " and check that it has gamma correction on it."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 45.84,
+            "end": 50.0,
+            "text": " You can watch my previous tutorials if you don't already have this."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 50.0,
+            "end": 53.68000000000001,
+            "text": " Now we want to make sure that the texture used for our frame buffer"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 53.68,
+            "end": 56.72,
+            "text": " has one of the following color configurations."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 56.72,
+            "end": 64.08,
+            "text": " Since otherwise, OpenGL will automatically clamp all colors between 0 and 1 and we don't want that."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 64.08,
+            "end": 69.92,
+            "text": " Next, change the color of your light to something insanely high and start the program."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 69.92,
+            "end": 73.84,
+            "text": " If you've done everything correctly, you should see something like this."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 73.84,
+            "end": 79.03999999999999,
+            "text": " Now let's write in the tone mapping algorithm so stuff doesn't look so bright."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 79.04,
+            "end": 84.72,
+            "text": " We'll go into the fragment shader of our frame buffer and first define an exposure variable."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 84.72,
+            "end": 86.64,
+            "text": " So what is exposure?"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 86.64,
+            "end": 92.96000000000001,
+            "text": " Well, exposure basically represents how much light we let into our virtual camera."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 92.96000000000001,
+            "end": 96.56,
+            "text": " The lower the exposure, the less light we will get."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 96.56,
+            "end": 100.08000000000001,
+            "text": " The higher the exposure, the more light we will get."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 100.08000000000001,
+            "end": 105.04,
+            "text": " Based on this exposure, we can get different visual results for our scenes."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 105.04,
+            "end": 109.84,
+            "text": " Here's an example where the exposure changes based on the surrounding lighting."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 109.84,
+            "end": 115.36000000000001,
+            "text": " Inside the exposure is really high so that you can see the little light that is present"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 115.36000000000001,
+            "end": 117.12,
+            "text": " in the underground area."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 117.12,
+            "end": 123.12,
+            "text": " Well, outside the exposure is small in order to not be blinded by all the light."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 123.12,
+            "end": 126.72,
+            "text": " But you can see that when going outside, for a split second,"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 126.72,
+            "end": 132.0,
+            "text": " the exposure is in the process of changing and so it's still blinding for a moment."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 132.08,
+            "end": 135.6,
+            "text": " And when going inside, you can't see that much for a second."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 135.6,
+            "end": 139.68,
+            "text": " So now let's finish writing the code for the tone mapping algorithm"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 139.68,
+            "end": 143.36,
+            "text": " and start the program with an exposure level of one."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 143.36,
+            "end": 147.44,
+            "text": " This results bring me to the second way that you can think of exposure."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 147.44,
+            "end": 153.6,
+            "text": " When your exposure is low like here, bright lights won't hinder your ability to see details."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 153.6,
+            "end": 159.2,
+            "text": " Well, if the exposure is high, lights will hide away all the detail of your scene."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 159.2,
+            "end": 160.56,
+            "text": " Now is it for this tutorial?"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 160.56,
+            "end": 163.6,
+            "text": " If you need help or want to chat with like-minded people,"
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 163.6,
+            "end": 165.44,
+            "text": " check out my Discord server."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 165.44,
+            "end": 169.2,
+            "text": " If you enjoy my content, consider supporting me on Patreon."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 169.2,
+            "end": 174.48,
+            "text": " As always, the source code and all sources and resources used are in the description."
+        },
+        {
+            "number": "29",
+            "title": "HDR (High-Dynamic-Range).mp4",
+            "start": 175.2,
+            "end": 176.0,
+            "text": " Bye!"
+        }
+    ],
+    "text": " In this tutorial I'll show you what HDR is and how to add it to your OpenGL project. So up until now all our colors had a range between 0 and 1. But we can get better and more realistic results if we go outside this range. For example, we can simply make a white light twice as bright as the normal white light by giving the color 222 in RGB. The problem is that on monitors do not support HDR. So we instead have to compress this HDR range to our normal range. This process of compression is called tone mapping. So let's first make sure we have a frame buffer for rendering our scene and check that it has gamma correction on it. You can watch my previous tutorials if you don't already have this. Now we want to make sure that the texture used for our frame buffer has one of the following color configurations. Since otherwise, OpenGL will automatically clamp all colors between 0 and 1 and we don't want that. Next, change the color of your light to something insanely high and start the program. If you've done everything correctly, you should see something like this. Now let's write in the tone mapping algorithm so stuff doesn't look so bright. We'll go into the fragment shader of our frame buffer and first define an exposure variable. So what is exposure? Well, exposure basically represents how much light we let into our virtual camera. The lower the exposure, the less light we will get. The higher the exposure, the more light we will get. Based on this exposure, we can get different visual results for our scenes. Here's an example where the exposure changes based on the surrounding lighting. Inside the exposure is really high so that you can see the little light that is present in the underground area. Well, outside the exposure is small in order to not be blinded by all the light. But you can see that when going outside, for a split second, the exposure is in the process of changing and so it's still blinding for a moment. And when going inside, you can't see that much for a second. So now let's finish writing the code for the tone mapping algorithm and start the program with an exposure level of one. This results bring me to the second way that you can think of exposure. When your exposure is low like here, bright lights won't hinder your ability to see details. Well, if the exposure is high, lights will hide away all the detail of your scene. Now is it for this tutorial? If you need help or want to chat with like-minded people, check out my Discord server. If you enjoy my content, consider supporting me on Patreon. As always, the source code and all sources and resources used are in the description. Bye!"
+}

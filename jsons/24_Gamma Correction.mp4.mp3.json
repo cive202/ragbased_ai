@@ -1,0 +1,334 @@
+{
+    "chunks": [
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 0.0,
+            "end": 6.4,
+            "text": " In this tutorial, I'll explain what gamma correction is and how to implement it in your OpenJail project."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 6.4,
+            "end": 10.88,
+            "text": " So gamma is basically the sensitivity to different shades of color."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 10.88,
+            "end": 12.16,
+            "text": " What do I mean by that?"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 12.16,
+            "end": 18.0,
+            "text": " Well, look at this graph where the x-axis represents the input color we present in our code,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 18.0,
+            "end": 23.44,
+            "text": " while the y-axis represents the final color that is displayed on our screens."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 23.44,
+            "end": 27.36,
+            "text": " If the graph is aligned, then the input will equal the output."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 27.439999999999998,
+            "end": 31.68,
+            "text": " And this is good, because we know that whatever color we write in code"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 31.68,
+            "end": 34.64,
+            "text": " is the color that we'll actually see on our monitors."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 34.64,
+            "end": 39.6,
+            "text": " But that is not how it works in reality, at least not for monitors."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 39.6,
+            "end": 45.6,
+            "text": " Because of historical reasons, monitors automatically have a gamma curve that looks like this."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 45.6,
+            "end": 51.36,
+            "text": " So that means that if we input a color of 0.5, which would be the perfect gray,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 51.36,
+            "end": 57.04,
+            "text": " right between black and white, then we would actually get a color of 0.218 on our screens,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 57.04,
+            "end": 60.72,
+            "text": " which would be a much darker gray. But we don't want this."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 60.72,
+            "end": 66.64,
+            "text": " We want to represent the light in a linear fashion, since lighting reality is linear."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 66.64,
+            "end": 71.68,
+            "text": " So to do that, we need to convert all of our colors to the inverse of the gamma function."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 71.68,
+            "end": 76.56,
+            "text": " So that way when the gamma function is applied, we get a linear function, because they cancel"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 76.56,
+            "end": 80.64,
+            "text": " each other out. This inverse is called the gamma correction function."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 80.64,
+            "end": 85.03999999999999,
+            "text": " So I hope that made sense. If it did not, look up some better explanations."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 85.04,
+            "end": 89.12,
+            "text": " I am sure there are plenty of those on the internet. Now for the actual coding."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 89.12,
+            "end": 93.84,
+            "text": " A really easy way to enable gamma correction is by writing gel-enable,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 93.84,
+            "end": 100.80000000000001,
+            "text": " gel-frame-buffer-srgb. The problem with this is that it gives us no control over the power of the gamma."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 100.80000000000001,
+            "end": 107.04,
+            "text": " Generally speaking, a gamma power of 2.2, the default value, works best for most monitors,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 107.04,
+            "end": 111.84,
+            "text": " but we might want to be able to control it a bit. To do that, we can simply apply the gamma"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 111.84,
+            "end": 116.0,
+            "text": " correction function to the fragment shader of our post-processing frame-buffer."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 116.0,
+            "end": 120.56,
+            "text": " If you run the program, you'll see everything is much brighter, and in fact, the"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 120.56,
+            "end": 125.28,
+            "text": " mishies in background color are way too bright and washed out. Why is this?"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 125.28,
+            "end": 128.8,
+            "text": " Wasn't this supposed to make the colors look better and more realistic?"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 128.8,
+            "end": 133.52,
+            "text": " Is life just a washed-up mess? No. When you were choosing your background color,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 133.52,
+            "end": 138.56,
+            "text": " guess what you were most likely doing it? That's right, you were doing it by looking at your monitor."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 138.56,
+            "end": 143.76,
+            "text": " Basically, it already has gamma correction applied to it just because of how we chose it"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 143.76,
+            "end": 149.28,
+            "text": " by looking at the monitor, which is bad because we are now applying the correction a second time to it."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 149.28,
+            "end": 154.24,
+            "text": " The same goes for the textures of the meshes which were created by fellow humans."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 154.24,
+            "end": 159.44,
+            "text": " So to fix this for the background color, we can simply raise each part of our color to our gamma"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 159.44,
+            "end": 165.36,
+            "text": " value. As for the textures, when loading them in, if they are gel-rgba, we can load them in as"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 165.36,
+            "end": 172.56,
+            "text": " gel srgb alpha, and if they are gel-rgb, we can load them in as gel srgb."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 172.56,
+            "end": 177.76000000000002,
+            "text": " This way, open gel will automatically apply the default gamma value to old textures."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 177.76000000000002,
+            "end": 183.20000000000002,
+            "text": " If you want to apply a custom gamma value to textures, you will have to do so in every fragment"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 183.20000000000002,
+            "end": 188.64000000000001,
+            "text": " shader with a texture. Good luck. Now, if you run the application, you'll see that the colors"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 188.64000000000001,
+            "end": 194.0,
+            "text": " look a lot better and more realistic, but you might still have a problem. If you look closely"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 194.08,
+            "end": 199.36,
+            "text": " in certain parts of the image, you might notice some stepped gradients. This is due to precision"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 199.36,
+            "end": 204.64,
+            "text": " errors that we get when we keep transforming the colors between one gamma level and another,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 204.64,
+            "end": 210.4,
+            "text": " because remember that floats are not infinitely precise. Thankfully, this isn't easy fix."
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 210.4,
+            "end": 215.44,
+            "text": " You just have to make sure the textures you use for your frame buffers are at least 16-bit,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 215.44,
+            "end": 223.76,
+            "text": " if not even 32-bit in some cases. To do that, change their format from gel-rgb to gel-rgb-16f,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 223.76,
+            "end": 230.64,
+            "text": " or gel-rgb-32f. You might not even need to do this if you're using a more modern version of"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 230.64,
+            "end": 236.95999999999998,
+            "text": " open gel. And now, you'll see that the artifacts are gone. That was it for this tutorial. As always,"
+        },
+        {
+            "number": "24",
+            "title": "Gamma Correction.mp4",
+            "start": 236.95999999999998,
+            "end": 242.16,
+            "text": " the source code and all sources and resources used are in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial, I'll explain what gamma correction is and how to implement it in your OpenJail project. So gamma is basically the sensitivity to different shades of color. What do I mean by that? Well, look at this graph where the x-axis represents the input color we present in our code, while the y-axis represents the final color that is displayed on our screens. If the graph is aligned, then the input will equal the output. And this is good, because we know that whatever color we write in code is the color that we'll actually see on our monitors. But that is not how it works in reality, at least not for monitors. Because of historical reasons, monitors automatically have a gamma curve that looks like this. So that means that if we input a color of 0.5, which would be the perfect gray, right between black and white, then we would actually get a color of 0.218 on our screens, which would be a much darker gray. But we don't want this. We want to represent the light in a linear fashion, since lighting reality is linear. So to do that, we need to convert all of our colors to the inverse of the gamma function. So that way when the gamma function is applied, we get a linear function, because they cancel each other out. This inverse is called the gamma correction function. So I hope that made sense. If it did not, look up some better explanations. I am sure there are plenty of those on the internet. Now for the actual coding. A really easy way to enable gamma correction is by writing gel-enable, gel-frame-buffer-srgb. The problem with this is that it gives us no control over the power of the gamma. Generally speaking, a gamma power of 2.2, the default value, works best for most monitors, but we might want to be able to control it a bit. To do that, we can simply apply the gamma correction function to the fragment shader of our post-processing frame-buffer. If you run the program, you'll see everything is much brighter, and in fact, the mishies in background color are way too bright and washed out. Why is this? Wasn't this supposed to make the colors look better and more realistic? Is life just a washed-up mess? No. When you were choosing your background color, guess what you were most likely doing it? That's right, you were doing it by looking at your monitor. Basically, it already has gamma correction applied to it just because of how we chose it by looking at the monitor, which is bad because we are now applying the correction a second time to it. The same goes for the textures of the meshes which were created by fellow humans. So to fix this for the background color, we can simply raise each part of our color to our gamma value. As for the textures, when loading them in, if they are gel-rgba, we can load them in as gel srgb alpha, and if they are gel-rgb, we can load them in as gel srgb. This way, open gel will automatically apply the default gamma value to old textures. If you want to apply a custom gamma value to textures, you will have to do so in every fragment shader with a texture. Good luck. Now, if you run the application, you'll see that the colors look a lot better and more realistic, but you might still have a problem. If you look closely in certain parts of the image, you might notice some stepped gradients. This is due to precision errors that we get when we keep transforming the colors between one gamma level and another, because remember that floats are not infinitely precise. Thankfully, this isn't easy fix. You just have to make sure the textures you use for your frame buffers are at least 16-bit, if not even 32-bit in some cases. To do that, change their format from gel-rgb to gel-rgb-16f, or gel-rgb-32f. You might not even need to do this if you're using a more modern version of open gel. And now, you'll see that the artifacts are gone. That was it for this tutorial. As always, the source code and all sources and resources used are in the description. Bye!"
+}

@@ -1,0 +1,439 @@
+{
+    "chunks": [
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 0.0,
+            "end": 6.32,
+            "text": " In this tutorial I'll show you what cube maps are in OpenGL and how you can use them to create skyboxes."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 6.32,
+            "end": 12.72,
+            "text": " So what are cube maps? Well, there's simply another type of texture which holds 6 2D textures,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 12.72,
+            "end": 18.96,
+            "text": " one for each side of a cube. When sampling a cube map, you specify a 3D vector instead of a 2D"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 18.96,
+            "end": 24.8,
+            "text": " one. This allows you to easily sample between all 6 sides of the cube. And since the coordinates"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 24.8,
+            "end": 29.84,
+            "text": " of the cube correspond to the sampling vectors, there's no need for UVs. The most common"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 29.84,
+            "end": 35.84,
+            "text": " uses for cube maps are what's fear texturing and skyboxes. So now let's code it in."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 35.84,
+            "end": 40.480000000000004,
+            "text": " The first thing you need to do is to write out the cube vertices and indices."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 40.480000000000004,
+            "end": 47.040000000000006,
+            "text": " Then we'll want to create a VIO, VBO and IBO just like in the first tutorials. Now let's create"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 47.040000000000006,
+            "end": 53.120000000000005,
+            "text": " an array with 6 strings that will hold the paths to the 6 images we'll be using for the skybox."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 53.12,
+            "end": 57.839999999999996,
+            "text": " Then we want to create a cube map texture itself, just like any other texture,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 57.839999999999996,
+            "end": 64.0,
+            "text": " except that where we put GL texture 2D before, we now put GL texture cube map."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 64.0,
+            "end": 69.52,
+            "text": " Make sure to clump the texture in all 3 directions, since the texture is a cube,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 69.52,
+            "end": 74.4,
+            "text": " therefore 3D. This clamping should prevent any seams from showing up."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 74.4,
+            "end": 79.92,
+            "text": " And now we'll go over all 6 textures and read them using the SDB library,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 79.92,
+            "end": 85.36,
+            "text": " putting them in the cube texture once we read them. Notice how I disabled a vertical flipping."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 85.36,
+            "end": 91.2,
+            "text": " This is because unlike most textures in OpenGL, cube maps are expected to start in the top left"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 91.2,
+            "end": 98.88,
+            "text": " corner, not the bottom left corner. Also notice how I add I to GL texture cube map positive x."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 98.88,
+            "end": 103.52000000000001,
+            "text": " This represents the side of the cube I am currently assigning a texture to,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 103.52000000000001,
+            "end": 108.32000000000001,
+            "text": " and I am adding I to it in order to cycle through all the sides."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 108.32,
+            "end": 112.63999999999999,
+            "text": " Here is the order of the sides which you can find in the OpenGL docs,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 112.63999999999999,
+            "end": 117.11999999999999,
+            "text": " and here is the order we wrote the paths in. Notice something weird?"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 117.11999999999999,
+            "end": 124.72,
+            "text": " Well, normally in OpenGL, the front is in the negative Z direction, but for cube maps,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 124.72,
+            "end": 131.68,
+            "text": " the front is in the positive Z direction. That means that cube maps work in a left-handed system,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 131.68,
+            "end": 137.35999999999999,
+            "text": " while most of OpenGL works in a right-handed system. This can be very confusing,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 137.36,
+            "end": 143.84,
+            "text": " and I honestly have no idea why they chose to do this. But oh well, keep in mind you will likely"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 143.84,
+            "end": 150.16000000000003,
+            "text": " get small bugs because of this if you're not careful. In my case, my right texture kept being"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 150.16000000000003,
+            "end": 156.96,
+            "text": " displayed upside down for some reason. To fix that, I just flipped the texture in an image editor."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 156.96,
+            "end": 162.72000000000003,
+            "text": " So, be prepared for this sort of stuff since from what I've heard, it can happen pretty often"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 162.96,
+            "end": 169.36,
+            "text": " with skyboxes. Okay, back to the tutorial. We'll now need to create two shaders for the skybox."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 169.36,
+            "end": 175.12,
+            "text": " The vertex shader will take in the coordinates, output texture coordinates, and also take in"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 175.12,
+            "end": 181.04,
+            "text": " uniforms for matrix transformations. In the main function, create a v4 which holds the final"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 181.04,
+            "end": 186.4,
+            "text": " transformed coordinates. Now since these coordinates are now in screen space, we'll do something"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 186.64000000000001,
+            "end": 192.16,
+            "text": " a bit weird. Instead of fitting gel position the coordinates as they are, we'll give it the"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 192.16,
+            "end": 200.08,
+            "text": " x, y, w, and again w components. This will result in the Z component always being one after the"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 200.08,
+            "end": 205.84,
+            "text": " perspective division. And since the depth buffer takes the Z component as its depth value,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 205.84,
+            "end": 212.48000000000002,
+            "text": " the skybox will always have a depth value of 1, so the furthest depth value possible, thus being"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 212.56,
+            "end": 218.72,
+            "text": " behind all objects as it should be. And finally, we want to export the texture coordinates as the"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 218.72,
+            "end": 225.28,
+            "text": " positions, except we'll flip the Z axis to combat the coordinate system change. For the fragment"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 225.28,
+            "end": 230.28,
+            "text": " shader, we just want to import the texture coordinates, the cube map, and then set the frac"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 230.28,
+            "end": 235.44,
+            "text": " color to equal the texture. That's it. Back in the main function, I'll create a shader program"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 235.44,
+            "end": 241.92,
+            "text": " and export a skybox texture unit. All that's left now is the drawing part. We'll start by setting the"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 241.92,
+            "end": 249.28,
+            "text": " depth function to GLL equal instead of the default GLLs, since our skybox is right on the edge,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 249.28,
+            "end": 255.27999999999997,
+            "text": " aka one, so we need that equal sign. Then we'll activate the shader and create the view and"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 255.27999999999997,
+            "end": 261.12,
+            "text": " projection matrices, which are identical to the ones we created in the camera class, except for"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 261.12,
+            "end": 268.64,
+            "text": " one small detail. For the view matrix, we don't grid it to a mat 3, and then we scale it back up"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 268.64,
+            "end": 275.12,
+            "text": " to a mat 4. This will make the last row and column of the matrix equal to 0, thus having no effect"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 275.12,
+            "end": 281.44,
+            "text": " on translations. We only want the skybox to rotate, not move around. Then simply export this"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 281.44,
+            "end": 287.59999999999997,
+            "text": " matrices to the vertex shader. Now the final part is to draw the cube map itself, just like any other"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 287.59999999999997,
+            "end": 293.44,
+            "text": " object, except that when we point the texture, we use GLL texture cube map instead of the"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 293.44,
+            "end": 300.16,
+            "text": " usual GLL texture 2D. Don't forget to switch the depth testing to its default GLLs after you're"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 300.16,
+            "end": 306.24,
+            "text": " done with the skybox. If you boot up your program, you should now have a nice skybox all around you."
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 306.24,
+            "end": 312.4,
+            "text": " If any of the faces are inverted or something like that, play around with the orientation of your"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 312.4,
+            "end": 318.32,
+            "text": " images in an image editor. Trust me, it's a lot easier to just do that rather than trying to find"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 318.32,
+            "end": 323.84,
+            "text": " a little logic bug caused by the two different coordinate systems and the different texture"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 323.84,
+            "end": 330.08,
+            "text": " reading origins. If you have seams that are clearly lines, then you can try adding gel enabled,"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 330.08,
+            "end": 336.64,
+            "text": " gel texture cube map seamless somewhere in your code. If your seams are not lines but simply"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 336.64,
+            "end": 342.15999999999997,
+            "text": " clear differences in color between one face and another, then you probably just have a shitty"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 342.15999999999997,
+            "end": 348.08,
+            "text": " skybox. If you can't see anything or only parts of the skybox, then you probably have"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 348.08,
+            "end": 354.96,
+            "text": " back face calling enabled and wrote the indices in the wrong winding order. Simply disable face"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 354.96,
+            "end": 360.88,
+            "text": " calling when drawing the skybox or write the indices in the correct winding order. That was it"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 360.88,
+            "end": 366.88,
+            "text": " for this tutorial. As always, the source code and all other sources and resources used are in the"
+        },
+        {
+            "number": "19",
+            "title": "Cubemaps & Skyboxes.mp4",
+            "start": 366.88,
+            "end": 368.08,
+            "text": " description. Bye!"
+        }
+    ],
+    "text": " In this tutorial I'll show you what cube maps are in OpenGL and how you can use them to create skyboxes. So what are cube maps? Well, there's simply another type of texture which holds 6 2D textures, one for each side of a cube. When sampling a cube map, you specify a 3D vector instead of a 2D one. This allows you to easily sample between all 6 sides of the cube. And since the coordinates of the cube correspond to the sampling vectors, there's no need for UVs. The most common uses for cube maps are what's fear texturing and skyboxes. So now let's code it in. The first thing you need to do is to write out the cube vertices and indices. Then we'll want to create a VIO, VBO and IBO just like in the first tutorials. Now let's create an array with 6 strings that will hold the paths to the 6 images we'll be using for the skybox. Then we want to create a cube map texture itself, just like any other texture, except that where we put GL texture 2D before, we now put GL texture cube map. Make sure to clump the texture in all 3 directions, since the texture is a cube, therefore 3D. This clamping should prevent any seams from showing up. And now we'll go over all 6 textures and read them using the SDB library, putting them in the cube texture once we read them. Notice how I disabled a vertical flipping. This is because unlike most textures in OpenGL, cube maps are expected to start in the top left corner, not the bottom left corner. Also notice how I add I to GL texture cube map positive x. This represents the side of the cube I am currently assigning a texture to, and I am adding I to it in order to cycle through all the sides. Here is the order of the sides which you can find in the OpenGL docs, and here is the order we wrote the paths in. Notice something weird? Well, normally in OpenGL, the front is in the negative Z direction, but for cube maps, the front is in the positive Z direction. That means that cube maps work in a left-handed system, while most of OpenGL works in a right-handed system. This can be very confusing, and I honestly have no idea why they chose to do this. But oh well, keep in mind you will likely get small bugs because of this if you're not careful. In my case, my right texture kept being displayed upside down for some reason. To fix that, I just flipped the texture in an image editor. So, be prepared for this sort of stuff since from what I've heard, it can happen pretty often with skyboxes. Okay, back to the tutorial. We'll now need to create two shaders for the skybox. The vertex shader will take in the coordinates, output texture coordinates, and also take in uniforms for matrix transformations. In the main function, create a v4 which holds the final transformed coordinates. Now since these coordinates are now in screen space, we'll do something a bit weird. Instead of fitting gel position the coordinates as they are, we'll give it the x, y, w, and again w components. This will result in the Z component always being one after the perspective division. And since the depth buffer takes the Z component as its depth value, the skybox will always have a depth value of 1, so the furthest depth value possible, thus being behind all objects as it should be. And finally, we want to export the texture coordinates as the positions, except we'll flip the Z axis to combat the coordinate system change. For the fragment shader, we just want to import the texture coordinates, the cube map, and then set the frac color to equal the texture. That's it. Back in the main function, I'll create a shader program and export a skybox texture unit. All that's left now is the drawing part. We'll start by setting the depth function to GLL equal instead of the default GLLs, since our skybox is right on the edge, aka one, so we need that equal sign. Then we'll activate the shader and create the view and projection matrices, which are identical to the ones we created in the camera class, except for one small detail. For the view matrix, we don't grid it to a mat 3, and then we scale it back up to a mat 4. This will make the last row and column of the matrix equal to 0, thus having no effect on translations. We only want the skybox to rotate, not move around. Then simply export this matrices to the vertex shader. Now the final part is to draw the cube map itself, just like any other object, except that when we point the texture, we use GLL texture cube map instead of the usual GLL texture 2D. Don't forget to switch the depth testing to its default GLLs after you're done with the skybox. If you boot up your program, you should now have a nice skybox all around you. If any of the faces are inverted or something like that, play around with the orientation of your images in an image editor. Trust me, it's a lot easier to just do that rather than trying to find a little logic bug caused by the two different coordinate systems and the different texture reading origins. If you have seams that are clearly lines, then you can try adding gel enabled, gel texture cube map seamless somewhere in your code. If your seams are not lines but simply clear differences in color between one face and another, then you probably just have a shitty skybox. If you can't see anything or only parts of the skybox, then you probably have back face calling enabled and wrote the indices in the wrong winding order. Simply disable face calling when drawing the skybox or write the indices in the correct winding order. That was it for this tutorial. As always, the source code and all other sources and resources used are in the description. Bye!"
+}

@@ -1,0 +1,313 @@
+{
+    "chunks": [
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 0.0,
+            "end": 3.36,
+            "text": " In the last tutorial, I thought you had to make a triangle."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 3.36,
+            "end": 8.6,
+            "text": " So now we're going to build on top of that by introducing the concept of index buffers."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 8.6,
+            "end": 14.4,
+            "text": " As you hopefully remember, we can draw a triangle by telling OpenGL to use the triangle primitive"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 14.4,
+            "end": 16.56,
+            "text": " between three vertices."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 16.56,
+            "end": 20.6,
+            "text": " In this case, vertices 0, 1 and 2."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 20.6,
+            "end": 22.080000000000002,
+            "text": " Is it enough, right?"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 22.080000000000002,
+            "end": 24.28,
+            "text": " But what about this case?"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 24.28,
+            "end": 26.96,
+            "text": " Well, here we have three triangles."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 26.96,
+            "end": 29.560000000000002,
+            "text": " So that means we need nine vertices."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 29.56,
+            "end": 34.8,
+            "text": " 0, 1, 2, 3, 4, 5 and 6, 7, 8."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 34.8,
+            "end": 39.92,
+            "text": " But as you can probably see, we have duplicate vertices, which means that we're just wasting"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 39.92,
+            "end": 41.4,
+            "text": " memory space."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 41.4,
+            "end": 46.239999999999995,
+            "text": " So let's rewrite the vertices, but this time without duplicates."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 46.239999999999995,
+            "end": 52.64,
+            "text": " So in this case, we have vertices 0, 1, 2, 3, 4 and 5."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 52.64,
+            "end": 57.8,
+            "text": " If we give this to OpenGL, it will draw a small upside-down triangle on top of a big"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 57.8,
+            "end": 60.599999999999994,
+            "text": " triangle, which is not what we want."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 60.599999999999994,
+            "end": 65.16,
+            "text": " In order to prevent that, we need to make use of an index buffer."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 65.16,
+            "end": 70.8,
+            "text": " An index buffer tells OpenGL the order in which it should go over vertices."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 70.8,
+            "end": 79.36,
+            "text": " Here it first goes over 0, 4, 3, then 4, 1, 5 and then 3, 5, 2."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 79.36,
+            "end": 84.6,
+            "text": " We solve the problem of duplicate vertices by simply visiting the same vertices twice"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 84.6,
+            "end": 87.36,
+            "text": " using indices."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 87.36,
+            "end": 89.92,
+            "text": " So now let's actually implement this."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 89.92,
+            "end": 93.48,
+            "text": " I'll first add the new vertices to my array."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 93.48,
+            "end": 100.88,
+            "text": " And now I'll create an array of data type GLUINT for the indices and type in the indices"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 100.88,
+            "end": 103.08,
+            "text": " we saw previously."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 103.08,
+            "end": 107.6,
+            "text": " Generating the index buffer is very similar to the vertex buffer, so let's first create"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 107.6,
+            "end": 109.68,
+            "text": " its reference value."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 109.68,
+            "end": 114.64,
+            "text": " Next let's generate the reference value and store it in Evo, specifying we only have"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 114.64,
+            "end": 115.96,
+            "text": " one object."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 115.96,
+            "end": 122.16,
+            "text": " In order to do something with it, we need to make it current, aka bindit and also specify"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 122.16,
+            "end": 126.36,
+            "text": " its of type GLUINT array buffer."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 126.36,
+            "end": 128.84,
+            "text": " Now we link it to our indices array."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 128.84,
+            "end": 133.16,
+            "text": " If you don't know what this inputs mean, check out my previous tutorial."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 133.16,
+            "end": 141.04,
+            "text": " Now we unbind it, but make sure you unbind it after you unbind your VEO, since the Evo"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 141.04,
+            "end": 143.48,
+            "text": " is stored in the VEO."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 143.48,
+            "end": 149.39999999999998,
+            "text": " So if you unbind it before unbinding the VEO, you are essentially telling OpenGL that"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 149.39999999999998,
+            "end": 154.04,
+            "text": " you don't want the VEO to use your Evo."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 154.04,
+            "end": 159.04,
+            "text": " And to keep things clean, we'll delete it at the end of the main function."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 159.04,
+            "end": 165.83999999999997,
+            "text": " The last step is to replace GL draw arrays with GL draw elements specifying the primitive"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 165.83999999999997,
+            "end": 173.0,
+            "text": " we want to use, how many indices we want to draw, the data type of our indices, and"
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 173.0,
+            "end": 178.84,
+            "text": " the index of our indices, which in our case is 0."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 178.84,
+            "end": 181.96,
+            "text": " Now just press run and enjoy your triangles."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 181.96,
+            "end": 187.12,
+            "text": " As always, I've left the source code and some exercises in the description."
+        },
+        {
+            "number": "3",
+            "title": "Index Buffer.mp4",
+            "start": 187.12,
+            "end": 187.44,
+            "text": " Bye!"
+        }
+    ],
+    "text": " In the last tutorial, I thought you had to make a triangle. So now we're going to build on top of that by introducing the concept of index buffers. As you hopefully remember, we can draw a triangle by telling OpenGL to use the triangle primitive between three vertices. In this case, vertices 0, 1 and 2. Is it enough, right? But what about this case? Well, here we have three triangles. So that means we need nine vertices. 0, 1, 2, 3, 4, 5 and 6, 7, 8. But as you can probably see, we have duplicate vertices, which means that we're just wasting memory space. So let's rewrite the vertices, but this time without duplicates. So in this case, we have vertices 0, 1, 2, 3, 4 and 5. If we give this to OpenGL, it will draw a small upside-down triangle on top of a big triangle, which is not what we want. In order to prevent that, we need to make use of an index buffer. An index buffer tells OpenGL the order in which it should go over vertices. Here it first goes over 0, 4, 3, then 4, 1, 5 and then 3, 5, 2. We solve the problem of duplicate vertices by simply visiting the same vertices twice using indices. So now let's actually implement this. I'll first add the new vertices to my array. And now I'll create an array of data type GLUINT for the indices and type in the indices we saw previously. Generating the index buffer is very similar to the vertex buffer, so let's first create its reference value. Next let's generate the reference value and store it in Evo, specifying we only have one object. In order to do something with it, we need to make it current, aka bindit and also specify its of type GLUINT array buffer. Now we link it to our indices array. If you don't know what this inputs mean, check out my previous tutorial. Now we unbind it, but make sure you unbind it after you unbind your VEO, since the Evo is stored in the VEO. So if you unbind it before unbinding the VEO, you are essentially telling OpenGL that you don't want the VEO to use your Evo. And to keep things clean, we'll delete it at the end of the main function. The last step is to replace GL draw arrays with GL draw elements specifying the primitive we want to use, how many indices we want to draw, the data type of our indices, and the index of our indices, which in our case is 0. Now just press run and enjoy your triangles. As always, I've left the source code and some exercises in the description. Bye!"
+}

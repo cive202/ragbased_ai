@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAG Teaching Assistant</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      margin-top: 60px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #00adb5;
+    }
+
+    header p {
+      color: #cccccc;
+      font-size: 1rem;
+    }
+
+    form {
+      background-color: #0f3460;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 600px;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: 0.3s ease;
+    }
+
+    form:hover {
+      transform: scale(1.02);
+    }
+
+    form input[type="text"] {
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    form button {
+      background-color: #00adb5;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #02c39a;
+    }
+
+    .results {
+      margin-top: 40px;
+      width: 90%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .result-card {
+      background-color: #1a1a2e;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .timestamp {
+      color: #00adb5;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    footer {
+      margin-top: auto;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎓 RAG Teaching Assistant</h1>
+    <p>Ask any question, and find where it’s explained in your video lectures.</p>
+  </header>
+
+<form method="post">
+  <input type="text" name="queryInput" placeholder="What is AI?">
+  <button type="submit">Search</button>
+</form>
+
+  <section class="results" id="results"></section>
+
+  <footer>
+    <p>Made with ❤️ by Utsav</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+You're looking for information on when the "create window" concept was covered in the Sigma web development course.
+
+From your question, it seems like the "create window" topic is taught in Video 1, which starts at timestamp 5.0 seconds and ends at 9.0 seconds. 
+
+In this video, the instructor explains how to create a window and pick up where they left off from the previous tutorial.

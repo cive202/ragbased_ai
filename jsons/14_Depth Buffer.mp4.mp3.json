@@ -1,0 +1,299 @@
+{
+    "chunks": [
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 0.0,
+            "end": 7.76,
+            "text": " In this tutorial we'll have a look at the depth buffers in OpenGL and also see how we can make use of them for a little graphical effect."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 7.76,
+            "end": 16.64,
+            "text": " You might remember that we've already made use of the depth buffer in the going 3D tutorial in order to fix a weird issue we had."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 16.64,
+            "end": 24.96,
+            "text": " Since the buffer is turned off by default, we want to make sure we have it enabled and that we cleared it each frame just like the color buffer."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 25.04,
+            "end": 35.6,
+            "text": " Now what this buffer basically does is that it stores depth values that represent how far away from the near plane of the projection matrix a certain fragment is."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 35.6,
+            "end": 43.040000000000006,
+            "text": " A depth value of 0 meaning that it's right on the near plane and of 1 meaning that it's on the far plane."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 43.040000000000006,
+            "end": 49.28,
+            "text": " Using this depth information we can assess which object should be in front of which other object."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 49.28,
+            "end": 54.8,
+            "text": " We can do this by using the GL depth function and inserting one of the following inputs."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 54.8,
+            "end": 66.16,
+            "text": " By default OpenGL chooses GL less which means that if the depth value of an object is less than that of the current depth value then the first value replaces the second."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 66.16,
+            "end": 75.84,
+            "text": " In most circumstances you should use GL less but I suppose you could also choose one of the others if you want your game or application to be mind bending."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 75.84,
+            "end": 78.88,
+            "text": " Now the cool part, let's visualize the depth buffer."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 78.96,
+            "end": 87.28,
+            "text": " We can easily do this by going to the fragment shader and outputting GL frac coordinates dot z as the fracolor."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 87.28,
+            "end": 93.19999999999999,
+            "text": " The problem is that as soon as we press run you'll notice that the screen is mostly pure white."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 93.19999999999999,
+            "end": 97.52,
+            "text": " The only way to see a bit of darkness is to get very close to an object."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 97.52,
+            "end": 101.44,
+            "text": " This is due to the fact that the depth in OpenGL is not linear."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 101.52,
+            "end": 110.8,
+            "text": " If the depth was linear then we would have the same amount of precision for depth at a close distance as we would at a far away distance."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 110.8,
+            "end": 120.64,
+            "text": " Since we almost always focus on things that are close to us we want to make the precision be very high near us and low away from us."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 120.64,
+            "end": 123.36,
+            "text": " This is achieved by using this formula."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 123.36,
+            "end": 128.07999999999998,
+            "text": " Don't worry we don't have to implement it since OpenGL does it automatically."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 128.16000000000003,
+            "end": 138.8,
+            "text": " Sometimes though you want to use another formula so in order to do that we must first get the z value by linearizing the depth function which can be done using this function."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 138.8,
+            "end": 144.16000000000003,
+            "text": " Now using this function we get the z value which keep in mind is not normalized."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 144.16000000000003,
+            "end": 147.20000000000002,
+            "text": " This value is simply the distance from the near plane."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 147.20000000000002,
+            "end": 157.68,
+            "text": " So let's declare the near and far constants of our frustum and divide the linear depth by the far length to quickly normalize it just to see what the results look like."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 158.08,
+            "end": 170.16000000000003,
+            "text": " Now let's just look at a quick problem you can get and then I'll show you the cool effect we can achieve with depth buffers."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 170.16000000000003,
+            "end": 181.04000000000002,
+            "text": " So the main issue that arises from depth buffers is called z-fighting and it occurs because two or more triangles have the same depth buffer and does the depth function."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 181.12,
+            "end": 186.88,
+            "text": " Come decide which one is closer than the other and does it keeps changing between them constantly."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 186.88,
+            "end": 193.35999999999999,
+            "text": " An easy fix to this is usually to make sure you don't have triangles that are too close to one another and parallel."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 193.35999999999999,
+            "end": 202.88,
+            "text": " If z-fighting appears at a far away distance then you might also consider tweaking the function of the depth buffer so that you have more precision at that distance."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 202.88,
+            "end": 207.35999999999999,
+            "text": " And the final trick is to use a bigger integer for the depth buffer."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 207.36,
+            "end": 214.0,
+            "text": " Usually by default it uses 24 bits but you could change it to 32 bits if your card supports it."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 214.0,
+            "end": 218.24,
+            "text": " This will increase the precision and thus decrease the chance of z-fighting."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 218.24,
+            "end": 227.76000000000002,
+            "text": " Now for the cool effect we can take the z-value and plug it into a logistic function for which we have a stiffness parameter and an offset parameter."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 227.76000000000002,
+            "end": 233.60000000000002,
+            "text": " The stiffness will control how fast the depth value changes from close to zero to close to one"
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 233.68,
+            "end": 238.64,
+            "text": " and the offset will determine at what z-value this change is halfway done."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 238.64,
+            "end": 245.04,
+            "text": " The cool thing about this is that this can give you smooth edges for the end of your frustum if you want that"
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 245.04,
+            "end": 249.51999999999998,
+            "text": " but the even nicer thing is that this can somewhat simulate a fog effect."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 249.51999999999998,
+            "end": 255.2,
+            "text": " So let's change our background color to a gray and calculate the depth value using our function."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 255.2,
+            "end": 262.24,
+            "text": " Then multiply our usual direct light by the reverse of our depth value and also add the depth value"
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 262.24,
+            "end": 264.48,
+            "text": " times the gray color from before."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 264.48,
+            "end": 267.44,
+            "text": " Now we should have a nice simple fog effect."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 267.44,
+            "end": 273.12,
+            "text": " Keep in mind that you might need to adjust the stiffness and offset a bit to get it just right."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 273.12,
+            "end": 279.44,
+            "text": " Have fun playing around with different effects and as always the source code and resources are in the description."
+        },
+        {
+            "number": "14",
+            "title": "Depth Buffer.mp4",
+            "start": 279.44,
+            "end": 279.92,
+            "text": " Bye!"
+        }
+    ],
+    "text": " In this tutorial we'll have a look at the depth buffers in OpenGL and also see how we can make use of them for a little graphical effect. You might remember that we've already made use of the depth buffer in the going 3D tutorial in order to fix a weird issue we had. Since the buffer is turned off by default, we want to make sure we have it enabled and that we cleared it each frame just like the color buffer. Now what this buffer basically does is that it stores depth values that represent how far away from the near plane of the projection matrix a certain fragment is. A depth value of 0 meaning that it's right on the near plane and of 1 meaning that it's on the far plane. Using this depth information we can assess which object should be in front of which other object. We can do this by using the GL depth function and inserting one of the following inputs. By default OpenGL chooses GL less which means that if the depth value of an object is less than that of the current depth value then the first value replaces the second. In most circumstances you should use GL less but I suppose you could also choose one of the others if you want your game or application to be mind bending. Now the cool part, let's visualize the depth buffer. We can easily do this by going to the fragment shader and outputting GL frac coordinates dot z as the fracolor. The problem is that as soon as we press run you'll notice that the screen is mostly pure white. The only way to see a bit of darkness is to get very close to an object. This is due to the fact that the depth in OpenGL is not linear. If the depth was linear then we would have the same amount of precision for depth at a close distance as we would at a far away distance. Since we almost always focus on things that are close to us we want to make the precision be very high near us and low away from us. This is achieved by using this formula. Don't worry we don't have to implement it since OpenGL does it automatically. Sometimes though you want to use another formula so in order to do that we must first get the z value by linearizing the depth function which can be done using this function. Now using this function we get the z value which keep in mind is not normalized. This value is simply the distance from the near plane. So let's declare the near and far constants of our frustum and divide the linear depth by the far length to quickly normalize it just to see what the results look like. Now let's just look at a quick problem you can get and then I'll show you the cool effect we can achieve with depth buffers. So the main issue that arises from depth buffers is called z-fighting and it occurs because two or more triangles have the same depth buffer and does the depth function. Come decide which one is closer than the other and does it keeps changing between them constantly. An easy fix to this is usually to make sure you don't have triangles that are too close to one another and parallel. If z-fighting appears at a far away distance then you might also consider tweaking the function of the depth buffer so that you have more precision at that distance. And the final trick is to use a bigger integer for the depth buffer. Usually by default it uses 24 bits but you could change it to 32 bits if your card supports it. This will increase the precision and thus decrease the chance of z-fighting. Now for the cool effect we can take the z-value and plug it into a logistic function for which we have a stiffness parameter and an offset parameter. The stiffness will control how fast the depth value changes from close to zero to close to one and the offset will determine at what z-value this change is halfway done. The cool thing about this is that this can give you smooth edges for the end of your frustum if you want that but the even nicer thing is that this can somewhat simulate a fog effect. So let's change our background color to a gray and calculate the depth value using our function. Then multiply our usual direct light by the reverse of our depth value and also add the depth value times the gray color from before. Now we should have a nice simple fog effect. Keep in mind that you might need to adjust the stiffness and offset a bit to get it just right. Have fun playing around with different effects and as always the source code and resources are in the description. Bye!"
+}

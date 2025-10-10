@@ -1,0 +1,334 @@
+{
+    "chunks": [
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 0.0,
+            "end": 5.44,
+            "text": " In this tutorial I'll show you what Instancing is and how you can use it to massively improve the"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 5.44,
+            "end": 12.32,
+            "text": " performance and looks of your OpenGL project. So Instancing is simply a feature that allows you to"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 12.32,
+            "end": 19.12,
+            "text": " draw a mesh multiple times in a single draw call. Now, why would you want this? Well, consider"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 19.12,
+            "end": 24.88,
+            "text": " these scenarios where I have a build of asteroids all made out of a single asteroid mesh that is"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 24.88,
+            "end": 30.799999999999997,
+            "text": " deformed in the vertex shader to give some variety. In the scenario on the left, I simply have a"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 30.799999999999997,
+            "end": 36.879999999999995,
+            "text": " loop that draws each asteroid individually. So that means that each asteroid has a draw call."
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 36.879999999999995,
+            "end": 42.480000000000004,
+            "text": " Now in the scenario on the right, I draw all the asteroids together, so that means that I only have"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 42.480000000000004,
+            "end": 48.8,
+            "text": " a single draw call. If you look at the performance difference, you'll see it is massive. Now, let's go"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 49.519999999999996,
+            "end": 55.599999999999994,
+            "text": " start with the code already written for the first scenario since it's nothing new for this series."
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 55.599999999999994,
+            "end": 63.519999999999996,
+            "text": " So in order to enable Instancing, all we have to do is to use GL Draw Elements instant instead of"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 63.519999999999996,
+            "end": 70.8,
+            "text": " GL Draw Elements and at the end of it how many instances of the mesh we want. The only problem"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 70.8,
+            "end": 77.03999999999999,
+            "text": " is that this will draw all the meshes in the exact same positions, so it is useless. There are"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 77.04,
+            "end": 82.96000000000001,
+            "text": " multiple ways you could move each mesh to a unique position though. You could have code that does"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 82.96000000000001,
+            "end": 88.80000000000001,
+            "text": " that in the vertex shader for example. Using GL Instance ID, you'll get the index of the instance"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 88.80000000000001,
+            "end": 94.16000000000001,
+            "text": " you are currently drawing and so you can use that for controlled random number generation."
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 94.16000000000001,
+            "end": 99.2,
+            "text": " Alternatively, you could have a uniform with all the transformations and retrieve the correct"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 99.2,
+            "end": 105.60000000000001,
+            "text": " transformation for a specific instance using GL Instance ID. But the problem with this is that"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 105.6,
+            "end": 111.44,
+            "text": " uniforms can't store that much data. So the best way to have a lot of transformations and not"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 111.44,
+            "end": 117.75999999999999,
+            "text": " have the generation inside the vertex shader is to store the transformations inside the vertex buffer"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 117.75999999999999,
+            "end": 123.75999999999999,
+            "text": " that is attached to the VIO of the mesh. So let's start by creating a VBO constructor which"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 123.75999999999999,
+            "end": 130.72,
+            "text": " takes a vector of math force. Then we want to add an unsigned integer public variable to the mesh class"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 130.72,
+            "end": 136.56,
+            "text": " that will signify the amount of instances we desire. And of course, we also need to add it to"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 136.56,
+            "end": 142.56,
+            "text": " the constructor to easily change it. Also in the constructor, we should add the vector of matrix"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 142.56,
+            "end": 148.16,
+            "text": " transformations for the instances so that we can plug it into the vertex buffer. Now in the mesh"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 148.16,
+            "end": 155.36,
+            "text": " that's a pp file, we want to create a VBO for the instances and then link its attributes to the VIO"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 155.44000000000003,
+            "end": 160.96,
+            "text": " only if we are drawing more than one mesh. Make sure to link the matrix as four different"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 160.96,
+            "end": 167.52,
+            "text": " VEQ4s since otherwise your program won't work. And at the end, use GL Vertix attribute"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 167.52,
+            "end": 174.8,
+            "text": " divisor, plugging in the layout number of each VEQ4 and one. This one means that the VEQ4 will be used"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 174.8,
+            "end": 181.76000000000002,
+            "text": " for a whole instance. If it were zero, then the VEQ4 would be used for a vertex and then the next"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 181.76,
+            "end": 188.23999999999998,
+            "text": " VEQ4 will be used for the next vertex which we for sure do not want. And just to make it clear,"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 188.23999999999998,
+            "end": 194.48,
+            "text": " if it were two, it would be used for two instances before switching to the next VEQ4. Now let's also"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 194.48,
+            "end": 201.2,
+            "text": " limit the use of GeoRawElements instance only for multiple instances. For the model class, we need to"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 201.2,
+            "end": 207.04,
+            "text": " do the exact same thing as for the mesh class where we add instance matrix to the constructor and"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 207.2,
+            "end": 213.6,
+            "text": " as a variable and instant seeing as a variable yet again. Now in our load mesh function, we want to"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 213.6,
+            "end": 219.68,
+            "text": " include the instant sync and instance matrix in the mesh creation process. Now we need a slightly"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 219.68,
+            "end": 226.48,
+            "text": " modified shader for instance drawing to accommodate for the new layout. So create a new shader program"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 226.48,
+            "end": 232.39999999999998,
+            "text": " specifically for the asterroids using a special vertex shader and the default fragment shader."
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 232.4,
+            "end": 238.0,
+            "text": " The vertex shader will be identical to the default one except we'll have a fifth layout for"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 238.0,
+            "end": 244.48000000000002,
+            "text": " the instance matrix, we'll delete the uniforms we don't need and replace all transformations with"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 244.48000000000002,
+            "end": 250.32,
+            "text": " just the instance matrix one. Don't forget to export the lighting uniforms in the main function as"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 250.32,
+            "end": 256.4,
+            "text": " well. Then all that's left to do is to merge the translation rotation and scale matrices together"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 256.4,
+            "end": 261.59999999999997,
+            "text": " and add all of them to the instance matrix vector. Then simply add that and the"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 261.59999999999997,
+            "end": 267.84,
+            "text": " instance sync number to the model constructor of the asterroids and draw the asterroids once."
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 267.84,
+            "end": 274.79999999999995,
+            "text": " Remember that we only need to call the draw function once. Now compile and witness thousands upon"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 274.79999999999995,
+            "end": 281.35999999999996,
+            "text": " thousands of asterroids with a minimal performance impact. Of course, keep in mind that the performance"
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 281.36,
+            "end": 288.16,
+            "text": " will differ from one GPU to another so it might not work as well on yours as it would on someone else's."
+        },
+        {
+            "number": "21",
+            "title": "Instancing.mp4",
+            "start": 288.16,
+            "end": 295.2,
+            "text": " That was it for this tutorial as always the source code and all resources used are in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial I'll show you what Instancing is and how you can use it to massively improve the performance and looks of your OpenGL project. So Instancing is simply a feature that allows you to draw a mesh multiple times in a single draw call. Now, why would you want this? Well, consider these scenarios where I have a build of asteroids all made out of a single asteroid mesh that is deformed in the vertex shader to give some variety. In the scenario on the left, I simply have a loop that draws each asteroid individually. So that means that each asteroid has a draw call. Now in the scenario on the right, I draw all the asteroids together, so that means that I only have a single draw call. If you look at the performance difference, you'll see it is massive. Now, let's go start with the code already written for the first scenario since it's nothing new for this series. So in order to enable Instancing, all we have to do is to use GL Draw Elements instant instead of GL Draw Elements and at the end of it how many instances of the mesh we want. The only problem is that this will draw all the meshes in the exact same positions, so it is useless. There are multiple ways you could move each mesh to a unique position though. You could have code that does that in the vertex shader for example. Using GL Instance ID, you'll get the index of the instance you are currently drawing and so you can use that for controlled random number generation. Alternatively, you could have a uniform with all the transformations and retrieve the correct transformation for a specific instance using GL Instance ID. But the problem with this is that uniforms can't store that much data. So the best way to have a lot of transformations and not have the generation inside the vertex shader is to store the transformations inside the vertex buffer that is attached to the VIO of the mesh. So let's start by creating a VBO constructor which takes a vector of math force. Then we want to add an unsigned integer public variable to the mesh class that will signify the amount of instances we desire. And of course, we also need to add it to the constructor to easily change it. Also in the constructor, we should add the vector of matrix transformations for the instances so that we can plug it into the vertex buffer. Now in the mesh that's a pp file, we want to create a VBO for the instances and then link its attributes to the VIO only if we are drawing more than one mesh. Make sure to link the matrix as four different VEQ4s since otherwise your program won't work. And at the end, use GL Vertix attribute divisor, plugging in the layout number of each VEQ4 and one. This one means that the VEQ4 will be used for a whole instance. If it were zero, then the VEQ4 would be used for a vertex and then the next VEQ4 will be used for the next vertex which we for sure do not want. And just to make it clear, if it were two, it would be used for two instances before switching to the next VEQ4. Now let's also limit the use of GeoRawElements instance only for multiple instances. For the model class, we need to do the exact same thing as for the mesh class where we add instance matrix to the constructor and as a variable and instant seeing as a variable yet again. Now in our load mesh function, we want to include the instant sync and instance matrix in the mesh creation process. Now we need a slightly modified shader for instance drawing to accommodate for the new layout. So create a new shader program specifically for the asterroids using a special vertex shader and the default fragment shader. The vertex shader will be identical to the default one except we'll have a fifth layout for the instance matrix, we'll delete the uniforms we don't need and replace all transformations with just the instance matrix one. Don't forget to export the lighting uniforms in the main function as well. Then all that's left to do is to merge the translation rotation and scale matrices together and add all of them to the instance matrix vector. Then simply add that and the instance sync number to the model constructor of the asterroids and draw the asterroids once. Remember that we only need to call the draw function once. Now compile and witness thousands upon thousands of asterroids with a minimal performance impact. Of course, keep in mind that the performance will differ from one GPU to another so it might not work as well on yours as it would on someone else's. That was it for this tutorial as always the source code and all resources used are in the description. Bye!"
+}

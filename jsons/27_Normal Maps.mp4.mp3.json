@@ -1,0 +1,376 @@
+{
+    "chunks": [
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 0.0,
+            "end": 5.84,
+            "text": " In this tutorial I'll show you what normal maps are and how you can use them to add a lot of detail to your meshes."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 5.84,
+            "end": 10.64,
+            "text": " So let's say we have a surface made of triangles and we want to add more detail to it."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 10.64,
+            "end": 15.44,
+            "text": " A good way to increase the amount of detail it has would be to add more normals so the light"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 15.44,
+            "end": 21.2,
+            "text": " can better interact with the surface. But we can only have normals where we have our vertices."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 21.2,
+            "end": 25.92,
+            "text": " So to add more normals we would have to increase the amount of triangles present which could"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 25.92,
+            "end": 31.28,
+            "text": " hit our performance pretty hard. This is where the beauty of normal maps comes in. We can keep"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 31.28,
+            "end": 37.52,
+            "text": " the original count of triangles and instead just wrap a normal map onto the surface. Now every pixel"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 37.52,
+            "end": 43.2,
+            "text": " on this normal map will represent one normal for the surface. So we just improve the look of the"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 43.2,
+            "end": 49.120000000000005,
+            "text": " model a lot while barely hitting the performance of our program. Now let's take a better look at a"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 49.120000000000005,
+            "end": 55.120000000000005,
+            "text": " normal map. As you can see they are usually very similar to the diffuse map except they are sort"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 55.12,
+            "end": 61.199999999999996,
+            "text": " of violet. That is because each pixel of a normal map represents a vector in three dimensions."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 61.199999999999996,
+            "end": 69.2,
+            "text": " So in other words the RGB of each pixel stands for the XYZ coordinates. The Z axis aka blue value"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 69.2,
+            "end": 74.88,
+            "text": " comes out of the surface and since normals are usually perpendicular to the surface they are on"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 74.88,
+            "end": 80.56,
+            "text": " the normal map is dominated by this violet color. So if something is more reddish then the normal"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 80.56,
+            "end": 86.16,
+            "text": " is pointing to the right. Well if it is more greenish it is pointing up. One last thing to note"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 86.16,
+            "end": 92.8,
+            "text": " is that our RGB is in the range 0,1 but we want our normals in the range minus 1,1 so they can also"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 92.8,
+            "end": 99.52000000000001,
+            "text": " point in the negative XY and Z axis. So you just need to apply a small transformation when retrieving them."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 99.52000000000001,
+            "end": 104.80000000000001,
+            "text": " Let's know code it in. You want to start off with a plane that faces the positive Z axis."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 104.80000000000001,
+            "end": 110.32000000000001,
+            "text": " Now we'll slightly modify our texture class to accept normal maps. The thing about normal maps"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 110.32,
+            "end": 116.47999999999999,
+            "text": " and basically any sort of texture besides diffuse textures is that we don't want gamma correction on them."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 116.47999999999999,
+            "end": 123.36,
+            "text": " So we need to load normal maps as RGB not as RGB. Don't forget to also load in the texture and send"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 123.36,
+            "end": 128.72,
+            "text": " it off to the fragment shader. Now all that's left to do is to read the normals of the normal map,"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 128.72,
+            "end": 135.35999999999999,
+            "text": " transform them to the negative 1,1 range and we're done. You should now have a normal map on your plane."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 135.36,
+            "end": 140.48000000000002,
+            "text": " And this is nice, but you'll notice that if I move the plane from its position the normal map"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 140.48000000000002,
+            "end": 146.48000000000002,
+            "text": " will be suddenly wrong. That's because the normal map always points towards the positive Z direction,"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 146.48000000000002,
+            "end": 151.76000000000002,
+            "text": " while in this case our plane is flat on the ground and pointing in the positive Y direction."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 151.76000000000002,
+            "end": 157.12,
+            "text": " This discrepancy causes the error we see. We want the normal map and lighting variables to be"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 157.12,
+            "end": 163.20000000000002,
+            "text": " in the same space. To do that we need a so-called tbn matrix which is made out of the tangent,"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 163.2,
+            "end": 169.28,
+            "text": " by tangent and normal of the surface. To get this we can use this formula. If you're interested"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 169.28,
+            "end": 174.72,
+            "text": " in its derivation I'll have some links in the description to some articles on it. Now since we need"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 174.72,
+            "end": 181.2,
+            "text": " all three vertices of a triangle for the formula you can either calculate the tbn matrix on the cpu"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 181.2,
+            "end": 186.79999999999998,
+            "text": " or in the geometry shader. I will do it in the geometry shader. So in the default geometry shader"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 186.8,
+            "end": 192.72,
+            "text": " that changes nothing we want to sort of by calculating the two edges into delta texture coordinate"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 192.72,
+            "end": 199.20000000000002,
+            "text": " values from the formula. Then we calculate the division float and finally the tangent and by tangent."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 199.20000000000002,
+            "end": 204.24,
+            "text": " Now we want to import the model matrix into the geometry shader so we can multiply the tangent"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 204.24,
+            "end": 209.92000000000002,
+            "text": " and by tangent. As for the normal we want it to be perpendicular to the triangle but usually not"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 209.92000000000002,
+            "end": 215.36,
+            "text": " all vertex normals are like that. So instead of getting it from the vertex we'll calculate it as"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 215.36,
+            "end": 221.36,
+            "text": " the cross product between the edges we have. Keep in mind the order of the edges matters in the"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 221.36,
+            "end": 227.92000000000002,
+            "text": " cross product and now we can put all of them together and we have our tbn matrix. We now have two"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 227.92000000000002,
+            "end": 234.4,
+            "text": " options. We either get the normal map to the same space as the other lighting variables or we get"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 234.4,
+            "end": 240.24,
+            "text": " the other lighting variables to the same space as the normal map. The first option sounds nicer"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 241.04000000000002,
+            "end": 246.96,
+            "text": " but it is actually worse since we can only do that in the fragment shader while we can do the second"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 246.96,
+            "end": 252.88,
+            "text": " option in the geometry shader. Since the fragment shader runs many more times than the geometry shader"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 252.88,
+            "end": 258.56,
+            "text": " it is preferable to take the second option. To do that we first need to inverse the tbn matrix"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 258.56,
+            "end": 265.44,
+            "text": " but inversing matrices is pretty expensive. Thankfully this matrix is a nor-togonal matrix which is"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 265.44,
+            "end": 271.76,
+            "text": " a fancy way of saying that it's inverse is equal to its transpose. So together inverse we can just do"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 271.76,
+            "end": 276.88,
+            "text": " the transpose which is much faster. If I sound like I'm talking gibberish to you watch"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 276.88,
+            "end": 282.64,
+            "text": " tree blue one brown series on linear algebra. The final step is to move all the lighting uniforms"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 282.64,
+            "end": 288.56,
+            "text": " to the vertex shader, export them, apply the tbn matrix to them in the geometry shader and then"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 288.56,
+            "end": 293.76,
+            "text": " send them off to the fragment shader. Now no matter the orientation of your triangles the normal"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 293.76,
+            "end": 298.4,
+            "text": " map should still look proper. Don't forget to check out my discord channel and maybe support"
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 298.4,
+            "end": 305.03999999999996,
+            "text": " me on patreon. As always the source code and all sources and resources used are in the description."
+        },
+        {
+            "number": "27",
+            "title": "Normal Maps.mp4",
+            "start": 305.03999999999996,
+            "end": 307.03999999999996,
+            "text": " Bye!"
+        }
+    ],
+    "text": " In this tutorial I'll show you what normal maps are and how you can use them to add a lot of detail to your meshes. So let's say we have a surface made of triangles and we want to add more detail to it. A good way to increase the amount of detail it has would be to add more normals so the light can better interact with the surface. But we can only have normals where we have our vertices. So to add more normals we would have to increase the amount of triangles present which could hit our performance pretty hard. This is where the beauty of normal maps comes in. We can keep the original count of triangles and instead just wrap a normal map onto the surface. Now every pixel on this normal map will represent one normal for the surface. So we just improve the look of the model a lot while barely hitting the performance of our program. Now let's take a better look at a normal map. As you can see they are usually very similar to the diffuse map except they are sort of violet. That is because each pixel of a normal map represents a vector in three dimensions. So in other words the RGB of each pixel stands for the XYZ coordinates. The Z axis aka blue value comes out of the surface and since normals are usually perpendicular to the surface they are on the normal map is dominated by this violet color. So if something is more reddish then the normal is pointing to the right. Well if it is more greenish it is pointing up. One last thing to note is that our RGB is in the range 0,1 but we want our normals in the range minus 1,1 so they can also point in the negative XY and Z axis. So you just need to apply a small transformation when retrieving them. Let's know code it in. You want to start off with a plane that faces the positive Z axis. Now we'll slightly modify our texture class to accept normal maps. The thing about normal maps and basically any sort of texture besides diffuse textures is that we don't want gamma correction on them. So we need to load normal maps as RGB not as RGB. Don't forget to also load in the texture and send it off to the fragment shader. Now all that's left to do is to read the normals of the normal map, transform them to the negative 1,1 range and we're done. You should now have a normal map on your plane. And this is nice, but you'll notice that if I move the plane from its position the normal map will be suddenly wrong. That's because the normal map always points towards the positive Z direction, while in this case our plane is flat on the ground and pointing in the positive Y direction. This discrepancy causes the error we see. We want the normal map and lighting variables to be in the same space. To do that we need a so-called tbn matrix which is made out of the tangent, by tangent and normal of the surface. To get this we can use this formula. If you're interested in its derivation I'll have some links in the description to some articles on it. Now since we need all three vertices of a triangle for the formula you can either calculate the tbn matrix on the cpu or in the geometry shader. I will do it in the geometry shader. So in the default geometry shader that changes nothing we want to sort of by calculating the two edges into delta texture coordinate values from the formula. Then we calculate the division float and finally the tangent and by tangent. Now we want to import the model matrix into the geometry shader so we can multiply the tangent and by tangent. As for the normal we want it to be perpendicular to the triangle but usually not all vertex normals are like that. So instead of getting it from the vertex we'll calculate it as the cross product between the edges we have. Keep in mind the order of the edges matters in the cross product and now we can put all of them together and we have our tbn matrix. We now have two options. We either get the normal map to the same space as the other lighting variables or we get the other lighting variables to the same space as the normal map. The first option sounds nicer but it is actually worse since we can only do that in the fragment shader while we can do the second option in the geometry shader. Since the fragment shader runs many more times than the geometry shader it is preferable to take the second option. To do that we first need to inverse the tbn matrix but inversing matrices is pretty expensive. Thankfully this matrix is a nor-togonal matrix which is a fancy way of saying that it's inverse is equal to its transpose. So together inverse we can just do the transpose which is much faster. If I sound like I'm talking gibberish to you watch tree blue one brown series on linear algebra. The final step is to move all the lighting uniforms to the vertex shader, export them, apply the tbn matrix to them in the geometry shader and then send them off to the fragment shader. Now no matter the orientation of your triangles the normal map should still look proper. Don't forget to check out my discord channel and maybe support me on patreon. As always the source code and all sources and resources used are in the description. Bye!"
+}
