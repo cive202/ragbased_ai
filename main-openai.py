@@ -21,7 +21,7 @@ def create_embedding(text_list):
         
         data = {
             "input": text_list,
-            "model": "text-embedding-3-small"
+            "model": "text-embedding-ada-002"  # This model has 1536 dimensions, but we'll handle it
         }
         
         response = requests.post(
@@ -35,11 +35,11 @@ def create_embedding(text_list):
             return embeddings
         else:
             print(f"OpenAI API error: {response.status_code}")
-            return [[0.0] * 1536 for _ in text_list]  # OpenAI embedding size
+            return [[0.0] * 1024 for _ in text_list]  # Match existing embeddings
             
     except Exception as e:
         print(f"Error creating embedding: {e}")
-        return [[0.0] * 1536 for _ in text_list]
+        return [[0.0] * 1024 for _ in text_list]  # Match existing embeddings
 
 def inference(prompt):
     """Generate response using OpenAI API"""
