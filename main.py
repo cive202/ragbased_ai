@@ -4,30 +4,43 @@ from flask import Flask , render_template , request
 import numpy as np 
 import joblib 
 import requests
+import os
 
 app = Flask(__name__)
 
+# Get Ollama URL from environment variable, default to localhost for development
+OLLAMA_URL = os.getenv('OLLAMA_URL', 'http://localhost:11434')
+
 def create_embedding(text_list):
     # https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings
-    r = requests.post("http://localhost:11434/api/embed", json={
-        "model": "bge-m3",
-        "input": text_list
-    })
-
-    embedding = r.json()["embeddings"] 
-    return embedding
+    try:
+        r = requests.post(f"{OLLAMA_URL}/api/embed", json={
+            "model": "bge-m3",
+            "input": text_list
+        })
+        r.raise_for_status()
+        embedding = r.json()["embeddings"] 
+        return embedding
+    except Exception as e:
+        print(f"Error creating embedding: {e}")
+        # Return a dummy embedding if Ollama is not available
+        return [[0.0] * 1024 for _ in text_list]
 
 def inference(prompt):
-    r = requests.post("http://localhost:11434/api/generate", json={
-        # "model": "deepseek-r1",
-        "model": "llama3.2",
-        "prompt": prompt,
-        "stream": False
-    })
-
-    response = r.json()
-    print(response)
-    return response
+    try:
+        r = requests.post(f"{OLLAMA_URL}/api/generate", json={
+            # "model": "deepseek-r1",
+            "model": "llama3.2",
+            "prompt": prompt,
+            "stream": False
+        })
+        r.raise_for_status()
+        response = r.json()
+        print(response)
+        return response
+    except Exception as e:
+        print(f"Error in inference: {e}")
+        return {"response": "Sorry, the AI model is currently unavailable. Please try again later."}
 
 df = joblib.load('embeddings.joblib')
 
@@ -68,4 +81,8 @@ def result():
 # for index, item in new_df.iterrows():
 #     print(index, item["title"], item["number"], item["text"], item["start"], item["end"])
 if __name__ == "__main__":
-    app.run(debug = True)
+    # Get port from environment variable (Render sets this)
+    port = int(os.getenv('PORT', 5000))
+    # Only run in debug mode if not in production
+    debug_mode = os.getenv('FLASK_ENV') != 'production'
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
