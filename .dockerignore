@@ -1,0 +1,17 @@
+# Ignore these files in Docker build
+.git
+.gitignore
+README.md
+*.md
+venv/
+myenv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
