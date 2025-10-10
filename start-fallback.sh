@@ -12,13 +12,16 @@ sleep 15
 echo "Checking Ollama status..."
 ollama list
 
-# Pull smaller models (more compatible with Render)
-echo "Pulling llama3.2 model (this may take a while)..."
-ollama pull llama3.2 || echo "Failed to pull llama3.2, trying smaller model..."
+# Try smaller models first
+echo "Pulling smaller models for Render compatibility..."
+
+# Try tinyllama (much smaller)
+echo "Pulling tinyllama model..."
+ollama pull tinyllama || echo "Failed to pull tinyllama"
 
 # Try smaller embedding model
-echo "Pulling bge-m3 model..."
-ollama pull bge-m3 || echo "Failed to pull bge-m3, trying alternative..."
+echo "Pulling nomic-embed-text model (smaller alternative)..."
+ollama pull nomic-embed-text || echo "Failed to pull nomic-embed-text"
 
 # Check what models are available
 echo "Available models:"

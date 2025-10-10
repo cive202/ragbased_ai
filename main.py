@@ -14,6 +14,7 @@ OLLAMA_URL = os.getenv('OLLAMA_URL', 'http://localhost:11434')
 def create_embedding(text_list):
     # https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings
     try:
+        # Try bge-m3 first
         r = requests.post(f"{OLLAMA_URL}/api/embed", json={
             "model": "bge-m3",
             "input": text_list
@@ -22,14 +23,25 @@ def create_embedding(text_list):
         embedding = r.json()["embeddings"] 
         return embedding
     except Exception as e:
-        print(f"Error creating embedding: {e}")
-        # Return a dummy embedding if Ollama is not available
-        return [[0.0] * 1024 for _ in text_list]
+        print(f"Error with bge-m3, trying nomic-embed-text: {e}")
+        try:
+            # Try alternative embedding model
+            r = requests.post(f"{OLLAMA_URL}/api/embed", json={
+                "model": "nomic-embed-text",
+                "input": text_list
+            })
+            r.raise_for_status()
+            embedding = r.json()["embeddings"] 
+            return embedding
+        except Exception as e2:
+            print(f"Error creating embedding: {e2}")
+            # Return a dummy embedding if Ollama is not available
+            return [[0.0] * 1024 for _ in text_list]
 
 def inference(prompt):
     try:
+        # Try llama3.2 first
         r = requests.post(f"{OLLAMA_URL}/api/generate", json={
-            # "model": "deepseek-r1",
             "model": "llama3.2",
             "prompt": prompt,
             "stream": False
@@ -39,8 +51,21 @@ def inference(prompt):
         print(response)
         return response
     except Exception as e:
-        print(f"Error in inference: {e}")
-        return {"response": "Sorry, the AI model is currently unavailable. Please try again later."}
+        print(f"Error with llama3.2, trying tinyllama: {e}")
+        try:
+            # Try smaller model
+            r = requests.post(f"{OLLAMA_URL}/api/generate", json={
+                "model": "tinyllama",
+                "prompt": prompt,
+                "stream": False
+            })
+            r.raise_for_status()
+            response = r.json()
+            print(response)
+            return response
+        except Exception as e2:
+            print(f"Error in inference: {e2}")
+            return {"response": "Sorry, the AI model is currently unavailable. Please try again later."}
 
 df = joblib.load('embeddings.joblib')
 
