@@ -2,10 +2,9 @@ services:
   - type: web            # This is a web service
     name: ragbased_ai    # Name of your service on Render
     dockerfilePath: ./Dockerfile.simple  # Use simpler Docker setup
+    runtime: docker     # Force Docker runtime
     envVars:
       - key: FLASK_ENV
         value: production
       - key: OLLAMA_URL
         value: http://localhost:11434
-      - key: PYTHON_VERSION
-        value: "3.11"
