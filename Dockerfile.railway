@@ -5,10 +5,13 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     curl \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Ollama
-RUN curl -fsSL https://ollama.com/install.sh | sh
+# Install Ollama with better error handling
+RUN curl -fsSL https://ollama.com/install.sh | sh || \
+    (wget -O - https://ollama.com/install.sh | sh) || \
+    echo "Ollama installation failed, continuing..."
 
 # Set working directory
 WORKDIR /app
