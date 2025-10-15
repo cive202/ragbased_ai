@@ -1,0 +1,780 @@
+{
+    "chunks": [
+        {
+            "number": [
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 0.0,
+                    "end": 6.32,
+                    "text": " In the last tutorial, I introduced you to three types of lighting, one of which was specular lighting."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 6.32,
+                    "end": 11.84,
+                    "text": " Today I'll show you how to improve specular lighting with the use of specular maps."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 11.84,
+                    "end": 17.28,
+                    "text": " I'll start by slightly modifying the texture class so that it's easier for us to assign"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 17.28,
+                    "end": 23.52,
+                    "text": " multiple textures to the same shader. Then, I'll delete the pyramid we had and simply create"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 23.52,
+                    "end": 29.68,
+                    "text": " the flat plane. I'll also import this wood texture and the specular map. You can find this in the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 29.68,
+                    "end": 34.96,
+                    "text": " description. I'll also assign the wood texture to the plane. Now, as you can see, the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 34.96,
+                    "end": 41.04,
+                    "text": " specular light is just sort of flat. Areas that shouldn't reflect much light,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 41.04,
+                    "end": 47.2,
+                    "text": " such as the cracks in the wood, still somewhat do so. And the areas that should reflect a lot of"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 47.2,
+                    "end": 53.84,
+                    "text": " light, such as the smooth tops of the wood, don't really do so. In order to fix this, we can make"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 54.0,
+                    "end": 59.68000000000001,
+                    "text": " use of something called a specular map. These types of maps are black and white textures that tell"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 59.68000000000001,
+                    "end": 65.04,
+                    "text": " the program where specular light should appear and how strong it should be at that point."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 65.04,
+                    "end": 70.48,
+                    "text": " The wider a pixel on the specular map is, the more specular light you'll get and the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 70.48,
+                    "end": 77.12,
+                    "text": " blacker a pixel is, the less specular light you'll get. The idea is really simple. So to implement it,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 77.12,
+                    "end": 82.56,
+                    "text": " we must first import the specular map into our program. Make sure to import it using"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 82.56,
+                    "end": 90.24000000000001,
+                    "text": " GL-RED, not GL-RGBA, since it only has one color channel, not four. Then simply export it to the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 90.24000000000001,
+                    "end": 96.56,
+                    "text": " shader and bind it in the main function. Now, import the texture in the shader and in frag color,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 96.56,
+                    "end": 102.24000000000001,
+                    "text": " multiply its red value by the specular light and add that to the other texture which is only"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 102.24000000000001,
+                    "end": 108.08,
+                    "text": " multiplied by the diffuse and ambient lighting now. That's it for the specular light. Now,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 108.08,
+                    "end": 113.12,
+                    "text": " I'll just change a value to make the light look better on the wood and if you then put up"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 113.12,
+                    "end": 118.48,
+                    "text": " the program, you should see that the specular light looks much better and it makes the whole texture"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 118.48,
+                    "end": 129.6,
+                    "text": " look better overall. As always, the source code is in the description. Bye!"
+                }
+            ],
+            "title": "Specular Maps.mp4",
+            "start": 0.0,
+            "end": 29.68,
+            "text": " In the last tutorial, I introduced you to three types of lighting, one of which was specular lighting.  Today I'll show you how to improve specular lighting with the use of specular maps.  I'll start by slightly modifying the texture class so that it's easier for us to assign  multiple textures to the same shader. Then, I'll delete the pyramid we had and simply create  the flat plane. I'll also import this wood texture and the specular map. You can find this in the"
+        },
+        {
+            "number": [
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 0.0,
+                    "end": 6.32,
+                    "text": " In the last tutorial, I introduced you to three types of lighting, one of which was specular lighting."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 6.32,
+                    "end": 11.84,
+                    "text": " Today I'll show you how to improve specular lighting with the use of specular maps."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 11.84,
+                    "end": 17.28,
+                    "text": " I'll start by slightly modifying the texture class so that it's easier for us to assign"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 17.28,
+                    "end": 23.52,
+                    "text": " multiple textures to the same shader. Then, I'll delete the pyramid we had and simply create"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 23.52,
+                    "end": 29.68,
+                    "text": " the flat plane. I'll also import this wood texture and the specular map. You can find this in the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 29.68,
+                    "end": 34.96,
+                    "text": " description. I'll also assign the wood texture to the plane. Now, as you can see, the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 34.96,
+                    "end": 41.04,
+                    "text": " specular light is just sort of flat. Areas that shouldn't reflect much light,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 41.04,
+                    "end": 47.2,
+                    "text": " such as the cracks in the wood, still somewhat do so. And the areas that should reflect a lot of"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 47.2,
+                    "end": 53.84,
+                    "text": " light, such as the smooth tops of the wood, don't really do so. In order to fix this, we can make"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 54.0,
+                    "end": 59.68000000000001,
+                    "text": " use of something called a specular map. These types of maps are black and white textures that tell"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 59.68000000000001,
+                    "end": 65.04,
+                    "text": " the program where specular light should appear and how strong it should be at that point."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 65.04,
+                    "end": 70.48,
+                    "text": " The wider a pixel on the specular map is, the more specular light you'll get and the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 70.48,
+                    "end": 77.12,
+                    "text": " blacker a pixel is, the less specular light you'll get. The idea is really simple. So to implement it,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 77.12,
+                    "end": 82.56,
+                    "text": " we must first import the specular map into our program. Make sure to import it using"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 82.56,
+                    "end": 90.24000000000001,
+                    "text": " GL-RED, not GL-RGBA, since it only has one color channel, not four. Then simply export it to the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 90.24000000000001,
+                    "end": 96.56,
+                    "text": " shader and bind it in the main function. Now, import the texture in the shader and in frag color,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 96.56,
+                    "end": 102.24000000000001,
+                    "text": " multiply its red value by the specular light and add that to the other texture which is only"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 102.24000000000001,
+                    "end": 108.08,
+                    "text": " multiplied by the diffuse and ambient lighting now. That's it for the specular light. Now,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 108.08,
+                    "end": 113.12,
+                    "text": " I'll just change a value to make the light look better on the wood and if you then put up"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 113.12,
+                    "end": 118.48,
+                    "text": " the program, you should see that the specular light looks much better and it makes the whole texture"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 118.48,
+                    "end": 129.6,
+                    "text": " look better overall. As always, the source code is in the description. Bye!"
+                }
+            ],
+            "title": "Specular Maps.mp4",
+            "start": 29.68,
+            "end": 59.68000000000001,
+            "text": " description. I'll also assign the wood texture to the plane. Now, as you can see, the  specular light is just sort of flat. Areas that shouldn't reflect much light,  such as the cracks in the wood, still somewhat do so. And the areas that should reflect a lot of  light, such as the smooth tops of the wood, don't really do so. In order to fix this, we can make  use of something called a specular map. These types of maps are black and white textures that tell"
+        },
+        {
+            "number": [
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 0.0,
+                    "end": 6.32,
+                    "text": " In the last tutorial, I introduced you to three types of lighting, one of which was specular lighting."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 6.32,
+                    "end": 11.84,
+                    "text": " Today I'll show you how to improve specular lighting with the use of specular maps."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 11.84,
+                    "end": 17.28,
+                    "text": " I'll start by slightly modifying the texture class so that it's easier for us to assign"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 17.28,
+                    "end": 23.52,
+                    "text": " multiple textures to the same shader. Then, I'll delete the pyramid we had and simply create"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 23.52,
+                    "end": 29.68,
+                    "text": " the flat plane. I'll also import this wood texture and the specular map. You can find this in the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 29.68,
+                    "end": 34.96,
+                    "text": " description. I'll also assign the wood texture to the plane. Now, as you can see, the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 34.96,
+                    "end": 41.04,
+                    "text": " specular light is just sort of flat. Areas that shouldn't reflect much light,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 41.04,
+                    "end": 47.2,
+                    "text": " such as the cracks in the wood, still somewhat do so. And the areas that should reflect a lot of"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 47.2,
+                    "end": 53.84,
+                    "text": " light, such as the smooth tops of the wood, don't really do so. In order to fix this, we can make"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 54.0,
+                    "end": 59.68000000000001,
+                    "text": " use of something called a specular map. These types of maps are black and white textures that tell"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 59.68000000000001,
+                    "end": 65.04,
+                    "text": " the program where specular light should appear and how strong it should be at that point."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 65.04,
+                    "end": 70.48,
+                    "text": " The wider a pixel on the specular map is, the more specular light you'll get and the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 70.48,
+                    "end": 77.12,
+                    "text": " blacker a pixel is, the less specular light you'll get. The idea is really simple. So to implement it,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 77.12,
+                    "end": 82.56,
+                    "text": " we must first import the specular map into our program. Make sure to import it using"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 82.56,
+                    "end": 90.24000000000001,
+                    "text": " GL-RED, not GL-RGBA, since it only has one color channel, not four. Then simply export it to the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 90.24000000000001,
+                    "end": 96.56,
+                    "text": " shader and bind it in the main function. Now, import the texture in the shader and in frag color,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 96.56,
+                    "end": 102.24000000000001,
+                    "text": " multiply its red value by the specular light and add that to the other texture which is only"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 102.24000000000001,
+                    "end": 108.08,
+                    "text": " multiplied by the diffuse and ambient lighting now. That's it for the specular light. Now,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 108.08,
+                    "end": 113.12,
+                    "text": " I'll just change a value to make the light look better on the wood and if you then put up"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 113.12,
+                    "end": 118.48,
+                    "text": " the program, you should see that the specular light looks much better and it makes the whole texture"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 118.48,
+                    "end": 129.6,
+                    "text": " look better overall. As always, the source code is in the description. Bye!"
+                }
+            ],
+            "title": "Specular Maps.mp4",
+            "start": 59.68000000000001,
+            "end": 90.24000000000001,
+            "text": " the program where specular light should appear and how strong it should be at that point.  The wider a pixel on the specular map is, the more specular light you'll get and the  blacker a pixel is, the less specular light you'll get. The idea is really simple. So to implement it,  we must first import the specular map into our program. Make sure to import it using  GL-RED, not GL-RGBA, since it only has one color channel, not four. Then simply export it to the"
+        },
+        {
+            "number": [
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 0.0,
+                    "end": 6.32,
+                    "text": " In the last tutorial, I introduced you to three types of lighting, one of which was specular lighting."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 6.32,
+                    "end": 11.84,
+                    "text": " Today I'll show you how to improve specular lighting with the use of specular maps."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 11.84,
+                    "end": 17.28,
+                    "text": " I'll start by slightly modifying the texture class so that it's easier for us to assign"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 17.28,
+                    "end": 23.52,
+                    "text": " multiple textures to the same shader. Then, I'll delete the pyramid we had and simply create"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 23.52,
+                    "end": 29.68,
+                    "text": " the flat plane. I'll also import this wood texture and the specular map. You can find this in the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 29.68,
+                    "end": 34.96,
+                    "text": " description. I'll also assign the wood texture to the plane. Now, as you can see, the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 34.96,
+                    "end": 41.04,
+                    "text": " specular light is just sort of flat. Areas that shouldn't reflect much light,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 41.04,
+                    "end": 47.2,
+                    "text": " such as the cracks in the wood, still somewhat do so. And the areas that should reflect a lot of"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 47.2,
+                    "end": 53.84,
+                    "text": " light, such as the smooth tops of the wood, don't really do so. In order to fix this, we can make"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 54.0,
+                    "end": 59.68000000000001,
+                    "text": " use of something called a specular map. These types of maps are black and white textures that tell"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 59.68000000000001,
+                    "end": 65.04,
+                    "text": " the program where specular light should appear and how strong it should be at that point."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 65.04,
+                    "end": 70.48,
+                    "text": " The wider a pixel on the specular map is, the more specular light you'll get and the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 70.48,
+                    "end": 77.12,
+                    "text": " blacker a pixel is, the less specular light you'll get. The idea is really simple. So to implement it,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 77.12,
+                    "end": 82.56,
+                    "text": " we must first import the specular map into our program. Make sure to import it using"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 82.56,
+                    "end": 90.24000000000001,
+                    "text": " GL-RED, not GL-RGBA, since it only has one color channel, not four. Then simply export it to the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 90.24000000000001,
+                    "end": 96.56,
+                    "text": " shader and bind it in the main function. Now, import the texture in the shader and in frag color,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 96.56,
+                    "end": 102.24000000000001,
+                    "text": " multiply its red value by the specular light and add that to the other texture which is only"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 102.24000000000001,
+                    "end": 108.08,
+                    "text": " multiplied by the diffuse and ambient lighting now. That's it for the specular light. Now,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 108.08,
+                    "end": 113.12,
+                    "text": " I'll just change a value to make the light look better on the wood and if you then put up"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 113.12,
+                    "end": 118.48,
+                    "text": " the program, you should see that the specular light looks much better and it makes the whole texture"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 118.48,
+                    "end": 129.6,
+                    "text": " look better overall. As always, the source code is in the description. Bye!"
+                }
+            ],
+            "title": "Specular Maps.mp4",
+            "start": 90.24000000000001,
+            "end": 118.48,
+            "text": " shader and bind it in the main function. Now, import the texture in the shader and in frag color,  multiply its red value by the specular light and add that to the other texture which is only  multiplied by the diffuse and ambient lighting now. That's it for the specular light. Now,  I'll just change a value to make the light look better on the wood and if you then put up  the program, you should see that the specular light looks much better and it makes the whole texture"
+        },
+        {
+            "number": [
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 0.0,
+                    "end": 6.32,
+                    "text": " In the last tutorial, I introduced you to three types of lighting, one of which was specular lighting."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 6.32,
+                    "end": 11.84,
+                    "text": " Today I'll show you how to improve specular lighting with the use of specular maps."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 11.84,
+                    "end": 17.28,
+                    "text": " I'll start by slightly modifying the texture class so that it's easier for us to assign"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 17.28,
+                    "end": 23.52,
+                    "text": " multiple textures to the same shader. Then, I'll delete the pyramid we had and simply create"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 23.52,
+                    "end": 29.68,
+                    "text": " the flat plane. I'll also import this wood texture and the specular map. You can find this in the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 29.68,
+                    "end": 34.96,
+                    "text": " description. I'll also assign the wood texture to the plane. Now, as you can see, the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 34.96,
+                    "end": 41.04,
+                    "text": " specular light is just sort of flat. Areas that shouldn't reflect much light,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 41.04,
+                    "end": 47.2,
+                    "text": " such as the cracks in the wood, still somewhat do so. And the areas that should reflect a lot of"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 47.2,
+                    "end": 53.84,
+                    "text": " light, such as the smooth tops of the wood, don't really do so. In order to fix this, we can make"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 54.0,
+                    "end": 59.68000000000001,
+                    "text": " use of something called a specular map. These types of maps are black and white textures that tell"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 59.68000000000001,
+                    "end": 65.04,
+                    "text": " the program where specular light should appear and how strong it should be at that point."
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 65.04,
+                    "end": 70.48,
+                    "text": " The wider a pixel on the specular map is, the more specular light you'll get and the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 70.48,
+                    "end": 77.12,
+                    "text": " blacker a pixel is, the less specular light you'll get. The idea is really simple. So to implement it,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 77.12,
+                    "end": 82.56,
+                    "text": " we must first import the specular map into our program. Make sure to import it using"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 82.56,
+                    "end": 90.24000000000001,
+                    "text": " GL-RED, not GL-RGBA, since it only has one color channel, not four. Then simply export it to the"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 90.24000000000001,
+                    "end": 96.56,
+                    "text": " shader and bind it in the main function. Now, import the texture in the shader and in frag color,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 96.56,
+                    "end": 102.24000000000001,
+                    "text": " multiply its red value by the specular light and add that to the other texture which is only"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 102.24000000000001,
+                    "end": 108.08,
+                    "text": " multiplied by the diffuse and ambient lighting now. That's it for the specular light. Now,"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 108.08,
+                    "end": 113.12,
+                    "text": " I'll just change a value to make the light look better on the wood and if you then put up"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 113.12,
+                    "end": 118.48,
+                    "text": " the program, you should see that the specular light looks much better and it makes the whole texture"
+                },
+                {
+                    "number": "10",
+                    "title": "Specular Maps.mp4",
+                    "start": 118.48,
+                    "end": 129.6,
+                    "text": " look better overall. As always, the source code is in the description. Bye!"
+                }
+            ],
+            "title": "Specular Maps.mp4",
+            "start": 118.48,
+            "end": 129.6,
+            "text": " look better overall. As always, the source code is in the description. Bye!"
+        }
+    ],
+    "text": " In the last tutorial, I introduced you to three types of lighting, one of which was specular lighting. Today I'll show you how to improve specular lighting with the use of specular maps. I'll start by slightly modifying the texture class so that it's easier for us to assign multiple textures to the same shader. Then, I'll delete the pyramid we had and simply create the flat plane. I'll also import this wood texture and the specular map. You can find this in the description. I'll also assign the wood texture to the plane. Now, as you can see, the specular light is just sort of flat. Areas that shouldn't reflect much light, such as the cracks in the wood, still somewhat do so. And the areas that should reflect a lot of light, such as the smooth tops of the wood, don't really do so. In order to fix this, we can make use of something called a specular map. These types of maps are black and white textures that tell the program where specular light should appear and how strong it should be at that point. The wider a pixel on the specular map is, the more specular light you'll get and the blacker a pixel is, the less specular light you'll get. The idea is really simple. So to implement it, we must first import the specular map into our program. Make sure to import it using GL-RED, not GL-RGBA, since it only has one color channel, not four. Then simply export it to the shader and bind it in the main function. Now, import the texture in the shader and in frag color, multiply its red value by the specular light and add that to the other texture which is only multiplied by the diffuse and ambient lighting now. That's it for the specular light. Now, I'll just change a value to make the light look better on the wood and if you then put up the program, you should see that the specular light looks much better and it makes the whole texture look better overall. As always, the source code is in the description. Bye!"
+}

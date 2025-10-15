@@ -1,0 +1,780 @@
+{
+    "chunks": [
+        {
+            "number": [
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 0.0,
+                    "end": 5.6000000000000005,
+                    "text": " In this tutorial, I'll teach you how to implement BlinFong lighting into your OpenGL project"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 5.6000000000000005,
+                    "end": 10.96,
+                    "text": " and show you why it's better than just phone lighting. If you don't know what phone lighting is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 10.96,
+                    "end": 16.080000000000002,
+                    "text": " and don't already have it in your project, then watch my previous lighting tutorial before"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 16.080000000000002,
+                    "end": 21.2,
+                    "text": " watching this. Now for the problem with phone lighting. As you may know, when calculating"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 21.2,
+                    "end": 26.8,
+                    "text": " specular lighting, a dot product is taken between the vector of the reflection and the vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 26.8,
+                    "end": 32.32,
+                    "text": " the view direction. And since the dot product contains a cosine, which is dependent on the angle"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 32.32,
+                    "end": 38.480000000000004,
+                    "text": " between these two vectors, that means that if the angle is over 90 degrees, it will result in"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 38.480000000000004,
+                    "end": 44.72,
+                    "text": " no specular lighting. Even though this scenario is a bit more rare and harder to see clearly,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 44.72,
+                    "end": 50.0,
+                    "text": " under the right conditions, it can be noticed like in this picture. As you can see, the"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 50.0,
+                    "end": 56.88,
+                    "text": " specular light just gets cut off, which is not very realistic. In order to fix this, the BlinFong"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 56.88,
+                    "end": 62.24,
+                    "text": " lighting model takes the dot product between the normal of the surface and the halfway vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 62.24,
+                    "end": 69.03999999999999,
+                    "text": " the view and light direction vectors. Because of this, the angle will always be under 90 degrees,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 69.03999999999999,
+                    "end": 74.32,
+                    "text": " unless of course you are beneath the surface, but then I'd be more worried about your collision"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 74.39999999999999,
+                    "end": 80.16,
+                    "text": " detection rather than your lighting algorithm. Now to implement this in code, we simply have to add"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 80.16,
+                    "end": 86.0,
+                    "text": " the light direction vector to the view direction vector and normalize the resulting vector."
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 86.0,
+                    "end": 91.35999999999999,
+                    "text": " This will give us the halfway vector, which we then plug into the dot product alongside the normal"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 91.35999999999999,
+                    "end": 97.67999999999999,
+                    "text": " vector. And that was basically it. The only problem is that this specular lighting will also affect"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 97.67999999999999,
+                    "end": 103.6,
+                    "text": " surfaces above the light source. To fix that, we put an if statement checking to see if there is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 103.6,
+                    "end": 110.39999999999999,
+                    "text": " any diffuse lighting before adding the specular lighting. A pretty short tutorial, but the results"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 110.39999999999999,
+                    "end": 117.6,
+                    "text": " are better looking and more realistic. As always, the source code and all sources and resources used"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 117.6,
+                    "end": 120.56,
+                    "text": " are in the description. Bye!"
+                }
+            ],
+            "title": "Blinn-Phong Lighting",
+            "start": 0.0,
+            "end": 26.8,
+            "text": " In this tutorial, I'll teach you how to implement BlinFong lighting into your OpenGL project  and show you why it's better than just phone lighting. If you don't know what phone lighting is  and don't already have it in your project, then watch my previous lighting tutorial before  watching this. Now for the problem with phone lighting. As you may know, when calculating  specular lighting, a dot product is taken between the vector of the reflection and the vector of"
+        },
+        {
+            "number": [
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 0.0,
+                    "end": 5.6000000000000005,
+                    "text": " In this tutorial, I'll teach you how to implement BlinFong lighting into your OpenGL project"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 5.6000000000000005,
+                    "end": 10.96,
+                    "text": " and show you why it's better than just phone lighting. If you don't know what phone lighting is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 10.96,
+                    "end": 16.080000000000002,
+                    "text": " and don't already have it in your project, then watch my previous lighting tutorial before"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 16.080000000000002,
+                    "end": 21.2,
+                    "text": " watching this. Now for the problem with phone lighting. As you may know, when calculating"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 21.2,
+                    "end": 26.8,
+                    "text": " specular lighting, a dot product is taken between the vector of the reflection and the vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 26.8,
+                    "end": 32.32,
+                    "text": " the view direction. And since the dot product contains a cosine, which is dependent on the angle"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 32.32,
+                    "end": 38.480000000000004,
+                    "text": " between these two vectors, that means that if the angle is over 90 degrees, it will result in"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 38.480000000000004,
+                    "end": 44.72,
+                    "text": " no specular lighting. Even though this scenario is a bit more rare and harder to see clearly,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 44.72,
+                    "end": 50.0,
+                    "text": " under the right conditions, it can be noticed like in this picture. As you can see, the"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 50.0,
+                    "end": 56.88,
+                    "text": " specular light just gets cut off, which is not very realistic. In order to fix this, the BlinFong"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 56.88,
+                    "end": 62.24,
+                    "text": " lighting model takes the dot product between the normal of the surface and the halfway vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 62.24,
+                    "end": 69.03999999999999,
+                    "text": " the view and light direction vectors. Because of this, the angle will always be under 90 degrees,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 69.03999999999999,
+                    "end": 74.32,
+                    "text": " unless of course you are beneath the surface, but then I'd be more worried about your collision"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 74.39999999999999,
+                    "end": 80.16,
+                    "text": " detection rather than your lighting algorithm. Now to implement this in code, we simply have to add"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 80.16,
+                    "end": 86.0,
+                    "text": " the light direction vector to the view direction vector and normalize the resulting vector."
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 86.0,
+                    "end": 91.35999999999999,
+                    "text": " This will give us the halfway vector, which we then plug into the dot product alongside the normal"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 91.35999999999999,
+                    "end": 97.67999999999999,
+                    "text": " vector. And that was basically it. The only problem is that this specular lighting will also affect"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 97.67999999999999,
+                    "end": 103.6,
+                    "text": " surfaces above the light source. To fix that, we put an if statement checking to see if there is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 103.6,
+                    "end": 110.39999999999999,
+                    "text": " any diffuse lighting before adding the specular lighting. A pretty short tutorial, but the results"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 110.39999999999999,
+                    "end": 117.6,
+                    "text": " are better looking and more realistic. As always, the source code and all sources and resources used"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 117.6,
+                    "end": 120.56,
+                    "text": " are in the description. Bye!"
+                }
+            ],
+            "title": "Blinn-Phong Lighting",
+            "start": 26.8,
+            "end": 56.88,
+            "text": " the view direction. And since the dot product contains a cosine, which is dependent on the angle  between these two vectors, that means that if the angle is over 90 degrees, it will result in  no specular lighting. Even though this scenario is a bit more rare and harder to see clearly,  under the right conditions, it can be noticed like in this picture. As you can see, the  specular light just gets cut off, which is not very realistic. In order to fix this, the BlinFong"
+        },
+        {
+            "number": [
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 0.0,
+                    "end": 5.6000000000000005,
+                    "text": " In this tutorial, I'll teach you how to implement BlinFong lighting into your OpenGL project"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 5.6000000000000005,
+                    "end": 10.96,
+                    "text": " and show you why it's better than just phone lighting. If you don't know what phone lighting is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 10.96,
+                    "end": 16.080000000000002,
+                    "text": " and don't already have it in your project, then watch my previous lighting tutorial before"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 16.080000000000002,
+                    "end": 21.2,
+                    "text": " watching this. Now for the problem with phone lighting. As you may know, when calculating"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 21.2,
+                    "end": 26.8,
+                    "text": " specular lighting, a dot product is taken between the vector of the reflection and the vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 26.8,
+                    "end": 32.32,
+                    "text": " the view direction. And since the dot product contains a cosine, which is dependent on the angle"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 32.32,
+                    "end": 38.480000000000004,
+                    "text": " between these two vectors, that means that if the angle is over 90 degrees, it will result in"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 38.480000000000004,
+                    "end": 44.72,
+                    "text": " no specular lighting. Even though this scenario is a bit more rare and harder to see clearly,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 44.72,
+                    "end": 50.0,
+                    "text": " under the right conditions, it can be noticed like in this picture. As you can see, the"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 50.0,
+                    "end": 56.88,
+                    "text": " specular light just gets cut off, which is not very realistic. In order to fix this, the BlinFong"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 56.88,
+                    "end": 62.24,
+                    "text": " lighting model takes the dot product between the normal of the surface and the halfway vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 62.24,
+                    "end": 69.03999999999999,
+                    "text": " the view and light direction vectors. Because of this, the angle will always be under 90 degrees,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 69.03999999999999,
+                    "end": 74.32,
+                    "text": " unless of course you are beneath the surface, but then I'd be more worried about your collision"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 74.39999999999999,
+                    "end": 80.16,
+                    "text": " detection rather than your lighting algorithm. Now to implement this in code, we simply have to add"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 80.16,
+                    "end": 86.0,
+                    "text": " the light direction vector to the view direction vector and normalize the resulting vector."
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 86.0,
+                    "end": 91.35999999999999,
+                    "text": " This will give us the halfway vector, which we then plug into the dot product alongside the normal"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 91.35999999999999,
+                    "end": 97.67999999999999,
+                    "text": " vector. And that was basically it. The only problem is that this specular lighting will also affect"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 97.67999999999999,
+                    "end": 103.6,
+                    "text": " surfaces above the light source. To fix that, we put an if statement checking to see if there is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 103.6,
+                    "end": 110.39999999999999,
+                    "text": " any diffuse lighting before adding the specular lighting. A pretty short tutorial, but the results"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 110.39999999999999,
+                    "end": 117.6,
+                    "text": " are better looking and more realistic. As always, the source code and all sources and resources used"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 117.6,
+                    "end": 120.56,
+                    "text": " are in the description. Bye!"
+                }
+            ],
+            "title": "Blinn-Phong Lighting",
+            "start": 56.88,
+            "end": 86.0,
+            "text": " lighting model takes the dot product between the normal of the surface and the halfway vector of  the view and light direction vectors. Because of this, the angle will always be under 90 degrees,  unless of course you are beneath the surface, but then I'd be more worried about your collision  detection rather than your lighting algorithm. Now to implement this in code, we simply have to add  the light direction vector to the view direction vector and normalize the resulting vector."
+        },
+        {
+            "number": [
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 0.0,
+                    "end": 5.6000000000000005,
+                    "text": " In this tutorial, I'll teach you how to implement BlinFong lighting into your OpenGL project"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 5.6000000000000005,
+                    "end": 10.96,
+                    "text": " and show you why it's better than just phone lighting. If you don't know what phone lighting is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 10.96,
+                    "end": 16.080000000000002,
+                    "text": " and don't already have it in your project, then watch my previous lighting tutorial before"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 16.080000000000002,
+                    "end": 21.2,
+                    "text": " watching this. Now for the problem with phone lighting. As you may know, when calculating"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 21.2,
+                    "end": 26.8,
+                    "text": " specular lighting, a dot product is taken between the vector of the reflection and the vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 26.8,
+                    "end": 32.32,
+                    "text": " the view direction. And since the dot product contains a cosine, which is dependent on the angle"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 32.32,
+                    "end": 38.480000000000004,
+                    "text": " between these two vectors, that means that if the angle is over 90 degrees, it will result in"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 38.480000000000004,
+                    "end": 44.72,
+                    "text": " no specular lighting. Even though this scenario is a bit more rare and harder to see clearly,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 44.72,
+                    "end": 50.0,
+                    "text": " under the right conditions, it can be noticed like in this picture. As you can see, the"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 50.0,
+                    "end": 56.88,
+                    "text": " specular light just gets cut off, which is not very realistic. In order to fix this, the BlinFong"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 56.88,
+                    "end": 62.24,
+                    "text": " lighting model takes the dot product between the normal of the surface and the halfway vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 62.24,
+                    "end": 69.03999999999999,
+                    "text": " the view and light direction vectors. Because of this, the angle will always be under 90 degrees,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 69.03999999999999,
+                    "end": 74.32,
+                    "text": " unless of course you are beneath the surface, but then I'd be more worried about your collision"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 74.39999999999999,
+                    "end": 80.16,
+                    "text": " detection rather than your lighting algorithm. Now to implement this in code, we simply have to add"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 80.16,
+                    "end": 86.0,
+                    "text": " the light direction vector to the view direction vector and normalize the resulting vector."
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 86.0,
+                    "end": 91.35999999999999,
+                    "text": " This will give us the halfway vector, which we then plug into the dot product alongside the normal"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 91.35999999999999,
+                    "end": 97.67999999999999,
+                    "text": " vector. And that was basically it. The only problem is that this specular lighting will also affect"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 97.67999999999999,
+                    "end": 103.6,
+                    "text": " surfaces above the light source. To fix that, we put an if statement checking to see if there is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 103.6,
+                    "end": 110.39999999999999,
+                    "text": " any diffuse lighting before adding the specular lighting. A pretty short tutorial, but the results"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 110.39999999999999,
+                    "end": 117.6,
+                    "text": " are better looking and more realistic. As always, the source code and all sources and resources used"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 117.6,
+                    "end": 120.56,
+                    "text": " are in the description. Bye!"
+                }
+            ],
+            "title": "Blinn-Phong Lighting",
+            "start": 86.0,
+            "end": 117.6,
+            "text": " This will give us the halfway vector, which we then plug into the dot product alongside the normal  vector. And that was basically it. The only problem is that this specular lighting will also affect  surfaces above the light source. To fix that, we put an if statement checking to see if there is  any diffuse lighting before adding the specular lighting. A pretty short tutorial, but the results  are better looking and more realistic. As always, the source code and all sources and resources used"
+        },
+        {
+            "number": [
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 0.0,
+                    "end": 5.6000000000000005,
+                    "text": " In this tutorial, I'll teach you how to implement BlinFong lighting into your OpenGL project"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 5.6000000000000005,
+                    "end": 10.96,
+                    "text": " and show you why it's better than just phone lighting. If you don't know what phone lighting is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 10.96,
+                    "end": 16.080000000000002,
+                    "text": " and don't already have it in your project, then watch my previous lighting tutorial before"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 16.080000000000002,
+                    "end": 21.2,
+                    "text": " watching this. Now for the problem with phone lighting. As you may know, when calculating"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 21.2,
+                    "end": 26.8,
+                    "text": " specular lighting, a dot product is taken between the vector of the reflection and the vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 26.8,
+                    "end": 32.32,
+                    "text": " the view direction. And since the dot product contains a cosine, which is dependent on the angle"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 32.32,
+                    "end": 38.480000000000004,
+                    "text": " between these two vectors, that means that if the angle is over 90 degrees, it will result in"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 38.480000000000004,
+                    "end": 44.72,
+                    "text": " no specular lighting. Even though this scenario is a bit more rare and harder to see clearly,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 44.72,
+                    "end": 50.0,
+                    "text": " under the right conditions, it can be noticed like in this picture. As you can see, the"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 50.0,
+                    "end": 56.88,
+                    "text": " specular light just gets cut off, which is not very realistic. In order to fix this, the BlinFong"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 56.88,
+                    "end": 62.24,
+                    "text": " lighting model takes the dot product between the normal of the surface and the halfway vector of"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 62.24,
+                    "end": 69.03999999999999,
+                    "text": " the view and light direction vectors. Because of this, the angle will always be under 90 degrees,"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 69.03999999999999,
+                    "end": 74.32,
+                    "text": " unless of course you are beneath the surface, but then I'd be more worried about your collision"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 74.39999999999999,
+                    "end": 80.16,
+                    "text": " detection rather than your lighting algorithm. Now to implement this in code, we simply have to add"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 80.16,
+                    "end": 86.0,
+                    "text": " the light direction vector to the view direction vector and normalize the resulting vector."
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 86.0,
+                    "end": 91.35999999999999,
+                    "text": " This will give us the halfway vector, which we then plug into the dot product alongside the normal"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 91.35999999999999,
+                    "end": 97.67999999999999,
+                    "text": " vector. And that was basically it. The only problem is that this specular lighting will also affect"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 97.67999999999999,
+                    "end": 103.6,
+                    "text": " surfaces above the light source. To fix that, we put an if statement checking to see if there is"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 103.6,
+                    "end": 110.39999999999999,
+                    "text": " any diffuse lighting before adding the specular lighting. A pretty short tutorial, but the results"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 110.39999999999999,
+                    "end": 117.6,
+                    "text": " are better looking and more realistic. As always, the source code and all sources and resources used"
+                },
+                {
+                    "number": "23",
+                    "title": "Blinn-Phong Lighting",
+                    "start": 117.6,
+                    "end": 120.56,
+                    "text": " are in the description. Bye!"
+                }
+            ],
+            "title": "Blinn-Phong Lighting",
+            "start": 117.6,
+            "end": 120.56,
+            "text": " are in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial, I'll teach you how to implement BlinFong lighting into your OpenGL project and show you why it's better than just phone lighting. If you don't know what phone lighting is and don't already have it in your project, then watch my previous lighting tutorial before watching this. Now for the problem with phone lighting. As you may know, when calculating specular lighting, a dot product is taken between the vector of the reflection and the vector of the view direction. And since the dot product contains a cosine, which is dependent on the angle between these two vectors, that means that if the angle is over 90 degrees, it will result in no specular lighting. Even though this scenario is a bit more rare and harder to see clearly, under the right conditions, it can be noticed like in this picture. As you can see, the specular light just gets cut off, which is not very realistic. In order to fix this, the BlinFong lighting model takes the dot product between the normal of the surface and the halfway vector of the view and light direction vectors. Because of this, the angle will always be under 90 degrees, unless of course you are beneath the surface, but then I'd be more worried about your collision detection rather than your lighting algorithm. Now to implement this in code, we simply have to add the light direction vector to the view direction vector and normalize the resulting vector. This will give us the halfway vector, which we then plug into the dot product alongside the normal vector. And that was basically it. The only problem is that this specular lighting will also affect surfaces above the light source. To fix that, we put an if statement checking to see if there is any diffuse lighting before adding the specular lighting. A pretty short tutorial, but the results are better looking and more realistic. As always, the source code and all sources and resources used are in the description. Bye!"
+}

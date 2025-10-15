@@ -1,0 +1,2849 @@
+{
+    "chunks": [
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 0.0,
+            "end": 27.36,
+            "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project.  So you might have noticed that while horizontal and vertical edges look extremely crisp,  diagonal edges tend to look a bit choppy like a flight of stairs.  This is due to how we display images on our screens.  Since our displays are made out of a bunch of tiny squares, aka pixels,"
+        },
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 27.36,
+            "end": 59.199999999999996,
+            "text": " it is impossible to have a smooth line on the diagonal.  But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,  like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us  get better edges. There are multiple techniques for anti-aliasing, each with their advantages and  disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+        },
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 59.199999999999996,
+            "end": 89.52,
+            "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,  primitives are filled in. The way it is decided which pixels should be given a color and which  should not, is by checking if the sample point of a pixel, which is normally in the center of it,  is inside the shape of the primitive. This means that if the sample point is even just slightly  outside the triangle, it won't get sampled, even though you would think it should at least do so"
+        },
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 89.52,
+            "end": 119.68,
+            "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds  multiple sampling points so that the more accurate result can be reached. Here, for example,  two of the four sampling points are inside the triangle, and so the color of that pixel will be  somewhere between the color of the background and the color of the primitive. Now, let's actually  implement this. Let's start off by creating a variable where we specify how many samples we"
+        },
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 119.68,
+            "end": 149.36,
+            "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,  saying you want gelfw samples and then the number of samples you want, and then activate  gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,  if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a  frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+        },
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 149.36,
+            "end": 180.79999999999998,
+            "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D  with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,  the color format, the width, the height, and whether or not you want all samples being the exact  same position in the pixels. Then for the render buffer object, we need to change from gel render  buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+        },
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 180.79999999999998,
+            "end": 208.96,
+            "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,  since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,  which we can post process. This is just like the one I made in the frame buffer tutorial.  Now in the main function, we want to make sure we first bind the multi-sampling FBO,  clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+        },
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 208.96,
+            "end": 240.48,
+            "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only.  Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result  onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the  frame buffer rectangle using the post-processing texture. Run the program and you'll see that the  edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+        },
+        {
+            "number": [
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 0.0,
+                    "end": 6.72,
+                    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 6.72,
+                    "end": 13.280000000000001,
+                    "text": " So you might have noticed that while horizontal and vertical edges look extremely crisp,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 13.280000000000001,
+                    "end": 18.400000000000002,
+                    "text": " diagonal edges tend to look a bit choppy like a flight of stairs."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 18.400000000000002,
+                    "end": 22.16,
+                    "text": " This is due to how we display images on our screens."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 22.16,
+                    "end": 27.36,
+                    "text": " Since our displays are made out of a bunch of tiny squares, aka pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 27.36,
+                    "end": 30.64,
+                    "text": " it is impossible to have a smooth line on the diagonal."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 30.64,
+                    "end": 37.84,
+                    "text": " But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 37.84,
+                    "end": 45.2,
+                    "text": " like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 45.2,
+                    "end": 51.44,
+                    "text": " get better edges. There are multiple techniques for anti-aliasing, each with their advantages and"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 51.44,
+                    "end": 59.199999999999996,
+                    "text": " disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 59.199999999999996,
+                    "end": 65.28,
+                    "text": " So what is this multi-sampling referred to? Well, in the restoration part of the pipeline,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 65.28,
+                    "end": 71.28,
+                    "text": " primitives are filled in. The way it is decided which pixels should be given a color and which"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 71.28,
+                    "end": 77.6,
+                    "text": " should not, is by checking if the sample point of a pixel, which is normally in the center of it,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 77.6,
+                    "end": 83.67999999999999,
+                    "text": " is inside the shape of the primitive. This means that if the sample point is even just slightly"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 83.67999999999999,
+                    "end": 89.52,
+                    "text": " outside the triangle, it won't get sampled, even though you would think it should at least do so"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 89.52,
+                    "end": 96.39999999999999,
+                    "text": " partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 96.39999999999999,
+                    "end": 101.91999999999999,
+                    "text": " multiple sampling points so that the more accurate result can be reached. Here, for example,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 101.92,
+                    "end": 108.24000000000001,
+                    "text": " two of the four sampling points are inside the triangle, and so the color of that pixel will be"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 108.24000000000001,
+                    "end": 113.84,
+                    "text": " somewhere between the color of the background and the color of the primitive. Now, let's actually"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 113.84,
+                    "end": 119.68,
+                    "text": " implement this. Let's start off by creating a variable where we specify how many samples we"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 119.68,
+                    "end": 126.0,
+                    "text": " desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 126.0,
+                    "end": 131.76,
+                    "text": " saying you want gelfw samples and then the number of samples you want, and then activate"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 131.76,
+                    "end": 138.16,
+                    "text": " gel multi-sample. That was it for this tutorial as... nah, joking. But for real though,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 138.16,
+                    "end": 143.36,
+                    "text": " if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 143.36,
+                    "end": 149.36,
+                    "text": " frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 149.36,
+                    "end": 157.28,
+                    "text": " and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 157.28,
+                    "end": 162.96,
+                    "text": " with gel text image 2D multi-samples, plugging in the type of texture, the number of samples,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 162.96,
+                    "end": 168.48000000000002,
+                    "text": " the color format, the width, the height, and whether or not you want all samples being the exact"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 168.48000000000002,
+                    "end": 174.32000000000002,
+                    "text": " same position in the pixels. Then for the render buffer object, we need to change from gel render"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 174.32,
+                    "end": 180.79999999999998,
+                    "text": " buffer storage to gel render buffer storage multi-sample and add the number of samples we want."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 180.79999999999998,
+                    "end": 186.4,
+                    "text": " Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 186.4,
+                    "end": 192.16,
+                    "text": " since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 192.16,
+                    "end": 196.79999999999998,
+                    "text": " which we can post process. This is just like the one I made in the frame buffer tutorial."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 196.79999999999998,
+                    "end": 202.4,
+                    "text": " Now in the main function, we want to make sure we first bind the multi-sampling FBO,"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 202.4,
+                    "end": 208.96,
+                    "text": " clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 208.96,
+                    "end": 216.4,
+                    "text": " After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 216.4,
+                    "end": 221.84,
+                    "text": " Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 221.84,
+                    "end": 227.44,
+                    "text": " onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 227.44,
+                    "end": 233.04,
+                    "text": " frame buffer rectangle using the post-processing texture. Run the program and you'll see that the"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 233.04,
+                    "end": 240.48,
+                    "text": " edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 240.48,
+                    "end": 247.2,
+                    "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 247.2,
+                    "end": 254.32,
+                    "text": " As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16"
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 254.32,
+                    "end": 261.28,
+                    "text": " and 32 on some GPUs, but the improvement over performance ratio is not worth it."
+                },
+                {
+                    "number": "22",
+                    "title": "Anti-Aliasing (MSAA).mp4",
+                    "start": 261.28,
+                    "end": 268.48,
+                    "text": " That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+                }
+            ],
+            "title": "Anti-Aliasing (MSAA).mp4",
+            "start": 240.48,
+            "end": 268.48,
+            "text": " will essentially overwrite the anti-aliasing and so you may end up with aliasing again.  As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16  and 32 on some GPUs, but the improvement over performance ratio is not worth it.  That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+        }
+    ],
+    "text": " In this tutorial I'll show you what anti-aliasing is and how you can implement it in your OpenGL project. So you might have noticed that while horizontal and vertical edges look extremely crisp, diagonal edges tend to look a bit choppy like a flight of stairs. This is due to how we display images on our screens. Since our displays are made out of a bunch of tiny squares, aka pixels, it is impossible to have a smooth line on the diagonal. But thankfully we can fix smoothness by bleeding the color of an edge into the edges and pixels, like so. Now these jagged edges are called aliasing, and an anti-aliasing technique is what helps us get better edges. There are multiple techniques for anti-aliasing, each with their advantages and disadvantages. But today, I'll focus on MSAA, which stands for multi-sampling anti-aliasing. So what is this multi-sampling referred to? Well, in the restoration part of the pipeline, primitives are filled in. The way it is decided which pixels should be given a color and which should not, is by checking if the sample point of a pixel, which is normally in the center of it, is inside the shape of the primitive. This means that if the sample point is even just slightly outside the triangle, it won't get sampled, even though you would think it should at least do so partially. Well, that is where MSAA comes in. As you might have guessed, this technique simply adds multiple sampling points so that the more accurate result can be reached. Here, for example, two of the four sampling points are inside the triangle, and so the color of that pixel will be somewhere between the color of the background and the color of the primitive. Now, let's actually implement this. Let's start off by creating a variable where we specify how many samples we desire. Now, if you don't have a frame buffer, then you can just leave a window hint to gelfw, saying you want gelfw samples and then the number of samples you want, and then activate gel multi-sample. That was it for this tutorial as... nah, joking. But for real though, if you don't have a frame buffer, then that's all you have to do. You are done. If you do have a frame buffer, then you'll want to delete the gelfw part. Instead, you need to go to your frame buffer and replace all gel texture 2D with gel texture 2D multi-sample. Then replace gel text image 2D with gel text image 2D multi-samples, plugging in the type of texture, the number of samples, the color format, the width, the height, and whether or not you want all samples being the exact same position in the pixels. Then for the render buffer object, we need to change from gel render buffer storage to gel render buffer storage multi-sample and add the number of samples we want. Now, the problem is that we can't do any sort of post-processing on this frame buffer anymore, since it has multi-sampling enabled. So to get around that, we'll need a normal frame buffer, which we can post process. This is just like the one I made in the frame buffer tutorial. Now in the main function, we want to make sure we first bind the multi-sampling FBO, clear the screen, clear the buffers, and enable the testing. Then we draw everything we want to draw. After that, we bind the multi-sampling FBO as read only and the post-processing FBO as draw only. Now using gel blade frame buffer, we'll resolve all the multi-sampling and copy the result onto the post-processing FBO. Now make sure you bind the default frame buffer and draw the frame buffer rectangle using the post-processing texture. Run the program and you'll see that the edges of primitives are a lot smoother and nicer. Just be aware that applying kernels in the post-processing will essentially overwrite the anti-aliasing and so you may end up with aliasing again. As for the number of samples you should use, I suggest using either 2, 4 or 8. You can go up to 16 and 32 on some GPUs, but the improvement over performance ratio is not worth it. That was it for this tutorial. As always, the source code and all researches used are in the description. Bye!"
+}
