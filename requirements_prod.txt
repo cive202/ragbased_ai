@@ -1,0 +1,11 @@
+flask
+requests
+pandas
+scikit-learn
+joblib
+gunicorn
+numpy
+python-dotenv
+
+# NOTE: `whisper` may require extra system deps (ffmpeg) and may be large; install only if you need transcription on the host.
+# If you use Cohere official client replace with `cohere` package; this repo calls Cohere via HTTP so `requests` is sufficient.

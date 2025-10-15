@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+venv/
+myenv/
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints
+
+# Data and models
+embeddings.joblib
+*.joblib
+output.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# logs
+*.log
