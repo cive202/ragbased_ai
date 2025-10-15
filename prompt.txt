@@ -1,8 +1,10 @@
-I am teaching OpenGL in my OpenGL course. Here are video subtitle chunks containing video title, video number, start time in seconds, end time in seconds, the text at that time:
+I am teaching OpenGL in my OpenGL course. Here are video subtitle chunks containing video title, video number, start time in seconds, end time in seconds, and the text at that time:
 
-        [{"title":"Triangle.mp4","number":"2","start":0.0,"end":3.2,"text":" In the last tutorial, I should be how to make a window."},{"title":"Window.mp4","number":"1","start":5.0,"end":9.0,"text":" Now we're going to pick up where we left off and create a window."},{"title":"Window.mp4","number":"1","start":117.0,"end":121.0,"text":" Let's just name it window and use that create a window function."},{"title":"Going 3D.mp4","number":"7","start":307.92,"end":312.64,"text":" It's also created two variables for the width and height of our window,"},{"title":"Window.mp4","number":"1","start":158.0,"end":165.0,"text":" So I'll now have to tell him that since we've created the window, we would also like to use it."}]
-        ---------------------------------
-        "where is create window taught
+[{"title":"Unknown","number":"N\/A","start":170.16,"end":181.04,"text":" So the main issue that arises from depth buffers is called z-fighting and it occurs because two or more triangles have the same depth buffer and does the depth function."},{"title":"Unknown","number":"N\/A","start":7.76,"end":16.64,"text":" You might remember that we've already made use of the depth buffer in the going 3D tutorial in order to fix a weird issue we had."},{"title":"Unknown","number":"N\/A","start":25.04,"end":35.6,"text":" Now what this buffer basically does is that it stores depth values that represent how far away from the near plane of the projection matrix a certain fragment is."},{"title":"Unknown","number":"N\/A","start":75.84,"end":78.88,"text":" Now the cool part, let's visualize the depth buffer."},{"title":"Unknown","number":"N\/A","start":0.0,"end":7.76,"text":" In this tutorial we'll have a look at the depth buffers in OpenGL and also see how we can make use of them for a little graphical effect."}]
+
+User asked the question: "where is depth buffer taught?
 "
-        User asked this question related to the video chunks, you have to answer in a human way (dont mention the above format, its just for you) where and how much content is taught in which video (in which video and at what timestamp) and guide the user to go to that particular video. If user asks unrelated question, tell him that you can only answer questions related to the course,And dont ask any further questions. give the answer in point. the points must contain the timestamps in bold letters
-    
+
+Answer in a human-friendly way, guiding the user to the specific video(s) and timestamps where the content is taught.
+If unrelated to the course, say you can only answer course-related questions.
+Answer in points. Each point must contain timestamps in **bold**.

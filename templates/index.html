@@ -116,11 +116,21 @@
       background-color: #16213e;
     }
 
+    ul {
+      list-style: disc;
+      padding-left: 20px;
+      line-height: 1.6;
+    }
+
+    li {
+      margin-bottom: 15px;
+    }
+
     .timestamp {
+      display: block;
       color: #00adb5;
       font-weight: 600;
-      cursor: pointer;
-      margin-top: 10px;
+      margin-top: 5px;
       font-family: 'Roboto Slab', serif;
     }
 
@@ -181,17 +191,24 @@
     </div>
   </form>
 
-  <<section class="results" id="results">
-  {% if answer %}
-    <div class="result-card">
-      <p>{{ answer }}</p>
-    </div>
-  {% endif %}
-</section>
-
+  <section class="results" id="results">
+    {% if answer %}
+      <div class="result-card">
+        {% set clean_answer = answer.replace('**', '') %}
+        <ul>
+          {% for line in clean_answer.split(' - ') if line.strip() %}
+            {% set parts = line.split(':', 1) %}
+            <li>
+              <strong>{{ parts[0] }}</strong>{% if parts|length > 1 %}: {{ parts[1] }}{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </section>
 
   <footer>
-    <p>Made with ❤️ by Utsav</p>
+    &copy; 2025 RAG Teaching Assistant
   </footer>
 
   <script>

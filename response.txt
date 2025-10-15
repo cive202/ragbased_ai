@@ -1,5 +1,23 @@
-You're looking for information on when the "create window" concept was covered in the Sigma web development course.
+Here’s where the depth buffer is taught in your course, based on the provided subtitles:
 
-From your question, it seems like the "create window" topic is taught in Video 1, which starts at timestamp 5.0 seconds and ends at 9.0 seconds. 
+1. **Introduction to Depth Buffers and Their Purpose**:  
+   - The depth buffer is introduced at the beginning of the tutorial, explaining its role in OpenGL and how it can be used for graphical effects.  
+     **Timestamp**: **0.0 to 7.76 seconds**.
 
-In this video, the instructor explains how to create a window and pick up where they left off from the previous tutorial.
+2. **Previous Use of Depth Buffer**:  
+   - A reminder is given about using the depth buffer in the "Going 3D" tutorial to fix a specific issue.  
+     **Timestamp**: **7.76 to 16.64 seconds**.
+
+3. **How the Depth Buffer Works**:  
+   - The functionality of the depth buffer is explained, detailing how it stores depth values relative to the near plane of the projection matrix.  
+     **Timestamp**: **25.04 to 35.6 seconds**.
+
+4. **Visualizing the Depth Buffer**:  
+   - A practical demonstration of visualizing the depth buffer is mentioned.  
+     **Timestamp**: **75.84 to 78.88 seconds**.
+
+5. **Z-Fighting Issue with Depth Buffers**:  
+   - The concept of z-fighting, a common issue related to depth buffers, is discussed.  
+     **Timestamp**: **170.16 to 181.04 seconds**.
+
+For a comprehensive understanding of depth buffers, start with the **0.0 to 7.76 seconds** segment and follow through the other timestamps as needed.
