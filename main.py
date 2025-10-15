@@ -107,6 +107,10 @@ else:
 # -----------------------------
 @app.route("/", methods=["GET", "POST"])
 def result():
+    # safe defaults so GET/HEAD and early returns always have values
+    response = None
+    incoming_query = ""
+
     if request.method == "POST":
         incoming_query = request.form.get("queryInput", "").strip()
         if not incoming_query:
@@ -120,7 +124,7 @@ def result():
         # 1️⃣ Create embedding for user query
         question_embedding, error = create_embedding([incoming_query], input_type="search_query")
         if error:
-            return render_template("index.html", answer=error)
+            return render_template("index.html", answer=error, query=incoming_query)
         question_embedding = question_embedding[0]
 
         # 2️⃣ Compute cosine similarity (safe checks)
@@ -164,15 +168,14 @@ Answer in points. Each point must contain timestamps in **bold**.
         # 5️⃣ Generate response
         response, error = inference_cohere(messages)
         if error:
-            return render_template("index.html", answer=error)
+            return render_template("index.html", answer=error, query=incoming_query)
 
         # Save response for debugging
         with open("response.txt", "w", encoding="utf-8") as f:
             f.write(response)
 
+    # final render (works for GET and POST)
     return render_template("index.html", answer=response, query=incoming_query)
-
-    return render_template("index.html", answer=None, query=None)
 
 # -----------------------------
 # Run Flask app
