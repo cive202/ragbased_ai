@@ -37,7 +37,24 @@ def health():
 COHERE_CHAT_URL = "https://api.cohere.com/v2/chat"
 COHERE_EMBED_URL = "https://api.cohere.ai/v1/embed"
 
-# Create embeddings
+
+# -----------------------------
+# Jinja filter: convert seconds → mm:ss
+# -----------------------------
+@app.template_filter('format_time')
+def format_time(value):
+    """Convert seconds (int/float) to M:SS format."""
+    try:
+        value = float(value)
+        minutes = int(value // 60)
+        seconds = int(value % 60)
+        return f"{minutes}:{seconds:02d}"
+    except Exception:
+        return value
+# -----------------------------
+# Embedding creation
+# -----------------------------
+
 def create_embedding(text_list, input_type="search_query"):
     if not COHERE_API_KEY:
         return None, "Cohere API key not configured."
