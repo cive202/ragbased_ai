@@ -51,6 +51,18 @@ def format_time(value):
         return f"{minutes}:{seconds:02d}"
     except Exception:
         return value
+    
+@app.template_filter('youtube_link')
+def youtube_link(video_url, start_time):
+    """
+    Takes a YouTube video URL and start time in seconds (int/float)
+    and returns a timestamped YouTube URL.
+    """
+    try:
+        start_time = int(float(start_time))
+        return f"{video_url}?t={start_time}"
+    except Exception:
+        return video_url
 # -----------------------------
 # Embedding creation
 # -----------------------------
