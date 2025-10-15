@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import requests
 import joblib
-from config import api_key  # make sure your Cohere key is in config.py
+from config import api_key  
 
 COHERE_EMBED_URL = "https://api.cohere.ai/v1/embed"
 
@@ -22,7 +22,7 @@ def create_embedding(text_list):
         r = requests.post(COHERE_EMBED_URL, headers=headers, json=data)
         r.raise_for_status()
     except requests.exceptions.HTTPError as e:
-        print("❌ Error response from Cohere:")
+        print("Error response from Cohere:")
         print(r.text)
         raise e
 
@@ -71,9 +71,9 @@ for i in range(0, len(df), batch_size):
         batch_emb = create_embedding(batch_texts)
         embeddings.extend(batch_emb)
     except Exception as e:
-        print(f"❌ Failed at batch {i}–{i+batch_size}: {e}")
+        print(f" Failed at batch {i}–{i+batch_size}: {e}")
         continue
-    print(f"✅ Processed {min(i + batch_size, len(df))} / {len(df)}")
+    print(f"Processed {min(i + batch_size, len(df))} / {len(df)}")
 
 df["embedding"] = embeddings
 
@@ -81,4 +81,4 @@ df["embedding"] = embeddings
 # Save for later use in Flask app
 # -----------------------------
 joblib.dump(df, "embeddings.joblib")
-print("✅ All embeddings created and saved to embeddings.joblib")
+print(" All embeddings created and saved to embeddings.joblib")
