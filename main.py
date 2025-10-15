@@ -13,9 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 if not COHERE_API_KEY:
-    raise ValueError(
-        "COHERE_API_KEY not set. Please set it in .env or Render environment variables."
-    )
+    raise ValueError("COHERE_API_KEY not set. Please set it in .env or Render environment variables.")
 
 EMBEDDINGS_URL = os.getenv("EMBEDDINGS_URL")
 
@@ -37,13 +35,12 @@ def health():
 COHERE_CHAT_URL = "https://api.cohere.com/v2/chat"
 COHERE_EMBED_URL = "https://api.cohere.ai/v1/embed"
 
-
 # -----------------------------
 # Jinja filter: convert seconds → mm:ss
 # -----------------------------
-@app.template_filter('format_time')
-def format_time(value):
-    """Convert seconds (int/float) to M:SS format."""
+@app.template_filter('format_timestamp')
+def format_timestamp(value):
+    """Convert seconds (int/float/str) to M:SS format."""
     try:
         value = float(value)
         minutes = int(value // 60)
@@ -51,26 +48,13 @@ def format_time(value):
         return f"{minutes}:{seconds:02d}"
     except Exception:
         return value
-    
-@app.template_filter('youtube_link')
-def youtube_link(video_url, start_time):
-    """
-    Takes a YouTube video URL and start time in seconds (int/float)
-    and returns a timestamped YouTube URL.
-    """
-    try:
-        start_time = int(float(start_time))
-        return f"{video_url}?t={start_time}"
-    except Exception:
-        return video_url
+
 # -----------------------------
 # Embedding creation
 # -----------------------------
-
 def create_embedding(text_list, input_type="search_query"):
     if not COHERE_API_KEY:
         return None, "Cohere API key not configured."
-
     headers = {"Authorization": f"Bearer {COHERE_API_KEY}", "Content-Type": "application/json"}
     data = {"model": "embed-english-v3.0", "texts": text_list, "input_type": input_type}
     try:
@@ -88,7 +72,6 @@ def create_embedding(text_list, input_type="search_query"):
 def inference_cohere(messages):
     if not COHERE_API_KEY:
         return None, "Cohere API key not configured."
-
     headers = {"Authorization": f"Bearer {COHERE_API_KEY}", "Content-Type": "application/json"}
     data = {"model": "command-a-03-2025", "messages": messages, "temperature": 0.2}
     try:
@@ -139,29 +122,23 @@ def result():
             logger.warning(msg)
             return render_template("index.html", answer=msg, query=incoming_query)
 
-        # Create embedding for user query
         question_embedding, error = create_embedding([incoming_query])
         if error:
             return render_template("index.html", answer=error, query=incoming_query)
         question_embedding = question_embedding[0]
 
-        # Compute cosine similarity
         try:
-            if "embedding" not in df.columns or df["embedding"].isnull().all():
-                raise ValueError("No embeddings found in dataframe.")
             embeddings_matrix = np.vstack(df["embedding"].values)
             similarities = cosine_similarity(embeddings_matrix, [question_embedding]).flatten()
         except Exception as e:
             logger.exception("Error computing similarity")
             return render_template("index.html", answer=f"Error computing similarity: {e}", query=incoming_query)
 
-        # Get top 5 most similar chunks
         top_results = 5
         max_indx = similarities.argsort()[::-1][:top_results]
         new_df = df.loc[max_indx].copy()
         new_df["text"] = new_df["text"].str[:1000]
 
-        # Build prompt
         prompt_text = f"""I am teaching OpenGL. Here are video subtitle chunks:
 
 {new_df[['title','number','start','end','text']].to_json(orient='records')}
@@ -181,7 +158,6 @@ Answer in points with timestamps in bold. Only answer course-related questions.
 
     return render_template("index.html", answer=response, query=incoming_query)
 
-# Run Flask app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     debug_mode = os.environ.get("FLASK_DEBUG", "false").lower() in ("1", "true", "yes")

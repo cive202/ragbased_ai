@@ -4,106 +4,251 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RAG Teaching Assistant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto+Slab:wght@400;700&display=swap');
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: #1a1a2e;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
       color: #fff;
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .container {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: #222240;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
-    h1 {
+
+    header {
+      margin-top: 60px;
       text-align: center;
-      margin-bottom: 1rem;
     }
+
+    header h1 {
+      font-family: 'Roboto Slab', serif;
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color: #00adb5;
+    }
+
+    header p {
+      color: #cccccc;
+      font-size: 1rem;
+    }
+
     form {
+      background-color: #0f3460;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      width: 90%;
+      max-width: 700px;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: 0.3s ease;
+      position: relative;
+    }
+
+    form:hover {
+      transform: scale(1.02);
+    }
+
+    textarea {
+      padding: 20px;
+      border: none;
+      border-radius: 15px;
+      outline: none;
+      font-size: 1.1rem;
+      width: 100%;
+      resize: none;
+      min-height: 100px;
+      background: #16213e;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: 0.3s ease;
+    }
+
+    textarea:focus {
+      background: #1a1a2e;
+      box-shadow: 0 0 10px #00adb5;
+    }
+
+    form button {
+      background: linear-gradient(90deg, #00adb5, #02c39a);
+      border: none;
+      padding: 15px;
+      border-radius: 15px;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    form button:hover {
+      background: linear-gradient(90deg, #02c39a, #00adb5);
+      transform: scale(1.05);
+    }
+
+    .playlist {
+      margin-top: 50px;
+      width: 90%;
+      max-width: 800px;
+      background: #0f3460;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      padding: 25px;
+      text-align: center;
+    }
+
+    .playlist h2 {
+      font-family: 'Roboto Slab', serif;
+      color: #00adb5;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .playlist iframe {
+      width: 100%;
+      height: 450px;
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .results {
+      margin-top: 40px;
+      width: 90%;
+      max-width: 750px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .result-card {
+      background-color: #1a1a2e;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+      background-color: #16213e;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 20px;
+      line-height: 1.6;
+    }
+
+    li {
+      margin-bottom: 15px;
+    }
+
+    .timestamp {
+      display: inline-block;
+      color: #00adb5;
+      font-weight: 600;
+      margin-left: 5px;
+      font-family: 'Roboto Slab', serif;
+    }
+
+    footer {
+      margin-top: auto;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    #loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 46, 0.95);
       display: flex;
       justify-content: center;
-      margin-bottom: 1.5rem;
+      align-items: center;
+      border-radius: 25px;
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.5rem;
+      color: #00adb5;
+      letter-spacing: 1px;
+      display: none;
+      z-index: 10;
     }
-    input[type="text"] {
-      padding: 0.5rem;
-      width: 70%;
-      border-radius: 5px 0 0 5px;
-      border: none;
-      outline: none;
+
+    #loading-overlay span {
+      display: inline-block;
+      animation: bounce 1s infinite;
     }
-    button {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 0 5px 5px 0;
-      background: #4b59f7;
-      color: #fff;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover {
-      background: #667aff;
-    }
-    .answer {
-      background: #2a2a4d;
-      padding: 1rem;
-      border-radius: 8px;
-      white-space: pre-wrap;
-    }
-    .results {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: #2a2a4d;
-      border-radius: 8px;
-    }
-    .result-item {
-      margin-bottom: 0.5rem;
-    }
-    a.timestamp {
-      color: #4b59f7;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a.timestamp:hover {
-      text-decoration: underline;
+
+    #loading-overlay span:nth-child(2) { animation-delay: 0.2s; }
+    #loading-overlay span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>RAG Teaching Assistant</h1>
-    <form method="POST">
-      <input type="text" name="queryInput" placeholder="Ask your OpenGL question..." required />
-      <button type="submit">Ask</button>
-    </form>
+  <header>
+    <h1>🎓 RAG Teaching Assistant</h1>
+    <p>Ask any question, and find where it’s explained in your video lectures.</p>
+  </header>
 
+  <form method="post" id="queryForm">
+    <textarea name="queryInput" placeholder="Type your question here..." required>{{ query or '' }}</textarea>
+    <button type="submit">Search</button>
+    <div id="loading-overlay">
+      Please wait<span>.</span><span>.</span><span>.</span>
+    </div>
+  </form>
+
+  <section class="playlist">
+    <h2>📚 Lecture Video Playlist</h2>
+    <iframe src="https://www.youtube.com/embed/videoseries?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-" allowfullscreen></iframe>
+  </section>
+
+  <section class="results" id="results">
     {% if answer %}
-      <div class="answer">
-        {{ answer }}
+      <div class="result-card">
+        {% set clean_answer = answer.replace('**','') %}
+        <ul>
+          {% for line in clean_answer.split(' - ') if line.strip() %}
+            {% set parts = line.split(':', 1) %}
+            <li>
+              <strong>{{ parts[0] }}</strong>
+              {% if parts|length > 1 %}
+                : {{ parts[1]|format_timestamp }}
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
       </div>
     {% endif %}
+  </section>
 
-    {% if results %}
-      <div class="results">
-        <h3>Top Relevant Video Chunks:</h3>
-        {% for r in results %}
-          <div class="result-item">
-            <strong>{{ r.title }}</strong> &nbsp;|&nbsp; 
-            <a class="timestamp" href="{{ r.video_link|youtube_link(r.start) }}" target="_blank">
-              {{ r.start|format_timestamp }}
-            </a> - 
-            <a class="timestamp" href="{{ r.video_link|youtube_link(r.end) }}" target="_blank">
-              {{ r.end|format_timestamp }}
-            </a> : {{ r.text }}
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  </div>
+  <footer>
+    &copy; 2025 RAG Teaching Assistant
+  </footer>
+
+  <script>
+    const form = document.getElementById('queryForm');
+    const overlay = document.getElementById('loading-overlay');
+
+    form.addEventListener('submit', () => {
+      overlay.style.display = 'flex';
+    });
+  </script>
 </body>
 </html>
